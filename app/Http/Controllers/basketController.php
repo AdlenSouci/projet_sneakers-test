@@ -19,6 +19,7 @@ class BasketController extends Controller
     private function calculerPrixTotal($cartItems)
     {
         $totalPrice = 0;
+        
 
         foreach ($cartItems as $item) {
             $totalPrice += $item['price'] * $item['quantity'];
