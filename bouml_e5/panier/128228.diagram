@@ -1,0 +1,37 @@
+format 213
+
+subject 128100 "website"
+  xyzwh 225 59 2000 602 591
+subject 128228 "page_panier"
+  xyzwh 281 106 2005 503 477
+usecasecanvas 128356 usecase_ref 128228 // ajouter un article
+  xyzwh 406 170 3005 64 32 label_xy 392 202
+end
+usecasecanvas 128484 usecase_ref 128356 // supprimer un article
+  xyzwh 408 228 3005 64 32 label_xy 385 260
+end
+usecasecanvas 128612 usecase_ref 128484 // vider le panier
+  xyzwh 408 292 3005 64 32 label_xy 402 324
+end
+classcanvas 128740 class_ref 128228 // utilisateur_visiteur
+  simpleclassdiagramsettings end
+  xyz 63 180 2000
+end
+usecasecanvas 128868 usecase_ref 128612 // effectuer une commande
+  xyzwh 348 500 3005 64 32 label_xy 310 532
+end
+usecasecanvas 129508 usecase_ref 135140 // connexion
+  xyzwh 408 353 3005 64 32 label_xy 410 385
+end
+usecasecanvas 129636 usecase_ref 135268 // saisir une adresse de livraison
+  xyzwh 409 415 3005 64 32 label_xy 354 447
+end
+line 128996 ----
+  from ref 128740 z 3006 to ref 128356
+line 129124 ----
+  from ref 128740 z 3006 to ref 128484
+line 129252 ----
+  from ref 128740 z 3006 to ref 128612
+line 129380 ----
+  from ref 128740 z 3006 to ref 128868
+end

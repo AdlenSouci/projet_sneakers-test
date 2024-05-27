@@ -1,0 +1,12 @@
+window_sizes 1920 991 450 1464 809 128
+
+diagrams
+  active  usecasediagram_ref 128228 // user_possibiliter
+    1464 809 100 A4 0 0
+end
+show_stereotypes
+selected usecasediagram_ref 128228 // user_possibiliter
+open
+  usecaseview_ref 128228 // gestion_panier
+end
+end

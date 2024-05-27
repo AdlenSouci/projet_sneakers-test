@@ -1,0 +1,24 @@
+format 213
+
+classcanvas 128100 class_ref 128100 // utilisateur_visiteur
+  simpleclassdiagramsettings end
+  xyz 36 66.5 2000
+end
+subject 129380 "website"
+  xyzwh 288.5 53.5 2000 425 329
+usecasecanvas 129508 usecase_ref 128228 // consulter les pages du site
+  xyzwh 471.5 89.5 3005 64 32 label_xy 427 125
+end
+usecasecanvas 129764 usecase_ref 128484 // ajouter un article au panier
+  xyzwh 472 279.5 3005 64 32 label_xy 428 312
+end
+usecasecanvas 129892 usecase_ref 128612 // selectionner un article une pointure et quantiter
+  xyzwh 471.5 164 3010 64 32 label_xy 373 197
+end
+line 130916 ----
+  from ref 128100 z 3006 to ref 129508
+line 131172 ----
+  from ref 128100 z 3011 to ref 129892
+line 131300 ----
+  from ref 128100 z 3006 to ref 129764
+end

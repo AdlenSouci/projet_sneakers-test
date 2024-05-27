@@ -1,0 +1,48 @@
+format 213
+
+classcanvas 128100 class_ref 128100 // utilisateur_visiteur
+  simpleclassdiagramsettings end
+  xyz 33 347 2000
+end
+subject 128228 "website"
+  xyzwh 158 36 2000 674 689
+subject 128356 "breeze_login"
+  xyzwh 187 113 2005 621 252
+subject 128484 "breeze_register"
+  xyzwh 205 404 2005 596 213
+usecasecanvas 128612 usecase_ref 128100 // connexion au compte si existe
+  xyzwh 247 134 3005 64 32 label_xy 192 166
+end
+usecasecanvas 128740 usecase_ref 128228 // changement du mdp
+  xyzwh 595 239 3005 64 32 label_xy 570 271
+end
+usecasecanvas 128868 usecase_ref 128356 // deconnexion
+  xyzwh 247 195 3005 64 32 label_xy 243 227
+end
+usecasecanvas 128996 usecase_ref 128484 // suppression du compte
+  xyzwh 249 255 3005 64 32 label_xy 215 287
+end
+usecasecanvas 129636 usecase_ref 128612 // creation du compte
+  xyzwh 252 454 3005 64 32 label_xy 230 486
+end
+usecasecanvas 129764 usecase_ref 128740 // creation du mdp fort
+  xyzwh 434 451 3005 64 32 label_xy 410 483
+end
+usecasecanvas 130148 usecase_ref 128868 // connexion
+  xyzwh 251 540 3005 64 32 label_xy 253 572
+end
+line 129124 ----
+  from ref 128100 z 3006 to ref 128612
+line 129252 ----
+  from ref 128100 z 3006 to ref 128740
+line 129380 ----
+  from ref 128100 z 3006 to ref 128868
+line 129508 ----
+  from ref 128100 z 3006 to ref 128996
+line 129892 ----
+  from ref 128100 z 3006 to ref 129636
+line 130020 ----
+  from ref 128100 z 3006 to ref 129764
+line 130276 --->
+  from ref 129636 z 3006 to ref 130148
+end
