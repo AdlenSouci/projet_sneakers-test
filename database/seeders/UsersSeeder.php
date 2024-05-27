@@ -17,12 +17,14 @@ class UsersSeeder extends Seeder
             'name' => 'Philippe',
             'email' => 'philippe.kurz@gmail.com',
             'password' => bcrypt('12345678'),
+            'adresse_livraison' => '10 rue de la paix'
         ]);
 
         DB::table('users')->insert([
             'name' => 'Adlen',
             'email' => 'adlenssouci03@gmail.com',
             'password' => bcrypt('12345678'),
+            'adresse_livraison' => '10 rue de la paix'
         ]);
     }
 }

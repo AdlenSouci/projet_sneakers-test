@@ -24,14 +24,19 @@ class AppServiceProvider extends ServiceProvider
         Password::defaults(function () {
             $rule = Password::min(8);
 
-            return $this->app->isProduction()
-                ? $rule->mixedCase()->uncompromised()
-                : $rule->mixedCase()->uncompromised()
-                ->letters()
+            // return $this->app->isProduction()
+            //     ? $rule->mixedCase()->uncompromised()
+            //     : $rule->mixedCase()->uncompromised()
+            //     ->letters()
+            //     ->mixedCase()
+            //     ->numbers()
+            //     ->symbols();
+
+                return $rule
                 ->mixedCase()
+                ->letters()
                 ->numbers()
-                ->symbols()
-                ->uncompromised();
+                ->symbols();               
         });
     }
 }

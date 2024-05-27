@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('adresse_livraison', 100)->nullable(false);
+            $table->string('adresse_livraison', 100)->nullable(true);
 
             /*$table->string('prenom', 70)->nullable(true);
             //$table->date('date_de_naissance')->nullable(true);
