@@ -13,6 +13,7 @@ use App\Models\TaillesArticle;
 
 
 
+
 class ArticleController extends Controller
 {
     public function show($id)

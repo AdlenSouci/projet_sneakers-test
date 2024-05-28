@@ -10,7 +10,7 @@ class Article extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_marque', 'couleur', 'prix_public', 'id_famille'
+        'id_marque', ' marque', 'nom_famille', 'modele', 'description', 'prix_achat', 'img', 'couleur', 'prix_public', 'id_famille'
         
     ];
   

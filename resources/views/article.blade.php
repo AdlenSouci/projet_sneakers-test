@@ -38,10 +38,10 @@
                         </div>
                         <div class="d-flex align-items-center me-3">
                             <label for="quantite" class="me-1">Qté:</label>
-                            <input type="number" name="quantite" class="form-control-2 rounded" value="1" min="1" max="10">
+                            <input type="number" name="quantite" class="form-control-2 rounded" value="1" min="1" max="20">
                         </div>
                         @if($stock_article > 0)
-                        <button class="btn btn-outline-dark ajouter_au_panier custom-button">Ajouter au panier</button>
+                        <button id="ajouter_au_panier" class="btn btn-outline-dark ajouter_au_panier custom-button rounded" data-article-id="{{ $article->id }}" >Ajouter au panier</button>
                         @endif
                     </div>
 
@@ -90,18 +90,16 @@
                                 </div>
                                 <div class="d-flex align-items-center me-3">
                                     <i class="fas fa-sort-amount-up me-1"></i>
-                                    <input type="number" name="quantite" class="form-control custom-input-small-2 rounded"  value="1" min="1" max="10">
+                                    <input type="number" name="quantite" class="form-control custom-input-small-2 rounded" value="1" min="1" max="10">
                                 </div>
                                 @if($stock_article > 0)
-                                <button class="btn btn-outline-dark ajouter_au_panier custom-button">
-                                    <i class="fas fa-cart-plus me-1"></i>
-                                </button>
+                                <button class="btn btn-outline-dark mt-auto ajouter_au_panier custom-button" data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au
                                 @endif
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col mb-5">
+                <div class="col mb-5"> 
                     <div class="card h-100">
 
                         <img class="card-img-top" src="{{ asset('img/valentine.webp') }}" alt="..." />
@@ -145,13 +143,11 @@
                                 </div>
                                 <div class="d-flex align-items-center me-3">
                                     <i class="fas fa-sort-amount-up me-1"></i>
-                                    <input type="number" name="quantite" class="form-control custom-input-small-2 rounded"  value="1" min="1" max="10">
+                                    <input type="number" name="quantite" class="form-control custom-input-small-2 rounded" value="1" min="1" max="10">
                                 </div>
                                 @if($stock_article > 0)
-                                <button class="btn btn-outline-dark ajouter_au_panier custom-button">
-                                    <i class="fas fa-cart-plus me-1"></i>
-                                </button>
-                                @endif
+                                <button class="btn btn-outline-dark mt-auto ajouter_au_panier custom-button" data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au
+                                    @endif
                             </div>
 
 
@@ -167,6 +163,7 @@
             if (event.target.classList.contains('ajouter_au_panier')) {
                 var articleId = event.target.getAttribute('data-article-id');
                 var pointure = event.target.parentElement.querySelector('#pointure').value;
+
                 if (pointure) {
                     $.ajax({
                         url: '{{ route("ajouter_au_panier") }}',
@@ -178,7 +175,7 @@
                             'quantite': event.target.parentElement.querySelector('[name="quantite"]').value
                         },
                         success: function(response) {
-                            alert(response.message + " " + response.nbitems);
+                            alert(response.message);
                             document.querySelector('#nbitems').textContent = "panier(" + response.nbitems + ")";
                         },
                         error: function(error) {

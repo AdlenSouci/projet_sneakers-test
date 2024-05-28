@@ -10,7 +10,7 @@ class MailController extends Controller
 {
     public function test()
     {
-        Mail::to('philippe.kurz@gmail.com')->send(new ContactMail());
+        Mail::to( 'adlenssouci03@gmail.com')->send(new ContactMail());
         return response()->json(['message' => 'Votre message a bien été envoyé.']);
     }
 }

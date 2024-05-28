@@ -44,6 +44,8 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/basket', [BasketController::class, 'index'])->name('basket');
 Route::get('/search', [ShopController::class, 'search'])->name('search');
+
+Route::get('/filtre', [ShopController::class, 'filtre'])->name('filtre');
 Route::post('/ajouter_au_panier', [BasketController::class, 'ajouter_au_panier'])->name('ajouter_au_panier');
 
 Route::post('/passer-commande', [BasketController::class, 'passerCommande'])->name('passer-commande');//new 22/03/2024

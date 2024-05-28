@@ -19,7 +19,7 @@ class BasketController extends Controller
     private function calculerPrixTotal($cartItems)
     {
         $totalPrice = 0;
-        
+
 
         foreach ($cartItems as $item) {
             $totalPrice += $item['price'] * $item['quantity'];
@@ -37,6 +37,8 @@ class BasketController extends Controller
 
 
         $article = Article::findOrFail($request->article_id);
+        $stock = $article->tailles()->where('taille', $request->pointure)->get()->first()->stock;
+        $quantite = $request->quantity;
 
 
         $cartItems = Session::get('cart', []);
@@ -46,6 +48,7 @@ class BasketController extends Controller
         // Mettre à jour la quantité de l'article dans le panier
         if ($itemIndex !== false) {
             $cartItems[$itemIndex]['quantity'] = $request->quantity;
+
 
             // Mettre à jour le panier dans la session
             Session::put('cart', $cartItems);
@@ -61,6 +64,9 @@ class BasketController extends Controller
 
             ]);
         }
+      
+
+
 
         return response()->json(['error' => 'Article non trouvé dans le panier']);
     }
@@ -97,6 +103,7 @@ class BasketController extends Controller
         $article = Article::findOrFail($request->article_id);
         $pointure = $request->pointure;
         $quantite = $request->quantite;
+        $stock = $article->tailles()->where('taille', $pointure)->get()->first()->stock;
 
 
 
@@ -105,9 +112,8 @@ class BasketController extends Controller
 
         $existingItemKey = array_search($article->id, array_column($cartItems, 'id'));
 
-        if ($existingItemKey !== false) {
-            return response()->json(['message' => 'Article déjà dans le panier']);
-        } elseif ($quantite > $article->tailles()->where('taille', $pointure)->get()->first()->stock) {
+
+        if ($quantite > $article->tailles()->where('taille', $pointure)->get()->first()->stock) {
             return response()->json(['message' => "Désolé, il ne reste que " . $article->tailles()->where('taille', $pointure)->get()->first()->stock . " paires en stock"]);
         } else {
 
@@ -133,7 +139,7 @@ class BasketController extends Controller
 
     public function viderPanier()
     {
-        // Supprimez le panier de la session
+
         Session::forget('cart');
 
         Session::put('cart', []);
@@ -143,25 +149,25 @@ class BasketController extends Controller
     }
     public function viderArticlePanier(Request $request)
     {
-        // Valide les données
+
         $request->validate([
             'article_id' => 'required|exists:articles,id',
         ]);
 
-        // Récupére l'article à partir de la base de données
+
         $article = Article::findOrFail($request->article_id);
 
 
         $cartItems = Session::get('cart', []);
 
-        // Trouver l'index de l'article dans le panier
+
         $itemIndex = array_search($article->id, array_column($cartItems, 'id'));
 
         if ($itemIndex !== false) {
 
             array_splice($cartItems, $itemIndex, 1);
 
-            // Mettre à jour le panier dans la session
+
             Session::put('cart', $cartItems);
 
 
@@ -241,7 +247,6 @@ class BasketController extends Controller
             $commandeEntete->total_ttc = $total_ttc;
             $commandeEntete->total_tva = $total_tva;
             $commandeEntete->save();
-
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()]);
         }
@@ -284,12 +289,10 @@ class BasketController extends Controller
                     'remise' => 0,
                 ]);
             }
-
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()]);
         }
 
         return response()->json(['message' => 'Expédition effectuée avec succès ' . $expeditionEntete->id]);
     }
-
 }
