@@ -13,6 +13,7 @@ use App\Http\Controllers\toArray;
 use App\Models\expedition_entete;
 
 
+
 class BasketController extends Controller
 {
 
@@ -35,57 +36,71 @@ class BasketController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-
         $article = Article::findOrFail($request->article_id);
-        $stock = $article->tailles()->where('taille', $request->pointure)->get()->first()->stock;
-        $quantite = $request->quantity;
-
-
         $cartItems = Session::get('cart', []);
-
         $itemIndex = array_search($article->id, array_column($cartItems, 'id'));
 
-        // Mettre à jour la quantité de l'article dans le panier
         if ($itemIndex !== false) {
-            $cartItems[$itemIndex]['quantity'] = $request->quantity;
+            $newQuantity = $request->quantity;
+            $stockAvailable = $article->tailles()->where('taille', $request->pointure)->first()->stock;
 
+            if ($newQuantity > $stockAvailable) {
+                return response()->json(['error' => 'Désolé, il ne reste que ' . $stockAvailable . ' articles en stock.']);
+            }
 
-            // Mettre à jour le panier dans la session
+            $cartItems[$itemIndex]['quantity'] = $newQuantity;
             Session::put('cart', $cartItems);
-
-
             $totalPrice = $this->calculerPrixTotal($cartItems);
-
 
             return response()->json([
                 'message' => 'Quantité mise à jour avec succès',
                 'totalPrice' => $totalPrice,
                 'cart' => $cartItems,
-
             ]);
         }
-      
-
-
 
         return response()->json(['error' => 'Article non trouvé dans le panier']);
     }
 
-
-
     public function index()
     {
+        // Récupération des articles du panier
+        $cartItems = session()->get('cart', []); // Supposons que tu stockes les articles dans la session
 
-        $cartItems = Session::get('cart', []);
-
-
-
+        // Calculer le prix total
         $totalPrice = $this->calculerPrixTotal($cartItems);
-        //$tailles = Article::find($cartItems->Id)->tailles();
 
-        //return view('basket', ['cartItems' => $cartItems, 'totalPrice' => $totalPrice, 'tailles' => $tailles]);
-        return view('basket', ['cartItems' => $cartItems, 'totalPrice' => $totalPrice]);
+        // Récupérer les articles avec les tailles et le stock
+        $articles = [];
+        foreach ($cartItems as $item) {
+            $article = Article::with('tailles')->where('id', $item['id'])->first();
+            if ($article) {
+                $articles[] = $article;
+            }
+        }
+
+        // Renvoyer la vue avec les articles du panier et le prix total
+        return view('basket', compact('cartItems', 'articles', 'totalPrice'));
     }
+
+
+
+
+
+    public function changerQuantiterPanier(Request $request)
+    {
+
+
+        $request->validate([
+            'article_id' => 'required|exists:articles,id',
+            'quantity' => 'required|integer|min:1',
+            'pointure' => 'required|string',
+            'quantite' => 'required|integer|min:1',
+
+        ]);
+    }
+
+
 
 
 
@@ -253,46 +268,5 @@ class BasketController extends Controller
 
         //$this->viderPanier();
         return response()->json(['message' => 'Commande passée avec succès ' . $commandeEntete->id]);
-    }
-
-    public function expedition(Request $request)
-    {
-
-        $userId = Auth::id();
-
-        $adresseLivraison = $request->input('adresse_livraison');
-
-        $numBonLivraison = mt_rand(100000, 999999);
-
-        try {
-
-            $expeditionEntete = new expedition_entete();
-            $expeditionEntete->id_num_bon_livraison = $numBonLivraison;
-            $expeditionEntete->date = now();
-            $expeditionEntete->id_user = $userId;
-            $expeditionEntete->save();
-
-            $cartItems = Session::get('cart', []);
-
-            foreach ($cartItems as $item) {
-
-                $expeditionEntete->details()->create([
-                    'id_num_commande' => $item['id_num_commande'],
-                    'id_num_bon_livraison' => $numBonLivraison,
-
-                    'id_article' => $item['id_article'],
-                    'adresse' => $adresseLivraison,
-                    'quantite_livraison' => $item['quantity'],
-                    'prix_ht' => $item['price'] * .8,
-                    'prix_ttc' => $item['price'],
-                    'montant_ht' => $item['price'] * .8 * $item['quantity'],
-                    'remise' => 0,
-                ]);
-            }
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()]);
-        }
-
-        return response()->json(['message' => 'Expédition effectuée avec succès ' . $expeditionEntete->id]);
     }
 }

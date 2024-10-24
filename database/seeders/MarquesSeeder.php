@@ -14,19 +14,19 @@ class MarquesSeeder extends Seeder
     public function run(): void
     {
         DB::table('marques')->insert([
-            'nom'  => 'Adidas'
+            'nom_marque'  => 'Adidas'
         ]);
         DB::table('marques')->insert([
-            'nom'  => 'Nike'
+            'nom_marque'  => 'Nike'
         ]);
         DB::table('marques')->insert([
-            'nom'  => 'Puma'
+            'nom_marque'  => 'Puma'
         ]);
         DB::table('marques')->insert([
-            'nom'  => 'New Balance'
+            'nom_marque'  => 'New Balance'
         ]);
         DB::table('marques')->insert([
-            'nom'  => 'Asics'
+            'nom_marque'  => 'Asics'
         ]);
         
     }

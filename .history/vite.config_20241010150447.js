@@ -1,0 +1,23 @@
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: [
+                'resources/css/app.css',
+                'resources/css/accueil.css',
+                'resources/css/create.css',
+                'resources/css/custom.css',
+                'resources/css/fontawesome.css',
+                'resources/css/fontawesome.min.css',
+                'resources/css/bootsr'
+                'resources/css/templatemo.css',
+                'resources/css/templatemo.min.css',
+                'resources/js/create.js',
+                'resources/js/app.js',
+            ],
+            refresh: true,
+        }),
+    ],
+});
