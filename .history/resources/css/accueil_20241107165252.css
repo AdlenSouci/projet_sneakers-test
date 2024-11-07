@@ -46,9 +46,9 @@ body {
 }
 
 .card-img {
-    width: 350px;
+    max-width: 300px;
     /* Définissez la largeur maximale souhaitée */
-    height: 190px;
+    max-height: 200px;
     /* Définissez la hauteur maximale souhaitée */
 }
 

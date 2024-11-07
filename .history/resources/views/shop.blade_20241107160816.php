@@ -214,46 +214,19 @@
             });
         });
 
-        $(document).ready(function() {
-            $('#filterForm').on('submit', function(e) {
-                e.preventDefault();
+        // Filtre par prix min et max
+        if ($request->filled('prix_min')) {
+            $query->where('prix_public', '>=', $request->input('prix_min'));
+        }
 
-                const selectedMarque = $('#marque').val();
-                const selectedCouleur = $('#couleur').val();
-                const selectedPrix = $('#prix option:selected').val();
-                const prixMin = parseFloat($('#prix_min').val()) || 0;
-                const prixMax = parseFloat($('#prix_max').val()) || Infinity;
+        if ($request->filled('prix_max')) {
+            $query->where('prix_public', '<=', $request->input('prix_max'));
+        }
 
-                let articles = $('.row-cols-xl-4 .col').toArray();
-
-                // Filtrer les articles
-                articles = articles.filter(function(article) {
-                    const articleMarque = $(article).data('marque');
-                    const articleCouleur = $(article).data('couleur');
-                    const articlePrix = parseFloat($(article).data('prix'));
-
-                    const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
-                    const matchesCouleur = selectedCouleur === "" || articleCouleur === selectedCouleur;
-                    const matchesPrix = articlePrix >= prixMin && articlePrix <= prixMax;
-
-                    return matchesMarque && matchesCouleur && matchesPrix;
-                });
-
-                // Trier les articles
-                if (selectedPrix === "asc") {
-                    articles.sort(function(a, b) {
-                        return $(a).data('prix') - $(b).data('prix');
-                    });
-                } else if (selectedPrix === "desc") {
-                    articles.sort(function(a, b) {
-                        return $(b).data('prix') - $(a).data('prix');
-                    });
-                }
-
-                // Afficher les articles triés et filtrés
-                $('.row-cols-xl-4').empty().append(articles);
-            });
-        });
+        // Tri par prix
+        if ($request->filled('prix')) {
+            $query->orderBy('prix_public', $request->input('prix'));
+        }
     </script>
 
     @vite(['resources/css/templatemo.css', 'resources/js/templatemo.js', 'resources/css/slick-theme.css', 'resources/css/slick-theme.min.css', 'resources/css/slick.min.css'])

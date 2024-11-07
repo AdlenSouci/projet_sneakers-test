@@ -42,7 +42,7 @@
                 <input type="number" id="prix_max" name="prix_max" class="form-control" style="width: 180px;" placeholder="Max" min="0">
             </div>
 
-            <button type="submit" class="btn bg-dark text-white">Filtrer</button>
+            <button type="submit" class="btn btn-primary">Filtrer</button>
         </form>
 
         <style>
@@ -214,46 +214,99 @@
             });
         });
 
+        // $(document).ready(function() {
+        //     $('#filterForm').on('submit', function(e) {
+        //         e.preventDefault();
+
+        //         const selectedMarque = $('#marque').val();
+        //         const selectedCouleur = $('#couleur').val();
+        //         const selectedPrix = $('#prix').val();
+        //         const prixMin = parseFloat($('#prix_min').val()) || 0; // Assurez-vous d'utiliser un nombre
+        //         const prixMax = parseFloat($('#prix_max').val()) || Infinity; // Assurez-vous d'utiliser un nombre
+
+        //         $('.row-cols-xl-4 .col').each(function() {
+        //             const articleMarque = $(this).data('marque');
+        //             const articleCouleur = $(this).data('couleur');
+        //             const articlePrix = parseFloat($(this).data('prix')); // Assurez-vous que le prix est stocké dans data-prix
+
+        //             const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
+        //             const matchesCouleur = selectedCouleur === "" || articleCouleur === selectedCouleur;
+
+        //             // Vérifiez si le prix de l'article est dans la plage de prix spécifiée
+        //             const matchesPrix = articlePrix >= prixMin && articlePrix <= prixMax;
+
+        //             // Ajoutez la logique pour le tri
+        //             let sortCondition = true;
+        //             if (selectedPrix === "asc") {
+        //                 sortCondition = articlePrix >= prixMin && articlePrix <= prixMax;
+        //             } else if (selectedPrix === "desc") {
+        //                 sortCondition = articlePrix <= prixMax && articlePrix >= prixMin;
+        //             }
+
+        //             if (matchesMarque && matchesCouleur && matchesPrix && sortCondition) {
+        //                 $(this).show(); // Affiche l'article
+        //             } else {
+        //                 $(this).hide(); // Masque l'article
+        //             }
+        //         });
+        //     });
+        // });
+
         $(document).ready(function() {
-            $('#filterForm').on('submit', function(e) {
-                e.preventDefault();
+    $('#filterForm').on('submit', function(e) {
+        e.preventDefault();
 
-                const selectedMarque = $('#marque').val();
-                const selectedCouleur = $('#couleur').val();
-                const selectedPrix = $('#prix option:selected').val();
-                const prixMin = parseFloat($('#prix_min').val()) || 0;
-                const prixMax = parseFloat($('#prix_max').val()) || Infinity;
+        const selectedMarque = $('#marque').val();
+        const selectedCouleur = $('#couleur').val();
+        const selectedPrix = $('#prix').val();
+        const prixMin = parseFloat($('#prix_min').val()) || 0; // Assurez-vous d'utiliser un nombre
+        const prixMax = parseFloat($('#prix_max').val()) || Infinity; // Assurez-vous d'utiliser un nombre
 
-                let articles = $('.row-cols-xl-4 .col').toArray();
+        // Tableau pour stocker les articles visibles
+        let visibleArticles = [];
 
-                // Filtrer les articles
-                articles = articles.filter(function(article) {
-                    const articleMarque = $(article).data('marque');
-                    const articleCouleur = $(article).data('couleur');
-                    const articlePrix = parseFloat($(article).data('prix'));
+        $('.row-cols-xl-4 .col').each(function() {
+            const articleMarque = $(this).data('marque');
+            const articleCouleur = $(this).data('couleur');
+            const articlePrix = parseFloat($(this).data('prix')); // Assurez-vous que le prix est stocké dans data-prix
 
-                    const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
-                    const matchesCouleur = selectedCouleur === "" || articleCouleur === selectedCouleur;
-                    const matchesPrix = articlePrix >= prixMin && articlePrix <= prixMax;
+            const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
+            const matchesCouleur = selectedCouleur === "" || articleCouleur === selectedCouleur;
 
-                    return matchesMarque && matchesCouleur && matchesPrix;
-                });
+            // Vérifiez si le prix de l'article est dans la plage de prix spécifiée
+            const matchesPrix = articlePrix >= prixMin && articlePrix <= prixMax;
 
-                // Trier les articles
-                if (selectedPrix === "asc") {
-                    articles.sort(function(a, b) {
-                        return $(a).data('prix') - $(b).data('prix');
-                    });
-                } else if (selectedPrix === "desc") {
-                    articles.sort(function(a, b) {
-                        return $(b).data('prix') - $(a).data('prix');
-                    });
-                }
+            // Ajoutez la logique pour le tri
+            let sortCondition = true;
+            if (selectedPrix === "asc") {
+                sortCondition = articlePrix >= prixMin && articlePrix <= prixMax;
+            } else if (selectedPrix === "desc") {
+                sortCondition = articlePrix <= prixMax && articlePrix >= prixMin;
+            }
 
-                // Afficher les articles triés et filtrés
-                $('.row-cols-xl-4').empty().append(articles);
-            });
+            // Vérifiez si l'article doit être affiché
+            if (matchesMarque && matchesCouleur && matchesPrix && sortCondition) {
+                $(this).show(); // Affiche l'article
+                visibleArticles.push($(this)); // Ajoutez l'article au tableau des articles visibles
+            } else {
+                $(this).hide(); // Masque l'article
+            }
         });
+
+        // Appliquer le tri uniquement aux articles visibles
+        if (selectedPrix === "asc") {
+            visibleArticles.sort((a, b) => parseFloat(a.data('prix')) - parseFloat(b.data('prix')));
+        } else if (selectedPrix === "desc") {
+            visibleArticles.sort((a, b) => parseFloat(b.data('prix')) - parseFloat(a.data('prix')));
+        }
+
+        // Réorganiser les articles visibles dans le DOM sans changer la taille
+        $('.row-cols-xl-4').empty(); // Vider le conteneur
+        visibleArticles.forEach(function(article) {
+            $('.row-cols-xl-4').append(article); // Réajouter les articles triés
+        });
+    });
+});
     </script>
 
     @vite(['resources/css/templatemo.css', 'resources/js/templatemo.js', 'resources/css/slick-theme.css', 'resources/css/slick-theme.min.css', 'resources/css/slick.min.css'])

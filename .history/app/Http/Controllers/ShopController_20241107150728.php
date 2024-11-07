@@ -39,11 +39,18 @@ class ShopController extends Controller
     {
         $query = Article::query()->with('avis');
 
+        // Vérifiez les paramètres de la requête
+        \Log::info('Filtres appliqués : ', $request->all());
+
         // Filtre par marque
         if ($request->filled('marque')) {
             $query->whereHas('marque', function ($q) use ($request) {
                 $q->where('nom_marque', $request->input('marque'));
             });
+        }
+
+        if ($request->filled('prix')) {
+            $query->orderBy('prix_public', $request->input('prix'));
         }
 
         // Filtre par prix min et max
@@ -55,12 +62,12 @@ class ShopController extends Controller
             $query->where('prix_public', '<=', $request->input('prix_max'));
         }
 
-        // Tri par prix
-        if ($request->filled('prix')) {
-            $query->orderBy('prix_public', $request->input('prix'));
-        }
+
+
 
         $articlesData = $query->get();
+
+        \Log::info('Résultats des articles : ', $articlesData->toArray());
 
         return response()->json(['articlesData' => $articlesData]);
     }

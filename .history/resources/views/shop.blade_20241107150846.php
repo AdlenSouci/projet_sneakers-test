@@ -42,7 +42,7 @@
                 <input type="number" id="prix_max" name="prix_max" class="form-control" style="width: 180px;" placeholder="Max" min="0">
             </div>
 
-            <button type="submit" class="btn bg-dark text-white">Filtrer</button>
+            <button type="submit" class="btn btn-primary">Filtrer</button>
         </form>
 
         <style>
@@ -73,7 +73,7 @@
             <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-4 justify-content-center g-3">
                 <?php foreach ($articlesData as $article) : ?>
                     <?php $stock_article = array_sum(array_column($article->tailles->toArray(), 'stock')); ?>
-                    <div class="col mb-5" data-marque="{{ $article->nom_marque }}" data-couleur="{{ $article->nom_couleur }}" data-prix="{{ $article->prix_public }}">
+                    <div class="col mb-5" data-marque="{{ $article->nom_marque }}" data-couleur="{{ $article->nom_couleur }}">
                         <div class="card mb-4 product-wap rounded-lg">
                             <div class="card rounded-sm">
                                 <img class="card-img rounded-0 img-fluid" src="{{ asset('img/' . $article['img']) }}" alt="Product Image" />
@@ -215,45 +215,38 @@
         });
 
         $(document).ready(function() {
-            $('#filterForm').on('submit', function(e) {
-                e.preventDefault();
+    $('#filterForm').on('submit', function(e) {
+        e.preventDefault();
 
-                const selectedMarque = $('#marque').val();
-                const selectedCouleur = $('#couleur').val();
-                const selectedPrix = $('#prix option:selected').val();
-                const prixMin = parseFloat($('#prix_min').val()) || 0;
-                const prixMax = parseFloat($('#prix_max').val()) || Infinity;
+        const selectedMarque = $('#marque').val();
+        const selectedCouleur = $('#couleur').val();
+        const selectedPrix = $('#prix').val();  // Nouveau filtre de prix
+        const prixMin = $('#prix_min').val();   // Nouveau champ prix minimum
+        const prixMax = $('#prix_max').val();   // Nouveau champ prix maximum
 
-                let articles = $('.row-cols-xl-4 .col').toArray();
+        $('.row-cols-xl-4 .col').each(function() {
+            const articleMarque = $(this).data('marque');
+            const articleCouleur = $(this).data('couleur');
+            const articlePrix = parseFloat($(this).data('prix')); // Assurez-vous que le prix est stocké dans data-prix
 
-                // Filtrer les articles
-                articles = articles.filter(function(article) {
-                    const articleMarque = $(article).data('marque');
-                    const articleCouleur = $(article).data('couleur');
-                    const articlePrix = parseFloat($(article).data('prix'));
+            const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
+            const matchesCouleur = selectedCouleur === "" || articleCouleur === selectedCouleur;
+            const matchesPrix = (
+                (selectedPrix === "" || 
+                (selectedPrix === "asc" && articlePrix >= prixMin && articlePrix <= prixMax) ||
+                (selectedPrix === "desc" && articlePrix <= prixMax && articlePrix >= prixMin)) ||
+                (articlePrix >= prixMin && articlePrix <= prixMax)
+            );
 
-                    const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
-                    const matchesCouleur = selectedCouleur === "" || articleCouleur === selectedCouleur;
-                    const matchesPrix = articlePrix >= prixMin && articlePrix <= prixMax;
-
-                    return matchesMarque && matchesCouleur && matchesPrix;
-                });
-
-                // Trier les articles
-                if (selectedPrix === "asc") {
-                    articles.sort(function(a, b) {
-                        return $(a).data('prix') - $(b).data('prix');
-                    });
-                } else if (selectedPrix === "desc") {
-                    articles.sort(function(a, b) {
-                        return $(b).data('prix') - $(a).data('prix');
-                    });
-                }
-
-                // Afficher les articles triés et filtrés
-                $('.row-cols-xl-4').empty().append(articles);
-            });
+            if (matchesMarque && matchesCouleur && matchesPrix) {
+                $(this).show(); // Affiche l'article
+            } else {
+                $(this).hide(); // Masque l'article
+            }
         });
+    });
+});
+
     </script>
 
     @vite(['resources/css/templatemo.css', 'resources/js/templatemo.js', 'resources/css/slick-theme.css', 'resources/css/slick-theme.min.css', 'resources/css/slick.min.css'])

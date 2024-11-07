@@ -214,46 +214,48 @@
             });
         });
 
-        $(document).ready(function() {
-            $('#filterForm').on('submit', function(e) {
-                e.preventDefault();
+        let sortCondition = true;
+        if (selectedPrix === "asc") {
+            $('.row-cols-xl-4 .col').sort((a, b) => {
+                return parseFloat($(a).data('prix')) - parseFloat($(b).data('prix'));
+            }).each(function() {
+                const articleMarque = $(this).data('marque');
+                const articleCouleur = $(this).data('couleur');
+                const articlePrix = parseFloat($(this).data('prix'));
 
-                const selectedMarque = $('#marque').val();
-                const selectedCouleur = $('#couleur').val();
-                const selectedPrix = $('#prix option:selected').val();
-                const prixMin = parseFloat($('#prix_min').val()) || 0;
-                const prixMax = parseFloat($('#prix_max').val()) || Infinity;
+                const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
+                const matchesCouleur = selectedCouleur === "" || articleCouleur === selectedCouleur;
 
-                let articles = $('.row-cols-xl-4 .col').toArray();
+                // Vérifiez si le prix de l'article est dans la plage de prix spécifiée
+                const matchesPrix = articlePrix >= prixMin && articlePrix <= prixMax;
 
-                // Filtrer les articles
-                articles = articles.filter(function(article) {
-                    const articleMarque = $(article).data('marque');
-                    const articleCouleur = $(article).data('couleur');
-                    const articlePrix = parseFloat($(article).data('prix'));
-
-                    const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
-                    const matchesCouleur = selectedCouleur === "" || articleCouleur === selectedCouleur;
-                    const matchesPrix = articlePrix >= prixMin && articlePrix <= prixMax;
-
-                    return matchesMarque && matchesCouleur && matchesPrix;
-                });
-
-                // Trier les articles
-                if (selectedPrix === "asc") {
-                    articles.sort(function(a, b) {
-                        return $(a).data('prix') - $(b).data('prix');
-                    });
-                } else if (selectedPrix === "desc") {
-                    articles.sort(function(a, b) {
-                        return $(b).data('prix') - $(a).data('prix');
-                    });
+                if (matchesMarque && matchesCouleur && matchesPrix) {
+                    $(this).show(); // Affiche l'article
+                } else {
+                    $(this).hide(); // Masque l'article
                 }
-
-                // Afficher les articles triés et filtrés
-                $('.row-cols-xl-4').empty().append(articles);
             });
-        });
+        } else if (selectedPrix === "desc") {
+            $('.row-cols-xl-4 .col').sort((a, b) => {
+                return parseFloat($(b).data('prix')) - parseFloat($(a).data('prix'));
+            }).each(function() {
+                const articleMarque = $(this).data('marque');
+                const articleCouleur = $(this).data('couleur');
+                const articlePrix = parseFloat($(this).data('prix'));
+
+                const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
+                const matchesCouleur = selectedCouleur === "" || articleCouleur === selectedCouleur;
+
+                // Vérifiez si le prix de l'article est dans la plage de prix spécifiée
+                const matchesPrix = articlePrix >= prixMin && articlePrix <= prixMax;
+
+                if (matchesMarque && matchesCouleur && matchesPrix) {
+                    $(this).show(); // Affiche l'article
+                } else {
+                    $(this).hide(); // Masque l'article
+                }
+            });
+        }
     </script>
 
     @vite(['resources/css/templatemo.css', 'resources/js/templatemo.js', 'resources/css/slick-theme.css', 'resources/css/slick-theme.min.css', 'resources/css/slick.min.css'])

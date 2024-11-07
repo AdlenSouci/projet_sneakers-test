@@ -36,32 +36,32 @@ class ShopController extends Controller
     }
 
     public function filter(Request $request)
-    {
-        $query = Article::query()->with('avis');
+{
+    $query = Article::query()->with('avis');
 
-        // Filtre par marque
-        if ($request->filled('marque')) {
-            $query->whereHas('marque', function ($q) use ($request) {
-                $q->where('nom_marque', $request->input('marque'));
-            });
-        }
-
-        // Filtre par prix min et max
-        if ($request->filled('prix_min')) {
-            $query->where('prix_public', '>=', $request->input('prix_min'));
-        }
-
-        if ($request->filled('prix_max')) {
-            $query->where('prix_public', '<=', $request->input('prix_max'));
-        }
-
-        // Tri par prix
-        if ($request->filled('prix')) {
-            $query->orderBy('prix_public', $request->input('prix'));
-        }
-
-        $articlesData = $query->get();
-
-        return response()->json(['articlesData' => $articlesData]);
+    // Filtre par marque
+    if ($request->filled('marque')) {
+        $query->whereHas('marque', function ($q) use ($request) {
+            $q->where('nom_marque', $request->input('marque'));
+        });
     }
+
+    // Filtre par prix min et max
+    if ($request->filled('prix_min')) {
+        $query->where('prix_public', '>=', $request->input('prix_min'));
+    }
+
+    if ($request->filled('prix_max')) {
+        $query->where('prix_public', '<=', $request->input('prix_max'));
+    }
+
+    // Tri par prix
+    if ($request->filled('prix')) {
+        $query->orderBy('prix_public', $request->input('prix'));
+    }
+
+    $articlesData = $query->get();
+
+    return response()->json(['articlesData' => $articlesData]);
+}
 }

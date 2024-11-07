@@ -46,11 +46,14 @@ body {
 }
 
 .card-img {
-    width: 350px;
-    /* Définissez la largeur maximale souhaitée */
-    height: 190px;
-    /* Définissez la hauteur maximale souhaitée */
+    width: 200px;
+    /* Modifier selon la taille souhaitée */
+    height: 200px;
+    /* Modifier selon la taille souhaitée */
+    object-fit: cover;
+    /* Garde les proportions en recadrant */
 }
+
 
 .carousel {
     margin: auto;

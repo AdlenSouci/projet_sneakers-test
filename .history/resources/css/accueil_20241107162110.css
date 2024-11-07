@@ -46,12 +46,9 @@ body {
 }
 
 .card-img {
-    width: 350px;
-    /* Définissez la largeur maximale souhaitée */
-    height: 190px;
-    /* Définissez la hauteur maximale souhaitée */
-}
-
+    max-width: 300px; /* Définissez la largeur maximale souhaitée */
+    max-height: 200px; /* Définissez la hauteur maximale souhaitée */
+  }
 .carousel {
     margin: auto;
     /* Centrer horizontalement */
@@ -89,7 +86,7 @@ body {
 
 main {
     flex-grow: 1;
-
+   
 }
 
 
