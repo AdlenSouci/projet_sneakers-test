@@ -1,0 +1,314 @@
+html,
+body {
+    height: 100%;
+
+
+    margin: 0;
+
+    background-image: url('../img_design/Designer.png');
+
+    background-size: cover;
+    /* Couvre toute la zone */
+    background-position: center;
+    /* Centre l'image */
+}
+
+#page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+main {
+    flex-grow: 1;
+
+}
+
+
+.header-custom {
+
+
+    width: 80%;
+
+    max-width: 1200px;
+    /* fixe la largeur maximale du header à 1200px */
+    margin: 0 auto;
+    /* centre le header horizontalement */
+
+    /* background-repeat: no-repeat; */
+    background-position: center;
+    /*changer la taille */
+
+}
+
+
+
+#rotating-text {
+    min-height: 2.5em;
+    /* Ajustez cette hauteur en fonction du texte le plus long */
+    transition: opacity 0.5s ease;
+
+    color: #252423;
+    /* Couleur du texte */
+    font-size: 1.5em;
+    /* Taille de police */
+    font-weight: bold;
+    /* Gras */
+}
+
+.custom-label {
+    border-radius: 20px;
+    border-color: #de7105;
+    height: 38px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+
+.product-wap {
+    max-width: 280px;
+    /* Ajustez la largeur selon vos besoins */
+    height: auto;
+}
+
+.card-body {
+    padding: 10px;
+    
+}
+
+.custom-text-center {
+    font-size: 0.9rem;
+    /* Réduit la taille du texte */
+}
+
+.custom-button {
+    font-size: 0.8rem;
+    /* Réduit la taille du texte du bouton */
+    padding: 5px 10px;
+    /* Réduit la taille du bouton */
+}
+
+.card img {
+    height: 180px;
+    /* Ajuste la hauteur de l'image */
+    object-fit: cover;
+    /* Ajuste l'image pour bien remplir l'espace */
+    width: 320px;
+
+    height: 180px;
+}
+
+@media (max-width: 576px) {
+    .product-wap {
+        margin: 0 auto;
+        /* Centre les cartes sur petit écran */
+    }
+}
+
+
+
+.container {
+    margin: 0 auto;
+    /* Centre le conteneur */
+}
+
+.row-cols-xl-4 {
+    justify-content: center;
+    /* Centre les colonnes */
+}
+
+/* Ajout de style pour la vue mobile */
+@media (max-width: 768px) {
+    .card {
+        margin: 0 auto;
+        /* Centre chaque carte sur petit écran */
+        width: 90%;
+        /* S'assure que la carte n'est pas trop large */
+    }
+}
+
+
+.carousel {
+    margin: auto;
+    /* Centrer horizontalement */
+    max-width: 500px;
+    /* Largeur maximale du carousel */
+}
+
+.popular {
+    background-color: rgba(0, 0, 0, 0.044);
+}
+
+.custom-container-basket-shadow {
+
+    box-shadow: 0px 0px 15px 7px #de7105;
+
+}
+
+.carousel-item img {
+    max-height: 400px;
+
+    object-fit: cover;
+
+    width: 100%;
+
+}
+
+
+#contact {
+
+    width: 500px;
+
+}
+
+
+
+
+.tenor-gif-embed img {
+    width: 50%;
+    height: auto;
+}
+
+/* .custom-card {
+
+    width: 240px;
+    margin: 0 10px;
+
+
+} */
+
+
+
+
+/* bouton input page article */
+.stock-badge {
+    width: 60px;
+    height: 30px;
+}
+
+.custom-select-2,
+.form-control-2 {
+    width: 50px;
+    height: 30px;
+}
+
+.custom-input-small {
+
+
+    width: 30px;
+    height: 30px;
+}
+
+.custom-input-small-2 {
+
+    width: 50px;
+    height: 30px;
+
+}
+
+.custom-section-avis:hover {
+    /* mettre un fond transparant */
+    background-color: rgba(0, 0, 0, 0.5);
+
+    color: #ffffff;
+
+}
+
+/* footer */
+footer {
+    background-color: #000000;
+
+    font-family: 'lucida console', monospace;
+
+    margin: 0;
+    /* Supprime toutes les marges */
+    padding: 0;
+    /* Supprime tous les paddings */
+}
+
+.container-footer {
+    margin-top: 20px;
+
+}
+
+
+
+.custom-nav-link:hover {
+    color: #fff;
+
+
+}
+
+.custom-Copyright {
+    font-family: 'lucida console', monospace;
+
+    font-size: 16px;
+}
+
+.custom-nav-link {
+    font-family: 'lucida console', monospace;
+
+    font-size: 14px;
+    color: #de6e0d;
+}
+
+
+
+
+.filterForm {
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+
+button .fas {
+    margin-right: 5px;
+}
+
+
+
+.h3 {
+    text-align: center;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    .card-title {
+        font-size: 1.2em;
+    }
+
+    .card-text {
+        font-size: 0.9em;
+    }
+
+    .carousel-item img {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-title {
+        font-size: 1em;
+    }
+
+    .card-text {
+        font-size: 0.8em;
+    }
+
+    .carousel-item img {
+        max-height: 200px;
+    }
+}
+
+
+@media (max-width: 576px) {
+    .custom-select {
+        width: 100%;
+    }
+}

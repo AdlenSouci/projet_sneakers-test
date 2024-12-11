@@ -1,0 +1,30 @@
+
+
+
+.custom-input-search {
+    width: 100px; 
+    height: 30px; 
+    font-size: 0.875rem;
+}
+
+.custom-button {
+    height: 30px; 
+    font-size: 0.875rem; 
+    padding: 0.25rem 0.5rem; 
+}
+
+.spacing-horizontal {
+    margin-right: 20px; 
+    margin-left: 20px;
+}
+
+
+.navbar {
+    position: sticky; /* Reste visible lors du défilement */
+    top: 0; /* Fixe la position en haut */
+    z-index: 1030; /* Met la navbar au-dessus des autres éléments */
+    background-color: #ffffff93; /* Assurez-vous qu'elle ait un fond visible */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Donne un effet d'ombre */
+}
+
+
