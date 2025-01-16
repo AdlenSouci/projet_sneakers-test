@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Cart;
 
 class BasketController extends Controller
 {
-
+    private function calculerTotalArticles($cartItems)
+    {
+        return array_sum(array_column($cartItems, 'quantity'));
+    }
     private function calculerPrixTotal($cartItems)
     {
         $totalPrice = 0;
@@ -28,47 +31,67 @@ class BasketController extends Controller
 
         return $totalPrice;
     }
-    public function changerQuantiter(Request $request)
+    public function ajouter_au_panier(Request $request)
     {
         // Validation des données
         $request->validate([
             'article_id' => 'required|exists:articles,id',
-            'quantity' => 'required|integer|min:1',
+            'pointure' => 'required|string',
+            'quantite' => 'required|integer|min:1|max:10',
         ]);
 
         $article = Article::findOrFail($request->article_id);
+        $pointure = $request->pointure;
+        $quantite = $request->quantite;
+        $stock = $article->tailles()->where('taille', $pointure)->first()->stock;
+
         $cartItems = Session::get('cart', []);
-        $itemIndex = array_search($article->id, array_column($cartItems, 'id'));
+        $existingItemKey = array_search($article->id, array_column($cartItems, 'id'));
 
-        if ($itemIndex !== false) {
-            $newQuantity = $request->quantity;
-            $stockAvailable = $article->tailles()->where('taille', $request->pointure)->first()->stock;
-
-            if ($newQuantity > $stockAvailable) {
-                return response()->json(['error' => 'Désolé, il ne reste que ' . $stockAvailable . ' articles en stock.']);
+        if ($quantite > $stock) {
+            return response()->json(['message' => "Désolé, il ne reste que " . $stock . " paires en stock"]);
+        } else {
+            if ($existingItemKey !== false) {
+                // Si l'article existe déjà, mettez à jour la quantité
+                $cartItems[$existingItemKey]['quantity'] += $quantite;
+            } else {
+                // Sinon, ajoutez un nouvel article
+                $cartItems[] = [
+                    'id' => $article->id,
+                    'name' => $article->modele,
+                    'image' => $article->img,
+                    'price' => $article->prix_public,
+                    'quantity' => $quantite,
+                    'taille' => $pointure,
+                    'tailles' => $article->tailles,
+                ];
             }
 
-            $cartItems[$itemIndex]['quantity'] = $newQuantity;
             Session::put('cart', $cartItems);
-            $totalPrice = $this->calculerPrixTotal($cartItems);
 
+            // Mettre à jour le nombre total d'articles dans la session
+            $totalItems = array_sum(array_column($cartItems, 'quantity'));
+            Session::put('totalItems', $totalItems);
+
+            $totalPrice = $this->calculerPrixTotal($cartItems);
             return response()->json([
-                'message' => 'Quantité mise à jour avec succès',
+                'message' => 'Article ajouté au panier avec succès',
                 'totalPrice' => $totalPrice,
-                'cart' => $cartItems,
+                'nbitems' => $totalItems,
             ]);
         }
-
-        return response()->json(['error' => 'Article non trouvé dans le panier']);
     }
 
     public function index()
     {
         // Récupération des articles du panier
-        $cartItems = session()->get('cart', []); // Supposons que tu stockes les articles dans la session
+        $cartItems = session()->get('cart', []);
 
         // Calculer le prix total
         $totalPrice = $this->calculerPrixTotal($cartItems);
+
+        // Calculer le nombre total d'articles
+        $totalItems = $this->calculerTotalArticles($cartItems);
 
         // Récupérer les articles avec les tailles et le stock
         $articles = [];
@@ -80,100 +103,62 @@ class BasketController extends Controller
         }
 
         // Renvoyer la vue avec les articles du panier et le prix total
-        return view('basket', compact('cartItems', 'articles', 'totalPrice'));
+        return view('basket', compact('cartItems', 'articles', 'totalPrice', 'totalItems'));
     }
-
-
-
-
 
     public function changerQuantiterPanier(Request $request)
     {
-
-
-        $request->validate([
-            'article_id' => 'required|exists:articles,id',
+        // Valider les données reçues
+        $validatedData = $request->validate([
+            'article_id' => 'required|string',
             'quantity' => 'required|integer|min:1',
-            'pointure' => 'required|string',
-            'quantite' => 'required|integer|min:1',
-
-        ]);
-    }
-
-
-
-
-
-
-    public function ajouter_au_panier(Request $request)
-    {
-        // Validation des données
-        $request->validate([
-            'article_id' => 'required|exists:articles,id',
-            'pointure' => 'required|string',
-            'quantite' => 'required|integer|min:1,max:10',
-            
         ]);
 
+        $articleId = $validatedData['article_id'];
+        $quantity = $validatedData['quantity'];
 
-        $article = Article::findOrFail($request->article_id);
-        $pointure = $request->pointure;
-        $quantite = $request->quantite;
-        $stock = $article->tailles()->where('taille', $pointure)->get()->first()->stock;
+        // Récupérer le panier de l'utilisateur (assurez-vous que vous avez une méthode pour gérer cela)
+        $cart = session()->get('cart', []);
 
+        // Vérifier si l'article existe dans le panier
+        if (isset($cart[$articleId])) {
+            // Mettre à jour la quantité
+            $cart[$articleId]['quantity'] = $quantity;
 
+            // Réenregistrer le panier dans la session
+            session()->put('cart', $cart);
 
-        $cartItems = Session::get('cart', []);
+            // Calculer le nombre total d'articles dans le panier
+            $totalItems = array_sum(array_column($cart, 'quantity'));
 
-//modif ici
-
-        $existingItemKey = array_search($article->id, array_column($cartItems, 'id'));
-
-
-        if ($quantite > $article->tailles()->where('taille', $pointure)->get()->first()->stock) {
-            return response()->json(['message' => "Désolé, il ne reste que " . $article->tailles()->where('taille', $pointure)->get()->first()->stock . " paires en stock"]);
-        } else {
-    
-            $cartItems = Session::get('cart', []);
-    
-            $existingItemKey = array_search($article->id, array_column($cartItems, 'id'));
-    
-            if ($existingItemKey !== false) {
-                $cartItems[$existingItemKey]['quantity'] += $quantite;
-            } else {
-                $cartItems[] = [
-                    'id' => $article->id,
-                    'name' => $article->modele,
-                    'image' => $article->img,
-                    'price' => $article->prix_public,
-                    'quantity' => $quantite,
-                    'taille' => $pointure,
-                    'tailles' => $article->tailles,
-                ];
-            }
-    
-            Session::put('cart', $cartItems);
-    
-            $totalPrice = $this->calculerPrixTotal($cartItems);
-    
             return response()->json([
-                'message' => 'Article ajouté au panier avec succès',
-                'totalPrice' => $totalPrice,
-                //ici
-                'nbitems' => count($cartItems),
+                'success' => true,
+                'message' => 'Quantité mise à jour avec succès.',
+                'totalItems' => $totalItems,
             ]);
         }
+
+        return response()->json([
+            'error' => true,
+            'message' => "L'article n'existe pas dans le panier.",
+        ]);
     }
+
+
+
+
+
+
+
+
+
+
 
 
     public function viderPanier()
     {
-
         Session::forget('cart');
-
-        Session::put('cart', []);
-
-
+        Session::put('totalItems', 0); // Réinitialiser le compteur d'articles
         return response()->json(['message' => 'Le panier a été vidé avec succès']);
     }
     public function viderArticlePanier(Request $request)
@@ -199,6 +184,9 @@ class BasketController extends Controller
 
             Session::put('cart', $cartItems);
 
+
+            $totalItems = array_sum(array_column($cartItems, 'quantity'));
+            Session::put('totalItems', $totalItems);
 
             $totalPrice = $this->calculerPrixTotal($cartItems);
 
@@ -301,7 +289,7 @@ class BasketController extends Controller
 
         //email de confirmation de commande pour le client 
         $message_confirmation = "Merci pour votre commande!";
-        $message_confirmation.= "Détails de la commande:\n" . $item['name'];
+        $message_confirmation .= "Détails de la commande:\n" . $item['name'];
         $message_confirmation .= "Total de la commande : {$total_ttc} €\n\n";
         Mail::raw($message_confirmation, function ($mail) use ($email) {
             $mail->to($email)

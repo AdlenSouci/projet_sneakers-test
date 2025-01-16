@@ -58,6 +58,9 @@ Route::post('/avis/store', [AvisController::class, 'store'])->name('avis.store')
 Route::post('/vider-panier', [BasketController::class, 'viderPanier'])->name('viderPanier');
 Route::post('/vider-article-panier', [BasketController::class, 'viderArticlePanier'])->name('vider-article-panier');
 Route::post('/changer-quantiter', [BasketController::class, 'changer-quantiter'])->name('changer-quantiter');
+
+Route::post('/update-article-quantity', [BasketController::class, 'changerQuantiterPanier'])->name('update-article-quantity');
+
 Route::get('/get-total-price', 'BasketController@calculerPrixTotal');
 
 Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article');

@@ -13,8 +13,8 @@
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left align-self-center">
-                            <h1 class="h1" style ="color: #de7105;"><b>My sneakers</b>  Shop</h1>
-                            <h3 class="h2"> Le site ou vous pouvez acheter la sublime <strong> Air Max x Patta </strong></h3>
+                            <h1 class="h4" style ="color: #de7105;"><b>My sneakers</b>  Shop</h1>
+                            <h3 class="h5"> Le site ou vous pouvez acheter la sublime <strong> Air Max x Patta </strong></h3>
                             <p>
                                 Voici <a rel="sponsored" class="text-success" href="https://solesavy.com/history-of-patta-and-nike-collaborations/" target="_blank">l'histoire</a> de l'Air Max x Patta
                             </p>
@@ -31,12 +31,9 @@
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left">
-                            <h1 class="h1">Proident occaecat</h1>
-                            <h3 class="h2">Aliquip ex ea commodo consequat</h3>
-                            <p>
-                                You are permitted to use this Zay CSS template for your commercial websites.
-                                You are <strong>not permitted</strong> to re-distribute the template ZIP file in any kind of template collection websites.
-                            </p>
+                            <h1 class="h5">Assics revient avec du très lourd</h1>
+                            <h3 class="h6">La qualité au top de gamme</h3>
+                            
                         </div>
                     </div>
                 </div>
@@ -50,11 +47,10 @@
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left">
-                            <h1 class="h1">Repr in voluptate</h1>
-                            <h3 class="h2">Ullamco laboris nisi ut </h3>
+                            <h3 class="h5">Une paire rare presque introuvable sauf en occasion mais ici tout est possible</h1>
+                         
                             <p>
-                                We bring you 100% free CSS templates for your websites.
-                                If you wish to support TemplateMo, please make a small contribution via PayPal or tell your friends about our website. Thank you.
+                               Une collaboration exeptionnelle entre Nike et off-white.
                             </p>
                         </div>
                     </div>

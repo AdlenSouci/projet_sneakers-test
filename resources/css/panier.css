@@ -5,6 +5,32 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+.item-even,
+.item-odd {
+    padding: 10px;
+    max-height: 150px;
+
+}
+
+/* Conteneur de la colonne pour l'image */
+.col-4 img {
+    display: block;
+    /* Empêche tout comportement inline indésirable */
+    max-width: 100%;
+    /* S'assure que l'image ne dépasse pas la largeur de son conteneur */
+    height: auto;
+    /* Maintient les proportions de l'image */
+    object-fit: contain;
+    /* Adapte l'image à son conteneur sans la rogner */
+    border-radius: 5px;
+    /* Conserve les coins arrondis */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Ajoute une ombre légère */
+}
+
+
+
+
 .item-name {
     white-space: nowrap;
     overflow: hidden;
@@ -101,6 +127,28 @@
 .btn-dark,
 .text-center,
 .adresse_livraison {
-    font-family: 'lucida console', monospace;
+
     padding: 10px;
+}
+
+
+.loading-spinner {
+    display: none;
+    width: 30px;
+    height: 30px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid white;
+    animation: spin 1s linear infinite;
+    margin: 10px auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

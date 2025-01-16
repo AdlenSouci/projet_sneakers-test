@@ -22,11 +22,12 @@
                         {{ __('Boutique') }}
                     </x-nav-link>
                     <x-nav-link :href="route('basket')" :active="request()->routeIs('basket')">
-                        {{ __('Panier') }} 
+                        {{ __('Panier') }}
                         <!--ajout d'un compteur d'article present dans le panier-->
-                        <span class="badge rounded-pill bg-danger" id ="countArticle">  {{ count(Session::get('cart', [])) }}</span>
+                   
+                        <span class="badge rounded-pill bg-danger" id="countArticle">{{ session('totalItems', 0) }}</span>
                     </x-nav-link>
-                 
+
 
                     <x-nav-link :href="route('contact.form')" :active="request()->routeIs('contact.form')">
                         {{ __('Contact') }}
@@ -151,9 +152,9 @@
         </div>
     </div>
     <script>
-      
-                        
-        
+
+
+
     </script>
     @vite(['resources/css/nav.css'])
 </nav>

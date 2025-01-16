@@ -57,10 +57,4 @@ class Article extends Model
     {
         return $this->belongsTo(Famille::class);
     }
-
-
-
-    
-
-
 }

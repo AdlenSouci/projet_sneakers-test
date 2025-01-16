@@ -286,7 +286,7 @@ main {
     /* mettre un fond transparant */
     background-color: rgba(0, 0, 0, 0.5);
 
-    color: #ffffff;
+    color: #632603;
 
 }
 
@@ -294,7 +294,7 @@ main {
 footer {
     background-color: #000000;
 
-    font-family: 'lucida console', monospace;
+    
 
     margin: 0;
     /* Supprime toutes les marges */
@@ -316,13 +316,12 @@ footer {
 }
 
 .custom-Copyright {
-    font-family: 'lucida console', monospace;
+
 
     font-size: 16px;
 }
 
 .custom-nav-link {
-    font-family: 'lucida console', monospace;
 
     font-size: 14px;
     color: #de6e0d;

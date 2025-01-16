@@ -32,7 +32,6 @@
                                                 <div class="col-6 col-sm-4 col-md-3">
                                                     <h5 class="item-name {{ $index % 2 == 0 ? 'text-black' : 'text-white' }} mb-1">{{ $item['name'] }}</h5>
                                                 </div>
-
                                                 <div class="col-6 col-sm-4 col-md-2 text-start text-md-end">
                                                     <h6 class="{{ $index % 2 == 0 ? 'text-black' : 'text-white' }} mb-0 item-price" data-item-price="{{ $item['price'] }}">
                                                         € {{ number_format($item['price'] * $item['quantity'], 2) }}
@@ -45,6 +44,9 @@
                                                     <a href="#!" class="text-muted delete-item-btn" onclick="viderArticlePanier(this)" data-article-id="{{ $item['id'] }}"><i class="fas fa-times"></i></a>
                                                 </div>
                                             </div>
+
+
+
                                             @endforeach
 
                                             <div class="pt-4 d-flex justify-content-between align-items-center flex-wrap">
@@ -77,12 +79,14 @@
         <div id="successMessage" class="alert alert-success text-center mt-3" style="display: none;">
             La commande a été passée avec succès !
         </div>
+
     </div>
 
     <script>
         function changerQuantiter(input) {
             var newQuantity = parseInt(input.value);
             var pricePerItem = parseFloat(input.getAttribute("data-item-price"));
+            var itemId = input.getAttribute("data-item-id");
 
             if (!isNaN(newQuantity) && newQuantity > 0) {
                 var itemPriceElement = input.closest('.row').querySelector(".item-price");
@@ -92,10 +96,38 @@
                     itemPriceElement.textContent = "€ " + newTotal.toFixed(2);
                     calculerPrixTotal();
                 }
+
+                // Envoi de la nouvelle quantité au serveur
+                fetch('{{ route("update-article-quantity") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
+                        body: JSON.stringify({
+                            article_id: itemId,
+                            quantity: newQuantity,
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Mise à jour du compteur d'articles dans la barre de navigation
+                            document.getElementById('countArticle').textContent = data.totalItems;
+                        } else {
+                            alert(data.message || 'Une erreur est survenue.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la mise à jour de la quantité :', error);
+                    });
             } else {
-                input.value = 1;
+                input.value = 1; // Réinitialise à 1 si la quantité saisie n'est pas valide
             }
         }
+
+
+
 
         function calculerPrixTotal() {
             var itemPrices = document.querySelectorAll('.item-price');
@@ -148,38 +180,45 @@
 
 
         function passerCommande() {
-    const adresseLivraison = document.getElementById('adresse_livraison').value;
+            const adresseLivraison = document.getElementById('adresse_livraison').value;
 
-    fetch('{{ route("passer-commande") }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({
-            adresse_livraison: adresseLivraison
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (!data.error) {
-            // Afficher un message de confirmation avec l'email
-            const thankYouMessage = document.getElementById('thankYouMessage'); // Assurez-vous que cet élément existe dans votre vue
-            thankYouMessage.innerText = 
-                'Merci pour votre commande ! Un e-mail de confirmation a été envoyé à ' + data.email + '.';
+            // Afficher immédiatement un message de chargement
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            successMessage.textContent = 'Commande en cours, veuillez patienter...';
 
-            alert(data.message); // Affiche une alerte simple pour l'utilisateur
-            viderPanier(); // Vide le panier après le succès de la commande
-        } else {
-            alert(data.message || 'Une erreur est survenue.');
+            fetch('{{ route("passer-commande") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        adresse_livraison: adresseLivraison
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur réseau : ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data.error) {
+                        // Mise à jour du message pour indiquer le succès
+                        successMessage.textContent = data.message;
+
+                        viderPanier(); // Vide le panier après succès
+                    } else {
+                        // Échec logique (erreur retournée par le serveur)
+                        successMessage.textContent = data.message || 'Une erreur est survenue.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la commande :', error);
+                    successMessage.textContent = 'Une erreur est survenue lors du passage de la commande.';
+                });
         }
-    })
-    .catch(error => {
-        console.error('Erreur lors de la commande :', error);
-        alert('Une erreur est survenue lors du passage de la commande.');
-    });
-}
-
     </script>
 
     @vite(['resources/css/panier.css'])

@@ -50,38 +50,46 @@
 
 
         <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 justify-content-center g-3">
+            <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-4 justify-content-center g-3">
                 <?php foreach ($articlesData as $article) : ?>
                     <?php $stock_article = array_sum(array_column($article->tailles->toArray(), 'stock')); ?>
-                    <div class="col mb-4 text-center" data-marque="{{ $article->nom_marque }}" data-couleur="{{ $article->nom_couleur }}" data-prix="{{ $article->prix_public }}">
-                        <div class="card mb-4 product-wap rounded-lg d-flex flex-column align-items-center">
-                            <div class="card">
-                                <img class="card-img-top rounded-0 img-fluid" src="{{ asset('img/' . $article['img']) }}" alt="Product Image" />
+                    <div class="col mb-5" data-marque="{{ $article->nom_marque }}" data-couleur="{{ $article->nom_couleur }}" data-prix="{{ $article->prix_public }}">
+                        <div class="card mb-4 product-wap rounded-lg">
+                            <div class="card rounded-sm">
+                                <img class="card-img rounded-0 img-fluid" src="{{ asset('img/' . $article['img']) }}" alt="Product Image" />
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
                                         <li><a class="btn btn-success text-white mt-2" href="{{ route('article', $article['id']) }}"><i class="far fa-eye"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
+
                             <div class="card-body">
                                 <div class="d-flex justify-content-center align-items-center">
-                                    <a href="{{ route('article', $article['id']) }}" class="h5">{{ $article['modele'] }}</a>
+                                    <a href="{{ route('article', $article['id']) }}" class="h3">{{ $article['modele'] }}</a>
                                 </div>
+
+                                <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                    <li class="pt-2">
+                                        <!-- Couleurs de produit -->
+                                    </li>
+                                </ul>
+
                                 <ul class="list-unstyled d-flex justify-content-center mb-1">
                                     <li>
                                         @php
-                                        $moyenne = (float) $article->moyenneNote;
-                                        $fullStars = floor($moyenne);
-                                        $halfStar = ($moyenne - $fullStars) >= 0.5;
+                                        $moyenne = (float) $article->moyenneNote; // Convertir en float
+                                        $fullStars = floor($moyenne); // Nombre d'étoiles pleines
+                                        $halfStar = ($moyenne - $fullStars) >= 0.5; // Vérifie s'il y a une demi-étoile
                                         @endphp
 
                                         @for ($i = 1; $i <= 5; $i++)
                                             @if ($i <=$fullStars)
-                                            <span class="text-warning"><i class="fas fa-star"></i></span>
+                                            <span class="text-warning"><i class="fas fa-star"></i></span> <!-- Étoile pleine -->
                                             @elseif ($i == $fullStars + 1 && $halfStar)
-                                            <span class="text-warning"><i class="fas fa-star-half-alt"></i></span>
+                                            <span class="text-warning"><i class="fas fa-star-half-alt"></i></span> <!-- Étoile demi -->
                                             @else
-                                            <span class="text-warning"><i class="far fa-star"></i></span>
+                                            <span class="text-warning"><i class="far fa-star"></i></span> <!-- Étoile vide -->
                                             @endif
                                             @endfor
                                     </li>
@@ -156,6 +164,8 @@
             if (event.target.classList.contains('ajouter_au_panier')) {
                 var articleId = event.target.getAttribute('data-article-id');
                 var pointure = event.target.parentElement.querySelector('#pointure').value;
+                var quantite = event.target.parentElement.querySelector('[name="quantite"]').value;
+
                 if (pointure) {
                     $.ajax({
                         url: '{{ route("ajouter_au_panier") }}',
@@ -163,16 +173,17 @@
                         data: {
                             '_token': '{{ csrf_token() }}',
                             'article_id': articleId,
-                            pointure,
-                            'quantite': event.target.parentElement.querySelector('[name="quantite"]').value
+                            'pointure': pointure,
+                            'quantite': quantite
                         },
-                        //modifier le nombre d'article 
                         success: function(response) {
                             alert(response.message);
-                            document.querySelector('#countArticle').textContent = response.nbitems;
+                            // Mettre à jour le compteur d'articles
+                            document.querySelector('#countArticle').textContent = response.nbitems; // Met à jour le compteur
                         },
                         error: function(error) {
                             console.log(error);
+                            alert('Une erreur est survenue lors de l\'ajout de l\'article au panier.');
                         }
                     });
                 } else {
@@ -180,7 +191,6 @@
                 }
             }
         });
-
 
         $(document).ready(function() {
             $('.rating').raty({
