@@ -328,7 +328,7 @@ video {
     position: absolute;
     top: 0;
     right: 0;
-    
+    margin: 20px;
 }
 
 .custom-nav-link:hover {
