@@ -317,14 +317,11 @@ video {
     transform: rotate(2deg);
 }
 
-.video2 {
-    border: 20px solid #e48136;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(232, 152, 109, 0.4);
+video {
+    border: 20px solid #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     transform: rotate(-3deg);
-    display: inline-block;
-    vertical-align: top;
-    margin: 20px;
 }
 
 .custom-nav-link:hover {
