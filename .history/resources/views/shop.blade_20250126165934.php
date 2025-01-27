@@ -20,29 +20,30 @@
                     @foreach($couleurs as $couleur)
                     <option value="{{ $couleur->nom_couleur }}">{{ $couleur->nom_couleur }}</option>
                     @endforeach
-                </select>
-            </div>
+                </select
+                    </div>
 
-            <div class="form-group mr-2 rounded-pill">
-                <label for="prix" class="mr-2 rounded">Prix</label>
-                <select id="prix" name="prix" class="form-control rounded" style="width: 180px;" onchange="filterArticles()">
-                    <option value="">Prix</option>
-                    <option value="asc">Prix croissant</option>
-                    <option value="desc">Prix décroissant</option>
-                </select>
-            </div>
+                <div class="form-group mr-2 rounded-pill">
+                    <label for="prix" class="mr-2 rounded">Prix</label>
+                    <select id="prix" name="prix" class="form-control rounded" style="width: 180px;" onchange="filterArticles()">
+                        <option value="">Prix</option>
+                        <option value="asc">Prix croissant</option>
+                        <option value="desc">Prix décroissant</option>
+                    </select>
+                </div>
 
-            <div class="form-group mr-2 rounded">
-                <label for="prix_min" class="mr-2 rounded-lg">Prix Min</label>
-                <input type="number" id="prix_min" name="prix_min" class="form-control rounded-pill" style="width: 180px;" placeholder="Min" min="0" oninput="filterArticles()">
-            </div>
+                <!-- Filtre par prix min et max -->
+                <div class="form-group mr-2 rounded">
+                    <label for="prix_min" class="mr-2 rounded-lg">Prix Min</label>
+                    <input type="number" id="prix_min" name="prix_min" class="form-control rounded-pill" style="width: 180px;" placeholder="Min" min="0" onchange="filterArticles()">
+                </div>
 
-            <div class="form-group mr-2">
-                <label for="prix_max" class="mr-2">Prix Max</label>
-                <input type="number" id="prix_max" name="prix_max" class="form-control rounded-pill" style="width: 180px;" placeholder="Max" min="0" oninput="filterArticles()">
-            </div>
+                <div class="form-group mr-2">
+                    <label for="prix_max" class="mr-2">Prix Max</label>
+                    <input type="number" id="prix_max" name="prix_max" class="form-control rounded-pill" style="width: 180px;" placeholder="Max" min="0" onchange="filterArticles()">
+                </div>
 
-            <!-- <button type="submit" class="btn bg-dark text-white">Filtrer</button> -->
+                <button type="submit" class="btn bg-dark text-white">Filtrer</button>
         </form>
 
 
@@ -201,48 +202,7 @@
             });
         });
 
-        function filterArticles() {
-            const selectedMarque = $('#marque').val();
-            const selectedCouleur = $('#couleur').val();
-            const selectedPrix = $('#prix').val();
-            const prixMin = parseFloat($('#prix_min').val()) || 0;
-            const prixMax = parseFloat($('#prix_max').val()) || Infinity;
-
-            let articles = $('.row-cols-xl-4 .col');
-
-            // Filtrer les articles
-            articles.each(function() {
-                const articleMarque = $(this).data('marque');
-                const articleCouleur = $(this).data('couleur');
-                const articlePrix = parseFloat($(this).data('prix'));
-
-                const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
-                const matchesCouleur = selectedCouleur === "" || articleCouleur === selectedCouleur;
-                const matchesPrix = articlePrix >= prixMin && articlePrix <= prixMax;
-
-                if (matchesMarque && matchesCouleur && matchesPrix) {
-                    $(this).removeClass('hidden');
-                } else {
-                    $(this).addClass('hidden');
-                }
-            });
-
-            // Trier les articles
-            if (selectedPrix === "asc") {
-                articles.sort(function(a, b) {
-                    return $(a).data('prix') - $(b).data('prix');
-                });
-            } else if (selectedPrix === "desc") {
-                articles.sort(function(a, b) {
-                    return $(b).data('prix') - $(a).data('prix');
-                });
-            }
-
-            // Afficher les articles triés et filtrés
-            articles.each(function() {
-                $(this).appendTo('.row-cols-xl-4');
-            });
-        }
+       
     </script>
 
     @vite(['resources/css/templatemo.css', 'resources/js/templatemo.js', 'resources/css/slick-theme.css', 'resources/css/slick-theme.min.css', 'resources/css/slick.min.css'])

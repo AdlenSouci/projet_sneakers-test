@@ -20,29 +20,30 @@
                     @foreach($couleurs as $couleur)
                     <option value="{{ $couleur->nom_couleur }}">{{ $couleur->nom_couleur }}</option>
                     @endforeach
-                </select>
-            </div>
+                </select
+                    </div>
 
-            <div class="form-group mr-2 rounded-pill">
-                <label for="prix" class="mr-2 rounded">Prix</label>
-                <select id="prix" name="prix" class="form-control rounded" style="width: 180px;" onchange="filterArticles()">
-                    <option value="">Prix</option>
-                    <option value="asc">Prix croissant</option>
-                    <option value="desc">Prix décroissant</option>
-                </select>
-            </div>
+                <div class="form-group mr-2 rounded-pill">
+                    <label for="prix" class="mr-2 rounded">Prix</label>
+                    <select id="prix" name="prix" class="form-control rounded" style="width: 180px;" onchange="filterArticles()">
+                        <option value="">Prix</option>
+                        <option value="asc">Prix croissant</option>
+                        <option value="desc">Prix décroissant</option>
+                    </select>
+                </div>
 
-            <div class="form-group mr-2 rounded">
-                <label for="prix_min" class="mr-2 rounded-lg">Prix Min</label>
-                <input type="number" id="prix_min" name="prix_min" class="form-control rounded-pill" style="width: 180px;" placeholder="Min" min="0" oninput="filterArticles()">
-            </div>
+                <!-- Filtre par prix min et max -->
+                <div class="form-group mr-2 rounded">
+                    <label for="prix_min" class="mr-2 rounded-lg">Prix Min</label>
+                    <input type="number" id="prix_min" name="prix_min" class="form-control rounded-pill" style="width: 180px;" placeholder="Min" min="0" onchange="filterArticles()">
+                </div>
 
-            <div class="form-group mr-2">
-                <label for="prix_max" class="mr-2">Prix Max</label>
-                <input type="number" id="prix_max" name="prix_max" class="form-control rounded-pill" style="width: 180px;" placeholder="Max" min="0" oninput="filterArticles()">
-            </div>
+                <div class="form-group mr-2">
+                    <label for="prix_max" class="mr-2">Prix Max</label>
+                    <input type="number" id="prix_max" name="prix_max" class="form-control rounded-pill" style="width: 180px;" placeholder="Max" min="0" onchange="filterArticles()">
+                </div>
 
-            <!-- <button type="submit" class="btn bg-dark text-white">Filtrer</button> -->
+                <button type="submit" class="btn bg-dark text-white">Filtrer</button>
         </form>
 
 
@@ -208,23 +209,19 @@
             const prixMin = parseFloat($('#prix_min').val()) || 0;
             const prixMax = parseFloat($('#prix_max').val()) || Infinity;
 
-            let articles = $('.row-cols-xl-4 .col');
+            let articles = $('.row-cols-xl-4 .col').toArray();
 
             // Filtrer les articles
-            articles.each(function() {
-                const articleMarque = $(this).data('marque');
-                const articleCouleur = $(this).data('couleur');
-                const articlePrix = parseFloat($(this).data('prix'));
+            articles = articles.filter(function(article) {
+                const articleMarque = $(article).data('marque');
+                const articleCouleur = $(article).data('couleur');
+                const articlePrix = parseFloat($(article).data('prix'));
 
                 const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
                 const matchesCouleur = selectedCouleur === "" || articleCouleur === selectedCouleur;
                 const matchesPrix = articlePrix >= prixMin && articlePrix <= prixMax;
 
-                if (matchesMarque && matchesCouleur && matchesPrix) {
-                    $(this).removeClass('hidden');
-                } else {
-                    $(this).addClass('hidden');
-                }
+                return matchesMarque && matchesCouleur && matchesPrix;
             });
 
             // Trier les articles
@@ -239,9 +236,7 @@
             }
 
             // Afficher les articles triés et filtrés
-            articles.each(function() {
-                $(this).appendTo('.row-cols-xl-4');
-            });
+            $('.row-cols-xl-4').empty().append(articles);
         }
     </script>
 

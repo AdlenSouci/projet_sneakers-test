@@ -33,14 +33,14 @@
             </div>
 
             <div class="form-group mr-2 rounded">
-                <label for="prix_min" class="mr-2 rounded-lg">Prix Min</label>
-                <input type="number" id="prix_min" name="prix_min" class="form-control rounded-pill" style="width: 180px;" placeholder="Min" min="0" oninput="filterArticles()">
-            </div>
+    <label for="prix_min" class="mr-2 rounded-lg">Prix Min</label>
+    <input type="number" id="prix_min" name="prix_min" class="form-control rounded-pill" style="width: 180px;" placeholder="Min" min="0" oninput="filterArticles()">
+</div>
 
-            <div class="form-group mr-2">
-                <label for="prix_max" class="mr-2">Prix Max</label>
-                <input type="number" id="prix_max" name="prix_max" class="form-control rounded-pill" style="width: 180px;" placeholder="Max" min="0" oninput="filterArticles()">
-            </div>
+<div class="form-group mr-2">
+    <label for="prix_max" class="mr-2">Prix Max</label>
+    <input type="number" id="prix_max" name="prix_max" class="form-control rounded-pill" style="width: 180px;" placeholder="Max" min="0" oninput="filterArticles()">
+</div>
 
             <!-- <button type="submit" class="btn bg-dark text-white">Filtrer</button> -->
         </form>
