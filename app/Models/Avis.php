@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Avis extends Model
 {
-    protected $fillable = ['note', 'contenu', 'article_id', 'user_id'];
+    protected $fillable = ['note', 'contenu', 'article_id', 'user_id','reponse'];
 
     // Relation avec l'article
     public function article()

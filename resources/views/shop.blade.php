@@ -142,19 +142,28 @@
                 @foreach ($article->avis as $avis)
                 <li class="mb-2">
                     <div class="p-3 border border-light rounded" style="background-color: #f9f9f9;">
-                        <strong>{{ $avis->user->name }} :</strong> {{ $avis->contenu }}
-                        <span class="text-warning">{{ str_repeat('★', $avis->note) }} {{ str_repeat('☆', 5 - $avis->note) }}</span>
+                        <strong>{{ $avis->user?->name ?? 'Utilisateur inconnu' }} :</strong>
+                        {{ $avis->contenu }}
+                        <span class="text-warning">
+                            {{ str_repeat('★', $avis->note) }}{{ str_repeat('☆', 5 - $avis->note) }}
+                        </span>
                         <div>Article évalué : {{ $article->modele }}</div>
+
+                        @if (!empty($avis->reponse))
+                        <div class="mt-2 p-2 border-left" style="color: #007bff; font-style: italic;">
+                            <strong>Réponse de l'administrateur :</strong> {{ $avis->reponse }}
+                        </div>
+                        @endif
                     </div>
                 </li>
                 @endforeach
-                @else
-
                 @endif
                 @endforeach
             </ul>
         </div>
     </section>
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
