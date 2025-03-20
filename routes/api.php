@@ -4,11 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Article;
 use App\Models\User;
+use App\Models\Marque;
 
 
 use App\Http\Controllers\API\ArticleController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\API\MarquesController;
+
 
 
 /*
@@ -38,6 +41,8 @@ Route::get('/article', function (Request $request) {
     return response()->json(Article::all());
 });
 
+
+
 //faire une route api pour utiliser les données user
 
 Route::get('/user', function (Request $request) {
@@ -47,7 +52,8 @@ Route::get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 
 
+Route::get('marques', [MarquesController::class, 'index']);
+Route::post('marques', [MarquesController::class, 'store']);
+Route::put('marques/{id}', [MarquesController::class, 'update']);
 
-
-
-
+Route::delete('marques/{id}', [MarquesController::class, 'destroy']);
