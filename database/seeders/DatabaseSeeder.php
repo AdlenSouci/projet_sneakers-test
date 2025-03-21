@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             TvasSeeder::class,
             CouleurSeeder::class,
             ArticlesSeeder::class,
-            AdminUserSeeder::class,
+            AdminSeeder::class,
             TaillesArticlesSeeder::class
             
         ]);
