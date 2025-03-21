@@ -5,12 +5,15 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Article;
 use App\Models\User;
 use App\Models\Marque;
+use App\Models\Couleur;
+use App\Models\Famille;
 
-
+use App\Http\Controllers\API\FamillesController;
 use App\Http\Controllers\API\ArticleController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\API\MarquesController;
+
 
 
 
@@ -40,8 +43,7 @@ Route::get('/article', [ArticleController::class, 'index']);
 Route::post('/article', [ArticleController::class, 'store']);
 Route::put('/article/{id}', [ArticleController::class, 'update']);
 
-
-//faire une route api pour utiliser les données user
+Route::get('/famille', [FamillesController::class, 'index']);
 
 Route::get('/user', function (Request $request) {
     return response()->json(User::all());

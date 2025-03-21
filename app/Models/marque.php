@@ -9,6 +9,6 @@ class Marque extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nom'
+        'nom_marques'
     ];
 }

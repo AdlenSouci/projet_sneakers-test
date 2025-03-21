@@ -9,5 +9,5 @@ class famille extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nom','id_parent'];
+        'nom_famille','id_famille'];
 }
