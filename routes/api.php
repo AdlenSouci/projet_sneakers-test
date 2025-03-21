@@ -36,11 +36,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-
-Route::get('/article', function (Request $request) {
-    return response()->json(Article::all());
-});
-
+Route::get('/article', [ArticleController::class, 'index']);
+Route::post('/article', [ArticleController::class, 'store']);
+Route::put('/article/{id}', [ArticleController::class, 'update']);
 
 
 //faire une route api pour utiliser les données user
