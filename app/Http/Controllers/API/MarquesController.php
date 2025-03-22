@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Marque;
-
+use Carbon\Carbon;
 class MarquesController extends Controller
 {
     // Récupérer toutes les marques
@@ -14,17 +14,17 @@ class MarquesController extends Controller
         return response()->json(Marque::all());
     }
 
-   
+
     public function store(Request $request)
     {
-        
+
         $request->validate([
-            'nom_marque' => 'required|string|max:255', 
+            'nom_marque' => 'required|string|max:255',
         ]);
 
         // Création de la marque
         $marque = Marque::create([
-            'nom_marque' => $request->nom_marque, 
+            'nom_marque' => $request->nom_marque,
         ]);
 
 
@@ -36,18 +36,18 @@ class MarquesController extends Controller
     {
 
         $request->validate([
-            'nom_marque' => 'required|string|max:255', 
+            'nom_marque' => 'required|string|max:255',
         ]);
 
         // Trouver la marque par son ID
         $marque = Marque::findOrFail($id);
 
-      
+
         $marque->update([
-            'nom_marque' => $request->nom_marque, 
+            'nom_marque' => $request->nom_marque,
         ]);
 
-    
+
         return response()->json($marque);
     }
 

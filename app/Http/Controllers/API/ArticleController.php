@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Illuminate\Http\Request;
-use App\Models\Article;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
+use App\Models\Article;
 
 class ArticleController extends Controller
 {
     // Récupérer tous les articles
     public function index()
     {
-        return response()->json(Article::all());
+        $articles = Article::with(['famille', 'marque', 'couleur'])->get()->makeHidden(['famille', 'marque', 'couleur']); // Cache les objets famille, marque et couleur;
+        return response()->json($articles);
     }
 
     // Ajouter un nouvel article
@@ -29,8 +31,8 @@ class ArticleController extends Controller
             'prix_achat' => 'required|numeric',
             'img' => 'nullable|string|max:255',
             'id_famille' => 'required|integer', // Validation pour id_famille
+            'id_couleur' => 'nullable|integer', // Validation pour id_couleur
         ]);
-
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
@@ -78,5 +80,27 @@ class ArticleController extends Controller
         }
 
         return response()->json($article, 200);
+    }
+
+    public function destroy($id)
+    {
+
+        // Trouver l'article par son ID
+
+        $article = Article::find($id);
+        if (!$article) {
+            return response()->json(['error' => 'Article non trouvé.'], 404);
+        }
+
+        $output = new ConsoleOutput();
+        $output->writeln("Article trouvé : " . $id);
+        // Suppression de l'article
+        try {
+            $article->delete();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erreur lors de la suppression de l\'article.'], 500);
+        }
+
+        return response()->json(['message' => 'Article supprimé avec succès.'], 200);
     }
 }
