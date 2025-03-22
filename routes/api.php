@@ -40,8 +40,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/article', [ArticleController::class, 'index']);
-Route::post('/article', [ArticleController::class, 'store']);
-Route::put('/article/{id}', [ArticleController::class, 'update']);
+
 
 Route::get('/famille', [FamillesController::class, 'index']);
 
@@ -53,7 +52,4 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::get('marques', [MarquesController::class, 'index']);
-Route::post('marques', [MarquesController::class, 'store']);
-Route::put('marques/{id}', [MarquesController::class, 'update']);
 
-Route::delete('marques/{id}', [MarquesController::class, 'destroy']);
