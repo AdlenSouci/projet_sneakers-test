@@ -13,6 +13,7 @@ use App\Http\Controllers\API\ArticleController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\API\MarquesController;
+use App\Http\Controllers\API\CouleursController;
 
 
 
@@ -31,7 +32,7 @@ use App\Http\Controllers\API\MarquesController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 
-    
+
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -40,9 +41,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/article', [ArticleController::class, 'index']);
+Route::post('/article', [ArticleController::class, 'store']);
+Route::put('/article/{id}', [ArticleController::class, 'update']);
 
-
-Route::get('/famille', [FamillesController::class, 'index']);
+Route::get('/familles', [FamillesController::class, 'index']);
 
 Route::get('/user', function (Request $request) {
     return response()->json(User::all());
@@ -53,3 +55,5 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('marques', [MarquesController::class, 'index']);
 
+
+Route::delete('marques/{id}', [MarquesController::class, 'destroy']);

@@ -13,30 +13,27 @@ return new class extends Migration {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_famille')->nullable(false);
-            $table->string('nom_famille')->nullable();
             $table->unsignedBigInteger('id_marque')->nullable(false);
-            $table->string('nom_marque', 70)->nullable(false);
             $table->string('modele', 70)->nullable(false);
             $table->text('description')->nullable(true);
-            $table->string('nom_couleur', 60)->nullable(false);
+            $table->unsignedBigInteger('id_couleur')->nullable(false);
             $table->decimal('prix_public', 9, 2)->nullable(false);
             $table->decimal('prix_achat', 9, 2)->nullable(false);
             $table->string('img')->nullable(false);
 
             $table->timestamps();
 
-           
-            $table->index('nom_marque');
+
             $table->index('modele');
-            $table->index('nom_couleur');
             $table->index('prix_public');
 
             // Clés étrangères
             $table->foreign('id_marque')->references('id')->on('marques');
             $table->foreign('id_famille')->references('id')->on('familles');
+            $table->foreign('id_couleur')->references('id')->on('couleurs');
         });
     }
-    
+
 
     /**
      * Reverse the migrations.

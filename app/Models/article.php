@@ -10,27 +10,22 @@ class Article extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id_famille',
         'id_marque',
-        'nom_marque',
-        'id_marque',
-        'nom_famille',
         'modele',
         'description',
-        'prix_achat',
-        'img',
-        'nom_couleur',
+        'id_couleur',
         'prix_public',
-        'id_famille',
-        'id_article',
-
+        'prix_achat',
+        'img'
     ];
 
+    protected $appends = ['nom_marque','nom_famille','nom_couleur'];
+    
     public function tailles(): HasMany
     {
         return $this->hasMany(TaillesArticle::class);
     }
-
-
 
     public function getMoyenneNoteAttribute()
     {
@@ -48,13 +43,41 @@ class Article extends Model
         return $this->hasMany(Avis::class);
     }
 
+    // Relation avec la table marques
     public function marque()
     {
-        return $this->belongsTo(Marque::class);
+        return $this->belongsTo(Marque::class, 'id_marque', 'id');
     }
 
+    // Relation avec la table familles
     public function famille()
     {
-        return $this->belongsTo(Famille::class);
+        return $this->belongsTo(Famille::class, 'id_famille', 'id');
     }
+
+    // Relation avec la table couleurs
+    public function couleur()
+    {
+        return $this->belongsTo(Couleur::class, 'id_couleur', 'id');
+    }
+
+    // Getter pour récupérer seulement le nom de la famille
+    public function getNomFamilleAttribute()
+    {
+        return $this->famille ? $this->famille->nom_famille : null;
+    }
+
+    // Getter pour récupérer seulement le nom de la marque
+    public function getNomMarqueAttribute()
+    {
+        return $this->marque ? $this->marque->nom_marque : null;
+    }   
+    
+    // Getter pour récupérer seulement le nom de la couleur
+    public function getNomCouleurAttribute()
+    {
+        return $this->couleur ? $this->couleur->nom_couleur : null;
+    }
+
+
 }
