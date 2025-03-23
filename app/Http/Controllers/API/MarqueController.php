@@ -6,15 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Marque;
 use Carbon\Carbon;
-class MarquesController extends Controller
+class MarqueController extends Controller
 {
     // Récupérer toutes les marques
     public function index()
     {
-        return response()->json(Marque::all());
+        $marques = Marque::all();
+        return response()->json($marques);
     }
-
-   
     public function store(Request $request)
     {
         

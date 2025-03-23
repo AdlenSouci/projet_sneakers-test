@@ -8,12 +8,12 @@ use App\Models\Marque;
 use App\Models\Couleur;
 use App\Models\Famille;
 
-use App\Http\Controllers\API\FamillesController;
+use App\Http\Controllers\API\FamilleController;
 use App\Http\Controllers\API\ArticleController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\API\MarquesController;
-use App\Http\Controllers\API\CouleursController;
+use App\Http\Controllers\API\MarqueController;
+use App\Http\Controllers\API\CouleurController;
 
 
 
@@ -39,12 +39,35 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return response()->json($request->user());
 });
 
-
+// Articles
 Route::get('/article', [ArticleController::class, 'index']);
 Route::post('/article', [ArticleController::class, 'store']);
 Route::put('/article/{id}', [ArticleController::class, 'update']);
+Route::delete('/article/{id}', [ArticleController::class, 'destroy']);
 
-Route::get('/familles', [FamillesController::class, 'index']);
+// Familles
+Route::get('/famille', [FamilleController::class, 'index']);
+Route::post('/famille', [FamilleController::class, 'store']);
+Route::put('/famille/{id}', [FamilleController::class, 'update']);
+Route::delete('/famille/{id}', [FamilleController::class, 'destroy']);
+
+// Marques
+Route::get('marque', [MarqueController::class, 'index']);
+Route::post('marque', [MarqueController::class, 'store']);
+Route::put('marque/{id}', [MarqueController::class, 'update']);
+Route::delete('marque/{id}', [MarqueController::class, 'destroy']);
+
+// Marques
+Route::get('marque', [MarqueController::class, 'index']);
+Route::post('marque', [MarqueController::class, 'store']);
+Route::put('marque/{id}', [MarqueController::class, 'update']);
+Route::delete('marque/{id}', [MarqueController::class, 'destroy']);
+
+// Couleurs
+Route::get('couleur', [CouleurController::class, 'index']);
+Route::post('couleur', [CouleurController::class, 'store']);
+Route::put('couleur/{id}', [CouleurController::class, 'update']);
+Route::delete('couleur/{id}', [CouleurController::class, 'destroy']);
 
 Route::get('/user', function (Request $request) {
     return response()->json(User::all());
@@ -53,7 +76,5 @@ Route::get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 
 
-Route::get('marques', [MarquesController::class, 'index']);
 
-
-Route::delete('marques/{id}', [MarquesController::class, 'destroy']);
+Route::get('/couleurs', [CouleursController::class, 'index']);
