@@ -14,8 +14,6 @@ class Marque extends Model
     protected $fillable = [
         'nom_marque',
     ];
-
-    protected $fillable = ['nom_marque'];
     
     // Relation inverse avec articles
     public function articles()
