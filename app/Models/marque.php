@@ -30,5 +30,5 @@ class Marque extends Model
     }
 
 
->>>>>>> 166dd3b6aed4b52653bdd93701ac128fe2d10247
+
 }
