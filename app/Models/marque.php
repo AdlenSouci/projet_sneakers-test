@@ -10,6 +10,11 @@ class Marque extends Model
 {
 
     use HasFactory;
+
+    protected $fillable = [
+        'nom_marque',
+    ];
+
     protected $fillable = ['nom_marque'];
     
     // Relation inverse avec articles
@@ -30,4 +35,5 @@ class Marque extends Model
     }
 
 
+>>>>>>> 166dd3b6aed4b52653bdd93701ac128fe2d10247
 }

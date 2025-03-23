@@ -16,14 +16,14 @@ class MarqueController extends Controller
     }
     public function store(Request $request)
     {
-
+        
         $request->validate([
-            'nom_marque' => 'required|string|max:255',
+            'nom_marque' => 'required|string|max:255', 
         ]);
 
         // Création de la marque
         $marque = Marque::create([
-            'nom_marque' => $request->nom_marque,
+            'nom_marque' => $request->nom_marque, 
         ]);
 
 
@@ -35,18 +35,18 @@ class MarqueController extends Controller
     {
 
         $request->validate([
-            'nom_marque' => 'required|string|max:255',
+            'nom_marque' => 'required|string|max:255', 
         ]);
 
         // Trouver la marque par son ID
         $marque = Marque::findOrFail($id);
 
-
+      
         $marque->update([
-            'nom_marque' => $request->nom_marque,
+            'nom_marque' => $request->nom_marque, 
         ]);
 
-
+    
         return response()->json($marque);
     }
 

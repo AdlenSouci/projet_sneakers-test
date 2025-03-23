@@ -31,6 +31,7 @@ class ArticleController extends Controller
             'id_couleur' => 'nullable|integer', // Validation pour id_couleur,
             'id_marque' => 'required|integer', // Validation pour id_marque
         ]);
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
