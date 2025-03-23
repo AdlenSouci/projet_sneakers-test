@@ -22,16 +22,14 @@ class ArticleController extends Controller
     {
         // Validation des données
         $validator = Validator::make($request->all(), [
-            'nom_marque' => 'required|string|max:255',
-            'nom_famille' => 'required|string|max:255',
             'modele' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'nom_couleur' => 'nullable|string|max:255',
             'prix_public' => 'required|numeric',
             'prix_achat' => 'required|numeric',
             'img' => 'nullable|string|max:255',
             'id_famille' => 'required|integer', // Validation pour id_famille
-            'id_couleur' => 'nullable|integer', // Validation pour id_couleur
+            'id_couleur' => 'nullable|integer', // Validation pour id_couleur,
+            'id_marque' => 'required|integer', // Validation pour id_marque
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
@@ -40,6 +38,7 @@ class ArticleController extends Controller
         // Création de l'article
         try {
             $article = Article::create($request->all());
+
         } catch (\Exception $e) {
             return response()->json(['error' => 'Erreur lors de la création de l\'article. ' . $e->getMessage()], 500);
         }
@@ -52,25 +51,26 @@ class ArticleController extends Controller
     {
         // Validation des données
         $validator = Validator::make($request->all(), [
-            'nom_marque' => 'sometimes|required|string|max:255',
-            'nom_famille' => 'sometimes|required|string|max:255',
-            'modele' => 'sometimes|required|string|max:255',
+            'modele' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'nom_couleur' => 'sometimes|nullable|string|max:255',
-            'prix_public' => 'sometimes|required|numeric',
-            'prix_achat' => 'sometimes|required|numeric',
-            'img' => 'sometimes|nullable|string|max:255',
+            'prix_public' => 'required|numeric',
+            'prix_achat' => 'required|numeric',
+            'img' => 'nullable|string|max:255',
+            'id_famille' => 'required|integer', // Validation pour id_famille
+            'id_couleur' => 'nullable|integer', // Validation pour id_couleur,
+            'id_marque' => 'required|integer', // Validation pour id_marque
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-
         $article = Article::find($id);
         if (!$article) {
             return response()->json(['error' => 'Article non trouvé.'], 404);
         }
+        $output = new ConsoleOutput();
+        $output->writeln($article);
 
         // Mise à jour de l'article
         try {
@@ -92,8 +92,6 @@ class ArticleController extends Controller
             return response()->json(['error' => 'Article non trouvé.'], 404);
         }
 
-        $output = new ConsoleOutput();
-        $output->writeln("Article trouvé : " . $id);
         // Suppression de l'article
         try {
             $article->delete();
