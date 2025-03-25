@@ -18,10 +18,23 @@ class ShopController extends Controller
 
         $articlesData = Article::with('avis')->get();
 
-        $familles = Famille::all();
-        $marques = Marque::all();
-        $couleurs = Couleur::all();
+        //$familles = Famille::all();
+        $familles = Article::with('famille') // Charge la relation "couleur"
+            ->get()
+            ->pluck('famille') // Récupère les objets couleur associés
+            ->unique('id'); // Assure qu'il n'y a pas de doublons par id
 
+        //$marques = Marque::all();
+        $marques = Article::with('marque') // Charge la relation "couleur"
+            ->get()
+            ->pluck('marque') // Récupère les objets couleur associés
+            ->unique('id'); // Assure qu'il n'y a pas de doublons par id
+
+        //$couleurs = Couleur::all();
+        $couleurs = Article::with('couleur') // Charge la relation "couleur"
+            ->get()
+            ->pluck('couleur') // Récupère les objets couleur associés
+            ->unique('id'); // Assure qu'il n'y a pas de doublons par id
 
         return view('shop', compact('articlesData', 'marques', 'familles', 'couleurs'));
     }
