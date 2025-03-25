@@ -106,45 +106,47 @@ class BasketController extends Controller
         return view('basket', compact('cartItems', 'articles', 'totalPrice', 'totalItems'));
     }
 
+
+
     public function changerQuantiterPanier(Request $request)
     {
         // Valider les données reçues
         $validatedData = $request->validate([
-            'article_id' => 'required|string',
+            'article_id' => 'required|integer',
             'quantity' => 'required|integer|min:1',
         ]);
-
+    
         $articleId = $validatedData['article_id'];
         $quantity = $validatedData['quantity'];
-
-        // Récupérer le panier de l'utilisateur (assurez-vous que vous avez une méthode pour gérer cela)
+    
+        // Récupérer le panier de l'utilisateur
         $cart = session()->get('cart', []);
-
+    
         // Vérifier si l'article existe dans le panier
-        if (isset($cart[$articleId])) {
+        $existingItemKey = array_search($articleId, array_column($cart, 'id'));
+    
+        if ($existingItemKey !== false) {
             // Mettre à jour la quantité
-            $cart[$articleId]['quantity'] = $quantity;
-
+            $cart[$existingItemKey]['quantity'] = $quantity;
+    
             // Réenregistrer le panier dans la session
             session()->put('cart', $cart);
-
+    
             // Calculer le nombre total d'articles dans le panier
             $totalItems = array_sum(array_column($cart, 'quantity'));
-
+    
             return response()->json([
                 'success' => true,
                 'message' => 'Quantité mise à jour avec succès.',
                 'totalItems' => $totalItems,
             ]);
         }
-
+    
         return response()->json([
             'error' => true,
             'message' => "L'article n'existe pas dans le panier.",
         ]);
     }
-
-
 
 
 

@@ -15,6 +15,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\API\MarqueController;
 use App\Http\Controllers\API\CouleurController;
 use App\Http\Controllers\API\AnnonceController;
+use App\Http\Controllers\API\CommandesController;
+use App\Http\Controllers\API\UserController;
 
 
 
@@ -70,9 +72,11 @@ Route::post('annonce', [AnnonceController::class, 'store']);
 Route::put('annonce/{id}', [AnnonceController::class, 'update']);
 Route::delete('annonce/{id}', [AnnonceController::class, 'destroy']);
 
-Route::get('/user', function (Request $request) {
-    return response()->json(User::all());
-});
+//users
+Route::get('/users', [UserController::class, 'index']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::post('/users', [UserController::class, 'store']);
 
 Route::post('/login', [AuthController::class, 'login']);
 
