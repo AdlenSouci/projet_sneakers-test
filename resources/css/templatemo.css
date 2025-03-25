@@ -84,7 +84,8 @@ Table of contents
 
 /* Hero Carousel */
 #template-mo-zay-hero-carousel {
-  background: #efefef !important;
+  /* background: #efefef !important; */
+  background: rgba(255, 255, 255, 0.5) !important;
 }
 
 /* Accordion */
