@@ -57,11 +57,6 @@ Route::post('marque', [MarqueController::class, 'store']);
 Route::put('marque/{id}', [MarqueController::class, 'update']);
 Route::delete('marque/{id}', [MarqueController::class, 'destroy']);
 
-// Marques
-Route::get('marque', [MarqueController::class, 'index']);
-Route::post('marque', [MarqueController::class, 'store']);
-Route::put('marque/{id}', [MarqueController::class, 'update']);
-Route::delete('marque/{id}', [MarqueController::class, 'destroy']);
 
 // Couleurs
 Route::get('couleur', [CouleurController::class, 'index']);
@@ -77,4 +72,4 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 
-Route::get('/couleurs', [CouleursController::class, 'index']);
+

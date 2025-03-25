@@ -31,4 +31,7 @@ class Marque extends Model
     {
         return Carbon::parse($value)->toDateTimeString(); // Convertir en instance Carbon
     }
+
+
+
 }
