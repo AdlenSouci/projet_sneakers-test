@@ -13,8 +13,8 @@
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left align-self-center">
-                            <h1 class="h4" style ="color: #de7105;"><b>My sneakers</b>  Shop</h1>
-                            <h3 class="h5"> Le site ou vous pouvez acheter la sublime <strong> Air Max x Patta </strong></h3>
+                            <h1 class="h4" style ="color: #de7105;"><strong>My sneakers</strong> Shop</h1>
+                            <h3 class="h5">Le site ou vous pouvez acheter la sublime <strong> Air Max x Patta </strong></h3>
                             <p>
                                 Voici <a rel="sponsored" class="text-success" href="https://solesavy.com/history-of-patta-and-nike-collaborations/" target="_blank">l'histoire</a> de l'Air Max x Patta
                             </p>
@@ -46,7 +46,8 @@
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left">
-                            <h3 class="h5">Une paire rare presque introuvable sauf en occasion mais ici tout est possible</h1>
+                            <h1 class="h5">Nike x Off-White</h1>
+                            <h3 class="h6">Une paire rare presque introuvable sauf en occasion mais ici tout est possible</h3>
                          
                             <p>
                                Une collaboration exeptionnelle entre Nike et off-white.

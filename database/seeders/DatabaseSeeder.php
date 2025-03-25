@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             CouleurSeeder::class,
             ArticlesSeeder::class,
             AdminSeeder::class,
-            TaillesArticlesSeeder::class
+            TaillesArticlesSeeder::class,
+            AnnoncesSeeder::class,
             
         ]);
     
