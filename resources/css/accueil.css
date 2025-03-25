@@ -209,7 +209,7 @@ main {
 .carousel {
     margin: auto;
     /* Centrer horizontalement */
-    max-width: 500px;
+    max-width: 800px;
     /* Largeur maximale du carousel */
 }
 
@@ -366,7 +366,18 @@ button .fas {
     text-align: center;
 }
 
+.carousel-inner {
+    width: 100%;
+    max-height: 600px; /* Ajuste la hauteur selon tes besoins */
+}
 
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    max-height: 500px; /* Ajuste si nécessaire */
+    object-fit: cover;
+}
+    
 @media (max-width: 768px) {
     .container {
         width: 95%;
