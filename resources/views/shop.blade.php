@@ -221,8 +221,8 @@
 
             // Filtrer les articles
             articles.each(function() {
-                const articleMarque = $(this).data('marque');
-                const articleCouleur = $(this).data('couleur');
+                const articleMarque = $(this).data('nom_marque');
+                const articleCouleur = $(this).data('nom_couleur');
                 const articlePrix = parseFloat($(this).data('prix'));
 
                 const matchesMarque = selectedMarque === "" || articleMarque === selectedMarque;
