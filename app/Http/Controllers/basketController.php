@@ -301,4 +301,4 @@ class BasketController extends Controller
 
         return response()->json(['message' => 'Commande passée avec succès ' . $commandeEntete->id]);
     }
-}
+} 

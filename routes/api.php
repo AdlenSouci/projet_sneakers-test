@@ -17,6 +17,7 @@ use App\Http\Controllers\API\CouleurController;
 use App\Http\Controllers\API\AnnonceController;
 use App\Http\Controllers\API\CommandesController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\AvisController;
 
 
 
@@ -79,6 +80,14 @@ Route::put('/users/{id}', [UserController::class, 'update']);
 Route::post('/users', [UserController::class, 'store']);
 
 Route::post('/login', [AuthController::class, 'login']);
+
+//route api pour les avis
+
+Route::get('/avis', [AvisController::class, 'index']);
+Route::post('/avis', [AvisController::class, 'store']);
+Route::put('/avis/{id}', [AvisController::class, 'update']);
+Route::delete('/avis/{id}', [AvisController::class, 'destroy']);
+
 
 
 
