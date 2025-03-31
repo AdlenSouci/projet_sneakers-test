@@ -5,38 +5,41 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Marque;
-use Carbon\Carbon;
+
 class MarqueController extends Controller
 {
-    // Récupérer toutes les marques
+    // Récupérer toutes les marques depuis la base de données
     public function index()
     {
-        $marques = Marque::all();
-        return response()->json($marques);
+        $marques = Marque::all(); // Récupère toutes les marques
+        return response()->json($marques); // Renvoie les données sous forme de JSON
     }
+
+    // Ajouter une nouvelle marque
     public function store(Request $request)
     {
+        // Validation des données envoyées par l'utilisateur
         $request->validate([
             'nom_marque' => 'required|string|max:255', 
         ]);
-    
-        // Création de la marque
+
+        // Création et insertion de la marque dans la base de données
         $marque = Marque::create([
             'nom_marque' => $request->nom_marque, 
         ]);
-    
-        // Vérifiez si la marque a été insérée
+
+        // Vérification si l'insertion a réussi
         if ($marque) {
-            return response()->json($marque, 201);
+            return response()->json($marque, 201); // Retourne la marque créée avec un code 201 (créé)
         } else {
             return response()->json(['message' => 'Erreur lors de l\'insertion'], 500);
         }
     }
 
-
+    // Mettre à jour une marque existante
     public function update(Request $request, $id)
     {
-
+        // Validation des données
         $request->validate([
             'nom_marque' => 'required|string|max:255', 
         ]);
@@ -44,12 +47,12 @@ class MarqueController extends Controller
         // Trouver la marque par son ID
         $marque = Marque::findOrFail($id);
 
-      
+        // Mise à jour des informations de la marque
         $marque->update([
             'nom_marque' => $request->nom_marque, 
         ]);
 
-    
+        // Retourner la marque mise à jour
         return response()->json($marque);
     }
 
@@ -59,10 +62,10 @@ class MarqueController extends Controller
         // Trouver la marque par son ID
         $marque = Marque::findOrFail($id);
 
-        // Supprimer la marque
+        // Supprimer la marque de la base de données
         $marque->delete();
 
-        // Retourner un message de succès
+        // Retourner un message de confirmation
         return response()->json(['message' => 'Marque supprimée avec succès']);
     }
 }

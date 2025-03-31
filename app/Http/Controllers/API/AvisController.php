@@ -8,51 +8,71 @@ use App\Models\Avis;
 
 class AvisController extends Controller
 {
+    // Récupérer tous les avis
     public function index()
     {
         $avis = Avis::all();
         return response()->json($avis);
     }
 
+    // Ajouter un nouvel avis
     public function store(Request $request)
     {
+        // Validation des données
         $request->validate([
+            'user_id' => 'required|exists:users,id',
             'contenu' => 'required|string',
             'note' => 'required|integer|between:1,5',
-            'article_id' => 'required|exists:articles,id', // Assurez-vous que l'article existe
+            'article_id' => 'required|exists:articles,id',
         ]);
 
+        // Création de l'avis
         $avis = Avis::create([
+            'user_id' => $request->user_id,
+            'article_id' => $request->article_id,
             'contenu' => $request->contenu,
             'note' => $request->note,
-            'article_id' => $request->article_id,
         ]);
 
-        return response()->json($avis, 201);
+        // Vérifiez si l'avis a été inséré
+        if ($avis) {
+            return response()->json($avis, 201);
+        } else {
+            return response()->json(['message' => 'Erreur lors de l\'insertion'], 500);
+        }
     }
 
+    // Mettre à jour un avis
     public function update(Request $request, $id)
     {
+        // Validation des données
         $request->validate([
             'contenu' => 'required|string',
             'note' => 'required|integer|between:1,5',
-            'article_id' => 'required|exists:articles,id', // Assurez-vous que l'article existe
         ]);
 
+        // Trouver l'avis par son ID
         $avis = Avis::findOrFail($id);
+
+        // Mettre à jour l'avis avec les nouvelles données
         $avis->update([
             'contenu' => $request->contenu,
-            'note' => $request->note,       
-
+            'note' => $request->note,
         ]);
 
         return response()->json($avis);
     }
 
+    // Supprimer un avis
     public function destroy($id)
     {
+        // Trouver l'avis par son ID
         $avis = Avis::findOrFail($id);
+
+        // Supprimer l'avis
         $avis->delete();
-        return response()->json(['message' => 'Avis supprimé avec successe']);
+
+        // Retourner un message de succès
+        return response()->json(['message' => 'Avis supprimé avec succès']);
     }
 }

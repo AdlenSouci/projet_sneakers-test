@@ -82,11 +82,10 @@ Route::post('/users', [UserController::class, 'store']);
 Route::post('/login', [AuthController::class, 'login']);
 
 //route api pour les avis
-
-Route::get('/avis', [AvisController::class, 'index']);
-Route::post('/avis', [AvisController::class, 'store']);
-Route::put('/avis/{id}', [AvisController::class, 'update']);
-Route::delete('/avis/{id}', [AvisController::class, 'destroy']);
+Route::get('avis', [AvisController::class, 'index']);
+Route::post('avis', [AvisController::class, 'store']);
+Route::put('avis/{id}', [AvisController::class, 'update']);
+Route::delete('avis/{id}', [AvisController::class, 'destroy']);
 
 
 
