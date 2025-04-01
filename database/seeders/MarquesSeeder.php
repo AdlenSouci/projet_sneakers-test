@@ -28,6 +28,9 @@ class MarquesSeeder extends Seeder
         DB::table('marques')->insert([
             'nom_marque'  => 'Asics'
         ]);
+        DB::table('marques')->insert([
+            'nom_marque'  => 'Salomon'
+        ]);
         
     }
 }
