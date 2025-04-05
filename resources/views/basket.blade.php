@@ -38,7 +38,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="col-3 col-sm-2 col-md-2">
-                                                <input type="number" value="{{ $item['quantity'] }}" class="form-control rounded input-quantity" min="1" onchange="changerQuantiter(this)" data-item-price="{{ $item['price'] }}" data-item-id="{{ $item['id'] }}" style="width: 80px;">
+                                                    <input type="number" value="{{ $item['quantity'] }}" class="form-control rounded input-quantity" min="1" onchange="changerQuantiter(this)" data-item-price="{{ $item['price'] }}" data-item-id="{{ $item['id'] }}" style="width: 80px;">
                                                 </div>
                                                 <div class="col-3 col-sm-1 text-end">
                                                     <a href="#!" class="text-muted delete-item-btn" onclick="viderArticlePanier(this)" data-article-id="{{ $item['id'] }}"><i class="fas fa-times"></i></a>
@@ -204,14 +204,14 @@
                     return response.json();
                 })
                 .then(data => {
-                    if (!data.error) {
+                    if (data.error) {
+                        // Afficher le message d'erreur
+                        successMessage.textContent = data.message;
+                    } else {
                         // Mise à jour du message pour indiquer le succès
                         successMessage.textContent = data.message;
 
                         viderPanier(); // Vide le panier après succès
-                    } else {
-                        // Échec logique (erreur retournée par le serveur)
-                        successMessage.textContent = data.message || 'Une erreur est survenue.';
                     }
                 })
                 .catch(error => {

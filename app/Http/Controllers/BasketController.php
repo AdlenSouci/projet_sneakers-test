@@ -115,33 +115,33 @@ class BasketController extends Controller
             'article_id' => 'required|integer',
             'quantity' => 'required|integer|min:1',
         ]);
-    
+
         $articleId = $validatedData['article_id'];
         $quantity = $validatedData['quantity'];
-    
+
         // Récupérer le panier de l'utilisateur
         $cart = session()->get('cart', []);
-    
+
         // Vérifier si l'article existe dans le panier
         $existingItemKey = array_search($articleId, array_column($cart, 'id'));
-    
+
         if ($existingItemKey !== false) {
             // Mettre à jour la quantité
             $cart[$existingItemKey]['quantity'] = $quantity;
-    
+
             // Réenregistrer le panier dans la session
             session()->put('cart', $cart);
-    
+
             // Calculer le nombre total d'articles dans le panier
             $totalItems = array_sum(array_column($cart, 'quantity'));
-    
+
             return response()->json([
                 'success' => true,
                 'message' => 'Quantité mise à jour avec succès.',
                 'totalItems' => $totalItems,
             ]);
         }
-    
+
         return response()->json([
             'error' => true,
             'message' => "L'article n'existe pas dans le panier.",
@@ -208,12 +208,19 @@ class BasketController extends Controller
 
     public function passerCommande(Request $request)
     {
-
         $userId = Auth::id();
         $user = Auth::user();
         $email = $user->email;
         $adresseLivraison = $request->adresse_livraison;
         $userName = $request->name;
+
+        // Récupérer l'adresse de livraison enregistrée
+        $adresseLivraisonEnregistree = $user->adresse_livraison; // Assurez-vous que ce champ existe dans votre modèle User
+
+        // Vérifier si l'adresse saisie correspond à l'adresse enregistrée
+        if ($adresseLivraison !== $adresseLivraisonEnregistree) {
+            return response()->json(['error' => true, 'message' => 'L\'adresse de livraison saisie ne correspond pas à l\'adresse enregistrée.']);
+        }
 
         $numCommande = mt_rand(100000, 999999);
 
@@ -223,7 +230,6 @@ class BasketController extends Controller
         $total_tva = 0;
 
         try {
-
             $commandeEntete = new CommandeEntete;
             $commandeEntete->id_num_commande = $numCommande;
             $commandeEntete->date = now();
@@ -231,28 +237,19 @@ class BasketController extends Controller
             $commandeEntete->total_ht = 0;
             $commandeEntete->save();
 
-
-
             $cartItems = Session::get('cart', []);
 
-
             foreach ($cartItems as $item) {
-
                 $commandeEntete->Details()->create([
                     'id_commande' => $commandeEntete->id,
                     'id_article' => $item['id'],
                     'taille' => $item['taille'],
                     'quantite' => $item['quantity'],
-
-                    // La boutique est en ttc
                     'prix_ttc' => $item['price'] * $item['quantity'],
-                    // On calcule le prix ht
                     'prix_ht' => $item['price'] * $item['quantity'] * .8,
-                    // On calcule le montant de la tva
                     'montant_tva' => $item['price'] * $item['quantity'] * .2,
                     'remise' => 0,
                 ]);
-
 
                 $total_ht += $item['price'] * $item['quantity'] * .8;
                 $total_ttc += $item['price'] * $item['quantity'];
@@ -263,42 +260,35 @@ class BasketController extends Controller
                 $article->tailles()->where('taille', $item['taille'])->decrement('stock', min($stock, $item['quantity']));
             }
 
-
             $commandeEntete->total_ht = $total_ht;
             $commandeEntete->total_ttc = $total_ttc;
             $commandeEntete->total_tva = $total_tva;
             $commandeEntete->save();
-            //envoyer un mail a l'administrateur adlenssouci03@gmail.com
 
+            // Envoyer un mail à l'administrateur
+            $subject = 'Nouvelle Commande Passée sur le Site';
+            $message = "Une nouvelle commande a été passée par le client:($userName)\n";
+            $message .= "Date de la commande: {$commandeEntete->date}\n";
+            $message .= "Total de la commande: {$total_ttc} €\n\n";
+            $message .= "Détails de la commande:\n" . $item['name'];
 
+            Mail::raw($message, function ($message) {
+                $message->to('adlenssouci03@gmail.com')
+                    ->subject('Nouvelle Commande sur votre site');
+            });
 
+            // Email de confirmation de commande pour le client 
+            $message_confirmation = "Merci pour votre commande!";
+            $message_confirmation .= "Détails de la commande:\n" . $item['name'];
+            $message_confirmation .= "Total de la commande : {$total_ttc} €\n\n";
+            Mail::raw($message_confirmation, function ($mail) use ($email) {
+                $mail->to($email)
+                    ->subject('Confirmation de commande');
+            });
+
+            return response()->json(['message' => 'Commande passée avec succès ' . $commandeEntete->id]);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()]);
         }
-
-        //$this->viderPanier();
-        $subject = 'Nouvelle Commande Passée sur le Site';
-        // $message = "Une nouvelle commande a été passée par le client: {$userId}\n";
-        $message = "Une nouvelle commande a été passée par le client:($userName)\n";
-        $message .= "Date de la commande: {$commandeEntete->date}\n";
-        $message .= "Total de la commande: {$total_ttc} €\n\n";
-        $message .= "Détails de la commande:\n" . $item['name'];
-
-        Mail::raw($message, function ($message) {
-            $message->to('adlenssouci03@gmail.com')
-                ->subject('Nouvelle Commande sur votre site');
-        });
-
-        //email de confirmation de commande pour le client 
-        $message_confirmation = "Merci pour votre commande!";
-        $message_confirmation .= "Détails de la commande:\n" . $item['name'];
-        $message_confirmation .= "Total de la commande : {$total_ttc} €\n\n";
-        Mail::raw($message_confirmation, function ($mail) use ($email) {
-            $mail->to($email)
-                ->subject('Confirmation de commande');
-        });
-        // Envoyer un email de confirmation au client
-
-        return response()->json(['message' => 'Commande passée avec succès ' . $commandeEntete->id]);
     }
-} 
+}

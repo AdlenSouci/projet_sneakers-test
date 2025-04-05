@@ -1,9 +1,8 @@
-
 <x-guest-layout>
 
     <form method="POST" action="{{ route('register') }}">
         @csrf
-        
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Nom')" />
@@ -22,10 +21,30 @@
             <x-input-label for="adresse_livraison" :value="__('Adresse')" />
             <x-text-input id="adresse_livraison" class="block mt-1 w-full" type="text" name="adresse_livraison" :value="old('adresse_livraison')" required autocomplete="adresse_livraison" />
             <x-input-error :messages="$errors->get('adresse_livraison')" class="mt-2" />
-      
+
         </div>
 
-     
+        <div class="mt-4">
+            <x-input-label for="code_postal" :value="__('Code postal')" />
+            <x-text-input id="code_postal" class="block mt-1 w-full" type="text" name="code_postal" :value="old('code_postal')" required autocomplete="code_postal" />
+            <x-input-error :messages="$errors->get('code_postal')" class="mt-2" />
+        </div>
+
+        <div class="mt-4">
+            <x-input-label for="ville" :value="__('Ville')" />
+            <x-text-input id="ville" class="block mt-1 w-full" type="text" name="ville" :value="old('ville')" required autocomplete="ville" />
+            <x-input-error :messages="$errors->get('ville')" class="mt-2" />
+        </div>
+
+        <!-- telephone-->
+        
+        <div class="mt-4">
+            <x-input-label for="telephone" :value="__('Téléphone')" />
+            <x-text-input id="telephone" class="block mt-1 w-full" type="tel" name="telephone" :value="old('telephone')" required autocomplete="telephone" />
+            <x-input-error :messages="$errors->get('telephone')" class="mt-2" />
+        </div>
+            
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Mot de passe')" />
@@ -55,5 +74,5 @@
         </div>
     </form>
 
-@vite('resources/css/accueil.css')
+    @vite('resources/css/accueil.css')
 </x-guest-layout>

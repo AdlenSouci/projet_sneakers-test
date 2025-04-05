@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('password');
             $table->string('adresse_livraison', 100)->nullable(true);
             $table->boolean('is_admin')->default(false);
+            $table->string('code_postal', 10)->nullable(true);
+            $table->string('ville', 50)->nullable(true);
+            $table->string('telephone', 20)->nullable(true);
+            
 
             $table->rememberToken();
 
