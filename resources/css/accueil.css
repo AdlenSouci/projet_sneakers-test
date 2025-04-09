@@ -159,11 +159,10 @@ main {
     /* Réduit la taille du texte */
 }
 
-.custom-button {
-    font-size: 0.8rem;
-    /* Réduit la taille du texte du bouton */
-    padding: 5px 10px;
-    /* Réduit la taille du bouton */
+
+.custom-button-populaire {
+   /*ajouster la largeur */
+    width: 150;
 }
 
 .card img {
@@ -260,7 +259,7 @@ main {
 
 /* bouton input page article */
 .stock-badge {
-    width: 60px;
+    width: auto;
     height: 30px;
 }
 

@@ -27,9 +27,10 @@
 
                     <br> <br>
                     <div class="d-flex align-items-center">
-                        <?= $stock_article > 0 ? '<span class="badge bg-success me-3 stock-badge ">En stock</span>' : '<span class="badge bg-danger me-3 stock-badge">Rupture de stock</span>' ?>
+                        <?= $stock_article > 0 ? '<span class="badge bg-success me-3   btn-lg stock-badge ">En stock</span>' : '<span class="badge bg-danger me-3  btn-lg stock-badge">Rupture de stock</span>' ?>
                         <div class="d-flex align-items-center me-3">
-                            <label for="pointure" class="me-1">Pointure:</label>
+                           
+                            <label for="pointure" class="me-3  rounded ">Pointure:</label>
                             <select id="pointure" name="pointure" class="custom-select-2 rounded">
                                 <option value=""></option>
                                 @foreach($article->tailles as $taille)
@@ -44,7 +45,7 @@
                             <input type="number" name="quantite" class="form-control-2 rounded" value="1" min="1" max="20">
                         </div>
                         @if($stock_article > 0)
-                        <button id="ajouter_au_panier" class="btn btn-outline-dark ajouter_au_panier custom-button rounded" data-article-id="{{ $article->id }}">Ajouter au panier</button>
+                        <button id="ajouter_au_panier" class="btn btn-outline-dark ajouter_au_panier rounded" data-article-id="{{ $article->id }}">Ajouter au panier</button>
                         @endif
                     </div>
 
@@ -144,7 +145,7 @@
                                     <input type="number" name="quantite" class="form-control custom-input-small-2 rounded" value="1" min="1" max="10">
                                 </div>
                                 @if($stock_article > 0)
-                                <button class="btn btn-outline-dark mt-auto ajouter_au_panier custom-button" data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au
+                                <button class="btn btn-outline-dark ajouter_au_panier rounded" data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au panier</button>
                                     @endif
                             </div>
                         </div>
@@ -197,7 +198,7 @@
                                     <input type="number" name="quantite" class="form-control custom-input-small-2 rounded" value="1" min="1" max="10">
                                 </div>
                                 @if($stock_article > 0)
-                                <button class="btn btn-outline-dark mt-auto ajouter_au_panier custom-button" data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au
+                                <button class="btn btn-outline-dark ajouter_au_panier rounded" data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au panier</button>
                                     @endif
                             </div>
 
@@ -223,10 +224,12 @@
                             '_token': '{{ csrf_token() }}',
                             'article_id': articleId,
                             pointure,
+                            
                             'quantite': event.target.parentElement.querySelector('[name="quantite"]').value
                         },
                         success: function(response) {
                             alert(response.message);
+                            document.querySelector('#countArticle').textContent = response.nbitems;
                             document.querySelector('#nbitems').textContent = "panier(" + response.nbitems + ")";
                         },
                         error: function(error) {
