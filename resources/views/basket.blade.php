@@ -37,6 +37,13 @@
                                                         € {{ number_format($item['price'] * $item['quantity'], 2) }}
                                                     </h6>
                                                 </div>
+                                                <!--pointure-->
+                                                <div class="col-3 col-sm-2 col-md-2">
+                                                <h6 class="{{ $index % 2 == 0 ? 'text-black' : 'text-white' }} mb-0 item-price" data-item-price="{{ $item['price'] }}">
+                                                    € {{ number_format($item['price'] * $item['quantity'], 2) }} ({{ $item['taille'] }})
+                                                </h6>
+                                                </div>
+
                                                 <div class="col-3 col-sm-2 col-md-2">
                                                     <input type="number" value="{{ $item['quantity'] }}" class="form-control rounded input-quantity" min="1" onchange="changerQuantiter(this)" data-item-price="{{ $item['price'] }}" data-item-id="{{ $item['id'] }}" style="width: 80px;">
                                                 </div>

@@ -31,6 +31,9 @@ class BasketController extends Controller
 
         return $totalPrice;
     }
+
+    // ne pas additionner les paires du meme articles si les pointures sont différentes
+    
     public function ajouter_au_panier(Request $request)
     {
         // Validation des données
@@ -52,8 +55,21 @@ class BasketController extends Controller
             return response()->json(['message' => "Désolé, il ne reste que " . $stock . " paires en stock"]);
         } else {
             if ($existingItemKey !== false) {
-                // Si l'article existe déjà, mettez à jour la quantité
-                $cartItems[$existingItemKey]['quantity'] += $quantite;
+                
+                if ($cartItems[$existingItemKey]['taille'] === $pointure) {
+                    
+                    $cartItems[$existingItemKey]['quantity'] += $quantite;
+                } else {
+                    // Si la taille est différente, ajoutez un nouvel article
+                    $cartItems[] = [
+                        'id' => $article->id,
+                        'name' => $article->modele,
+                        'image' => $article->img,
+                        'price' => $article->prix_public,
+                        'quantity' => $quantite,
+                        'taille' => $pointure,
+                    ];
+                }
             } else {
                 // Sinon, ajoutez un nouvel article
                 $cartItems[] = [
