@@ -15,7 +15,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\API\MarqueController;
 use App\Http\Controllers\API\CouleurController;
 use App\Http\Controllers\API\AnnonceController;
-use App\Http\Controllers\API\CommandesController;
+use App\Http\Controllers\API\CommandeController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\AvisController;
 
@@ -85,8 +85,12 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('avis', [AvisController::class, 'index']);
 Route::post('avis', [AvisController::class, 'store']);
 Route::put('avis/{id}', [AvisController::class, 'update']);
-Route::delete('avis/{id}', [AvisController::class, 'destroy']);
+Route::delete('avis/{id}', [AvisController::class, 'destroy']); 
 
+//route commandes 
+
+
+Route::get('/commandes', [CommandeController::class, 'index']);
 
 
 
