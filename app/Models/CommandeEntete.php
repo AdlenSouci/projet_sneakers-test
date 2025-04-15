@@ -8,6 +8,7 @@ use App\Models\User;
 
 class CommandeEntete extends Model
 {
+    //model commande entete 
     protected $table = 'commandes_entetes';
 
     protected $fillable = [
