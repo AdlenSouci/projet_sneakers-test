@@ -91,6 +91,7 @@ Route::delete('avis/{id}', [AvisController::class, 'destroy']);
 
 
 Route::get('/commandes', [CommandeController::class, 'index']);
+Route::post('/commandes', [CommandeController::class, 'store']);
 
 
 
