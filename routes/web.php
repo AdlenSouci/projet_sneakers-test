@@ -51,6 +51,7 @@ Route::get('/filtre', [ShopController::class, 'filtre'])->name('filtre');
 Route::post('/ajouter_au_panier', [BasketController::class, 'ajouter_au_panier'])->name('ajouter_au_panier');
 
 
+
 Route::post('/passer-commande', [BasketController::class, 'passerCommande'])->name('passer-commande'); //new 22/03/2024
 
 Route::post('/avis/store', [AvisController::class, 'store'])->name('avis.store');
@@ -60,8 +61,8 @@ Route::post('/vider-article-panier', [BasketController::class, 'viderArticlePani
 Route::post('/changer-quantiter', [BasketController::class, 'changer-quantiter'])->name('changer-quantiter');
 
 Route::post('/update-article-quantity', [BasketController::class, 'changerQuantiterPanier'])->name('update-article-quantity');
-
-Route::get('/get-total-price', 'BasketController@calculerPrixTotal');
+Route::get('/get-total-price', [BasketController::class, 'calculerPrixTotal'])->name('get-total-price');
+// Route::get('/get-total-price', 'BasketController@calculerPrixTotal');
 
 Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article');
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
