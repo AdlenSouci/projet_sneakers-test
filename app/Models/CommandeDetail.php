@@ -10,6 +10,7 @@ class CommandeDetail extends Model
     protected $table = 'commandes_details';
 
     protected $fillable = [
+    
         'id_commande',
         'id_article',
         'taille',
