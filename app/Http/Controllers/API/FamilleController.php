@@ -4,8 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Famille;
+use Illuminate\Database\QueryException;
+
 
 class FamilleController extends Controller
 {
@@ -70,21 +73,35 @@ class FamilleController extends Controller
         $famille = Famille::find($id);
 
         // 2. Vérifier si elle existe -> Correct
+        
         if (!$famille) {
             return response()->json(['error' => 'Famille non trouvée.'], 404);
         }
+        
 
         // 3. Tentative de suppression dans un try-catch -> Correct
-        try {
-            $famille->delete(); // Appel standard d'Eloquent pour supprimer
-        } catch (\Exception $e) { // Attrape TOUTES les exceptions (y compris celles des contraintes DB)
-            // Retourne une erreur 500 générique -> Correct (on pourrait être plus précis)
-            return response()->json(['error' => 'Erreur lors de la suppression de la famille. ' . $e->getMessage()], 500);
-            // Note: Si l'erreur est due à une contrainte de clé étrangère,
-            // $e->getMessage() contiendra souvent des détails SQL peu lisibles pour l'utilisateur.
-            // On pourrait détecter spécifiquement les QueryException avec certains codes d'erreur
-            // pour retourner un message plus clair et un statut 409 Conflict.
+    try {
+        $famille->delete();
+        return response()->json(['message' => 'Famille supprimée avec succès.']);
+    } catch (QueryException $e) {
+        // Vérifie s’il s’agit d’une violation de contrainte de clé étrangère
+        if ($e->getCode() === '23000') {
+            return response()->json([
+                'error' => "Impossible de supprimer cette famille car elle est liée à d'autres enregistrements."
+            ], 409); // 409 = Conflict
         }
+
+        // Autres erreurs de requête SQL
+        return response()->json([
+            'error' => 'Erreur de base de données : ' . $e->getMessage()
+        ], 500);
+    } catch (\Exception $e) {
+        // Erreurs génériques
+        return response()->json([
+            'error' => 'Erreur lors de la suppression de la famille. ' . $e->getMessage()
+        ], 500);
+    }
+
 
         // 4. Retourner un message de succès -> Correct
         return response()->json(['message' => 'Famille supprimée avec succès.'], 200);

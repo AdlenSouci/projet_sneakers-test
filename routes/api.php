@@ -55,6 +55,9 @@ Route::post('/famille', [FamilleController::class, 'store']);
 Route::put('/famille/{id}', [FamilleController::class, 'update']);
 Route::delete('/famille/{id}', [FamilleController::class, 'destroy']);
 
+
+
+
 // Marques
 Route::get('marque', [MarqueController::class, 'index']);
 Route::post('marque', [MarqueController::class, 'store']);
