@@ -18,9 +18,13 @@ class CommandeEntete extends Model
         'total_ht',
         'total_ttc',
         'total_tva',
-        'total_remise'
-
+        'total_remise',
+        'telephone',
+        'ville',
+        'code_postal',
+        'adresse_livraison'
     ];
+    
 
     // Relation avec la table des détails de commande
     public function Details()

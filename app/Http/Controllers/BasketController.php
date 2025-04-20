@@ -13,6 +13,8 @@ use App\Http\Controllers\toArray;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cart;
 
+use Illuminate\Support\Facades\Log;
+
 
 class BasketController extends Controller
 {
@@ -33,7 +35,7 @@ class BasketController extends Controller
     }
 
     // ne pas additionner les paires du meme articles si les pointures sont différentes
-    
+
     public function ajouter_au_panier(Request $request)
     {
         // Validation des données
@@ -55,9 +57,9 @@ class BasketController extends Controller
             return response()->json(['message' => "Désolé, il ne reste que " . $stock . " paires en stock"]);
         } else {
             if ($existingItemKey !== false) {
-                
+
                 if ($cartItems[$existingItemKey]['taille'] === $pointure) {
-                    
+
                     $cartItems[$existingItemKey]['quantity'] += $quantite;
                 } else {
                     // Si la taille est différente, ajoutez un nouvel article
@@ -226,85 +228,186 @@ class BasketController extends Controller
     {
         $userId = Auth::id();
         $user = Auth::user();
+
+        // Vérifier si l'utilisateur est bien récupéré
+        if (!$user) {
+            Log::error("Tentative de commande par un utilisateur non authentifié ou introuvable.");
+            return response()->json(['error' => true, 'message' => 'Utilisateur non trouvé.'], 401);
+        }
+
         $email = $user->email;
         $adresseLivraison = $request->adresse_livraison;
-        $userName = $request->name;
+        // $userName = $request->name;
+        $userName = $user->name;
 
         // Récupérer l'adresse de livraison enregistrée
-        $adresseLivraisonEnregistree = $user->adresse_livraison; // Assurez-vous que ce champ existe dans votre modèle User
+        $adresseLivraisonEnregistree = $user->adresse_livraison;
 
         // Vérifier si l'adresse saisie correspond à l'adresse enregistrée
+        // NOTE : Cette logique empêche l'utilisation d'une adresse différente de celle enregistrée.
+        // Si tu veux permettre une adresse de livraison différente, tu devrais commenter ou supprimer ce bloc.
         if ($adresseLivraison !== $adresseLivraisonEnregistree) {
             return response()->json(['error' => true, 'message' => 'L\'adresse de livraison saisie ne correspond pas à l\'adresse enregistrée.']);
         }
 
-        $numCommande = mt_rand(100000, 999999);
+        $numCommande = mt_rand(100000, 999999); // Attention: potentiel de collision si beaucoup de commandes
 
         // Variables pour le total
         $total_ht = 0;
         $total_ttc = 0;
         $total_tva = 0;
 
+        // Récupérer le panier avant le try/catch pour vérifier s'il est vide
+        $cartItems = Session::get('cart', []);
+        if (empty($cartItems)) {
+            return response()->json(['error' => true, 'message' => 'Votre panier est vide.'], 400);
+        }
+
         try {
+            // Création de l'objet CommandeEntete
             $commandeEntete = new CommandeEntete;
             $commandeEntete->id_num_commande = $numCommande;
             $commandeEntete->date = now();
-            $commandeEntete->id_user = $userId;
+            $commandeEntete->id_user = $userId; // ID de l'utilisateur
+
+            // --- AJOUT DES INFORMATIONS CLIENT ICI ---
+            $commandeEntete->telephone = $user->telephone;       // Récupéré depuis l'objet User authentifié
+            $commandeEntete->ville = $user->ville;               // Récupéré depuis l'objet User authentifié
+            $commandeEntete->code_postal = $user->code_postal;     // Récupéré depuis l'objet User authentifié
+            $commandeEntete->adresse_livraison = $adresseLivraison; // Utilise l'adresse validée provenant du formulaire ($request)
+            // --- FIN DE L'AJOUT ---
+
+            // Initialisation des totaux (sera mis à jour plus tard)
             $commandeEntete->total_ht = 0;
+            $commandeEntete->total_ttc = 0;
+            $commandeEntete->total_tva = 0;
+            $commandeEntete->total_remise = 0; // Initialisation
+
+            // Sauvegarde initiale de l'entête (avec les infos client ajoutées)
             $commandeEntete->save();
 
-            $cartItems = Session::get('cart', []);
+            $lastItemNameForEmail = ''; // Variable pour stocker le nom du dernier article pour l'email (attention: bug potentiel dans l'email original)
 
             foreach ($cartItems as $item) {
+                // Assurer que les données minimales existent dans l'item du panier
+                if (!isset($item['id'], $item['price'], $item['quantity'], $item['taille'])) {
+                    Log::warning('Item invalide dans le panier lors de la commande : ' . json_encode($item));
+                    continue; // Saute cet article invalide
+                }
+
+                // Utilisation de tes calculs HT/TVA originaux
+                $prixLigneTTC = $item['price'] * $item['quantity'];
+                $prixLigneHT = $prixLigneTTC * 0.8; // Ton calcul original
+                $montantLigneTVA = $prixLigneTTC * 0.2; // Ton calcul original
+
                 $commandeEntete->Details()->create([
                     'id_commande' => $commandeEntete->id,
                     'id_article' => $item['id'],
                     'taille' => $item['taille'],
                     'quantite' => $item['quantity'],
-                    'prix_ttc' => $item['price'] * $item['quantity'],
-                    'prix_ht' => $item['price'] * $item['quantity'] * .8,
-                    'montant_tva' => $item['price'] * $item['quantity'] * .2,
-                    'remise' => 0,
+                    'prix_ttc' => $prixLigneTTC,
+                    'prix_ht' => $prixLigneHT,
+                    'montant_tva' => $montantLigneTVA,
+                    'remise' => 0, // Gérer la remise si nécessaire
                 ]);
 
-                $total_ht += $item['price'] * $item['quantity'] * .8;
-                $total_ttc += $item['price'] * $item['quantity'];
-                $total_tva += $item['price'] * $item['quantity'] * .2;
+                // Mise à jour des totaux globaux
+                $total_ht += $prixLigneHT;
+                $total_ttc += $prixLigneTTC;
+                $total_tva += $montantLigneTVA;
 
+                // Mise à jour du stock
                 $article = Article::find($item['id']);
-                $stock = $article->tailles()->where('taille', $item['taille'])->get()->first()->stock;
-                $article->tailles()->where('taille', $item['taille'])->decrement('stock', min($stock, $item['quantity']));
+                if ($article) {
+                    // Trouver la taille spécifique et décrémenter le stock
+                    $tailleStock = $article->tailles()->where('taille', $item['taille'])->first();
+                    if ($tailleStock) {
+                        $stockActuel = $tailleStock->stock;
+                        // Décrémente le stock, sans aller en dessous de 0
+                        $quantiteADeduire = min($stockActuel, $item['quantity']);
+                        if ($quantiteADeduire > 0) {
+                            $tailleStock->decrement('stock', $quantiteADeduire);
+                        } else {
+                            Log::warning("Stock déjà à 0 ou négatif pour article ID {$item['id']} taille {$item['taille']} avant décrémentation.");
+                        }
+                    } else {
+                        Log::error("Impossible de trouver la taille '{$item['taille']}' pour l'article ID {$item['id']} lors de la mise à jour du stock.");
+                        // Considérer de jeter une exception ou d'annuler ici si le stock est critique
+                    }
+                } else {
+                    Log::error("Article ID {$item['id']} non trouvé lors de la mise à jour du stock.");
+                    // Considérer de jeter une exception ou d'annuler ici
+                }
+
+                // Stocke le nom du dernier article pour l'email (conserve le comportement original)
+                if (isset($item['name'])) {
+                    $lastItemNameForEmail = $item['name'];
+                }
             }
 
+            // Mise à jour finale des totaux dans l'entête
             $commandeEntete->total_ht = $total_ht;
             $commandeEntete->total_ttc = $total_ttc;
             $commandeEntete->total_tva = $total_tva;
-            $commandeEntete->save();
+            // $commandeEntete->total_remise = $total_remise; // Si tu calcules une remise globale
+            $commandeEntete->save(); // Sauvegarde les totaux mis à jour
 
-            // Envoyer un mail à l'administrateur
-            $subject = 'Nouvelle Commande Passée sur le Site';
-            $message = "Une nouvelle commande a été passée par le client:($userName)\n";
-            $message .= "Date de la commande: {$commandeEntete->date}\n";
-            $message .= "Total de la commande: {$total_ttc} €\n\n";
-            $message .= "Détails de la commande:\n" . $item['name'];
+            // Vider le panier après succès
+            Session::forget('cart');
 
-            Mail::raw($message, function ($message) {
-                $message->to('adlenssouci03@gmail.com')
-                    ->subject('Nouvelle Commande sur votre site');
-            });
+            // --- Envoi des emails (code original) ---
+            try {
+                // Envoyer un mail à l'administrateur
+                $subjectAdmin = 'Nouvelle Commande Passée sur le Site';
+                // Ajout des détails dans le message admin pour plus de clarté
+                $messageAdmin = "Une nouvelle commande (#{$commandeEntete->id_num_commande}) a été passée par le client : ($userName) - Email: {$email}\n";
+                $messageAdmin .= "Date de la commande: " . $commandeEntete->date->format('d/m/Y H:i:s') . "\n";
+                $messageAdmin .= "Adresse de livraison: {$commandeEntete->adresse_livraison}, {$commandeEntete->code_postal} {$commandeEntete->ville}\n";
+                $messageAdmin .= "Téléphone: {$commandeEntete->telephone}\n";
+                $messageAdmin .= "Total TTC de la commande: " . number_format($total_ttc, 2, ',', ' ') . " €\n\n";
+                // Note: Le détail '$item['name']' ici ne montrera que le nom du *dernier* article de la boucle.
+                // Pour une liste complète, il faudrait construire la chaîne dans la boucle.
+                $messageAdmin .= "Détails (dernier article): " . $lastItemNameForEmail;
 
-            // Email de confirmation de commande pour le client 
-            $message_confirmation = "Merci pour votre commande!";
-            $message_confirmation .= "Détails de la commande:\n" . $item['name'];
-            $message_confirmation .= "Total de la commande : {$total_ttc} €\n\n";
-            Mail::raw($message_confirmation, function ($mail) use ($email) {
-                $mail->to($email)
-                    ->subject('Confirmation de commande');
-            });
+                Mail::raw($messageAdmin, function ($message) use ($subjectAdmin) {
+                    $message->to('adlenssouci03@gmail.com') // Email Admin
+                        ->subject($subjectAdmin);
+                });
 
-            return response()->json(['message' => 'Commande passée avec succès ' . $commandeEntete->id]);
+
+                // Email de confirmation de commande pour le client
+                $subjectClient = 'Confirmation de commande N°' . $commandeEntete->id_num_commande;
+
+                $data = [
+                    'userName' => $userName,
+                    'commandeId' => $commandeEntete->id_num_commande,
+                    'date' => $commandeEntete->date->format('d/m/Y H:i:s'),
+                    'adresseLivraison' => $adresseLivraison,
+                    'codePostal' => $user->code_postal,
+                    'ville' => $user->ville,
+                    'articles' => $cartItems, // Détails des articles
+                    'totalTTC' => $total_ttc,
+                ];
+
+                // Envoyer l'email avec le template
+                Mail::send('emails.confirmation_commande', $data, function ($mail) use ($email, $subjectClient) {
+                    $mail->to($email) // Email Client
+                        ->subject($subjectClient);
+                });
+            } catch (\Exception $mailError) {
+                Log::error("Erreur lors de l'envoi des emails pour la commande {$commandeEntete->id_num_commande}: " . $mailError->getMessage());
+                // Ne pas bloquer la réponse utilisateur si l'email échoue
+            }
+            // --- Fin Envoi Emails ---
+
+
+            // Retourne le message de succès avec l'ID de la commande
+            return response()->json(['success' => true, 'message' => 'Commande passée avec succès !', 'commande_id' => $commandeEntete->id]);
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()]);
+            // Log l'erreur pour le débogage
+            Log::error("Erreur lors de la création de la commande : " . $e->getMessage() . " Stack: " . $e->getTraceAsString());
+            // Retourne un message d'erreur générique à l'utilisateur
+            return response()->json(['error' => true, 'message' => 'Une erreur technique est survenue lors de la création de votre commande. Détail : ' . $e->getMessage()], 500);
         }
     }
 }

@@ -14,11 +14,17 @@ return new class extends Migration {
             $table->id();
             $table->dateTime('date')->nullable(false);
             $table->unsignedBigInteger('id_user')->nullable(false);
+            $table->string('telephone')->nullable();
+            $table->string('ville')->nullable();
+            $table->string('code_postal')->nullable();
+            $table->string('adresse_livraison')->nullable();
+
             $table->unsignedBigInteger('id_num_commande')->nullable(false);
             $table->decimal('total_ht')->default(0);
             $table->decimal('total_ttc')->default(0);
             $table->decimal('total_tva')->default(0);
             $table->decimal('total_remise')->default(0);
+
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));

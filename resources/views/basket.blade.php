@@ -38,10 +38,10 @@
                                                     </h6>
                                                 </div>
                                                 <!--pointure-->
-                                                <div class="col-3 col-sm-2 col-md-2">
-                                                <h6 class="{{ $index % 2 == 0 ? 'text-black' : 'text-white' }} mb-0 item-price" data-item-price="{{ $item['price'] }}">
-                                                    € {{ number_format($item['price'] * $item['quantity'], 2) }} ({{ $item['taille'] }})
-                                                </h6>
+                                               <div class="col-3 col-sm-2 col-md-2">
+                                                    <h6 class="{{ $index % 2 == 0 ? 'text-black' : 'text-white' }} mb-0 item-size" data-item-size="{{ $item['taille'] }}">
+                                                        {{ $item['taille'] }}
+                                                    </h6>
                                                 </div>
 
                                                 <div class="col-3 col-sm-2 col-md-2">

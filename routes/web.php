@@ -39,6 +39,8 @@ Route::get('/test', function () {
     return view('test');
 });
 
+
+
 Route::get('/contact', [ContactController::class, 'showForm'])->name('contact.form');
 Route::post('/mail/test', [ContactController::class, 'sendMail'])->name('mail.test');
 
@@ -63,6 +65,7 @@ Route::post('/changer-quantiter', [BasketController::class, 'changer-quantiter']
 Route::post('/update-article-quantity', [BasketController::class, 'changerQuantiterPanier'])->name('update-article-quantity');
 Route::get('/get-total-price', [BasketController::class, 'calculerPrixTotal'])->name('get-total-price');
 // Route::get('/get-total-price', 'BasketController@calculerPrixTotal');
+
 
 Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article');
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');

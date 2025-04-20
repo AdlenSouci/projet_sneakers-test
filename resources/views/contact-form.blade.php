@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container contact-form">
         <div class="contact-image">
-            <img src="{{ asset('img_design/logo.png') }}" alt="sorel" />
+            <img src="{{ asset('img_design/logo.png') }}" alt="..." />
         </div>
         <form id="mailForm" method="POST" class="d-flex flex-column align-items-center">
             @csrf
