@@ -58,9 +58,9 @@
 ## 5. Livrables
 
 ### Bouml
-![Breeze authentification](bouml_e5/breeze.png)  
-![Panier de produit](bouml_e5/panier/panier.png)  
-![Consultation des pages](bouml_e5/panier/consult.png)  
+![Breeze authentification](bouml_e5/Image3.png)  
+![Panier de produit](bouml_e5/panier/Image2.png)  
+![Consultation des pages](bouml_e5/panier/Image1.png)  
 
 
 

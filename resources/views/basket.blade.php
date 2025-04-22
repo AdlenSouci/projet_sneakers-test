@@ -38,7 +38,7 @@
                                                     </h6>
                                                 </div>
                                                 <!--pointure-->
-                                               <div class="col-3 col-sm-2 col-md-2">
+                                                <div class="col-3 col-sm-2 col-md-2">
                                                     <h6 class="{{ $index % 2 == 0 ? 'text-black' : 'text-white' }} mb-0 item-size" data-item-size="{{ $item['taille'] }}">
                                                         {{ $item['taille'] }}
                                                     </h6>
@@ -66,10 +66,15 @@
                                             @if(auth()->check())
                                             <form action="{{ route('passer-commande') }}" method="post" onsubmit="event.preventDefault(); passerCommande();" class="mt-4">
                                                 @csrf
-                                                <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="adresse_livraison" id="adresse_livraison" placeholder="Adresse de livraison" required>
+                                                <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="adresse_livraison" id="adresse_livraison" placeholder="Adresse de livraison" required value="{{ auth()->user()->adresse_livraison }}">
+                                                <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="code_postal" id="code_postal" placeholder="Code postal" required value="{{ auth()->user()->code_postal }}">
+                                                <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="ville" id="ville" placeholder="Ville" required value="{{ auth()->user()->ville }}">
                                                 <button type="submit" id="passCommandButton" class="btn btn-dark btn-block w-100 rounded-pill">Passer la commande</button>
                                             </form>
                                             @else
+                                            <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="adresse_livraison" id="adresse_livraison" placeholder="Adresse de livraison" required>
+                                            <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="code_postal" id="code_postal" placeholder="Code postal" required>
+                                            <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="ville" id="ville" placeholder="Ville" required>
                                             <p class="text-center text-white mt-3 rounded-pill">Connectez-vous pour passer une commande.</p>
                                             @endif
                                         </div>
