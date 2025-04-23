@@ -43,6 +43,7 @@ class BasketController extends Controller
             'article_id' => 'required|exists:articles,id',
             'pointure' => 'required|string',
             'quantite' => 'required|integer|min:1|max:10',
+
         ]);
 
         $article = Article::findOrFail($request->article_id);
@@ -226,6 +227,11 @@ class BasketController extends Controller
 
     public function passerCommande(Request $request)
     {
+        $request->validate([
+            'adresse_livraison' => 'required|string|max:255',
+            'code_postal' => 'required|string|max:10',
+            'ville' => 'required|string|max:255',
+        ]);
         $userId = Auth::id();
         $user = Auth::user();
 

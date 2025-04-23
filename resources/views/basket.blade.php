@@ -193,6 +193,8 @@
 
         function passerCommande() {
             const adresseLivraison = document.getElementById('adresse_livraison').value;
+            const codePostal = document.getElementById('code_postal').value;
+            const ville = document.getElementById('ville').value;
 
             // Afficher immédiatement un message de chargement
             const successMessage = document.getElementById('successMessage');
@@ -206,7 +208,9 @@
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     body: JSON.stringify({
-                        adresse_livraison: adresseLivraison
+                        adresse_livraison: adresseLivraison,
+                        code_postal: codePostal,
+                        ville: ville
                     })
                 })
                 .then(response => {
