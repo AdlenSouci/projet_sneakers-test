@@ -8,7 +8,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/css/panier.css',
                 'resources/css/accueil.css',
-                  'resources/css/footer.css',
+                'resources/css/footer.css',
                 // 'resources/css/custom.css',
                 'resources/css/slick-theme.css',
                 'resources/css/slick-theme.min.css',

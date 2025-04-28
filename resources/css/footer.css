@@ -1,7 +1,10 @@
+/* FOOTER DESIGN */
 footer {
     background-color: #050505a2;
-    
     color: white;
+    position: relative;
+    width: 100%;
+    bottom: 0;
 }
 
 footer .text-uppercase {
@@ -13,9 +16,25 @@ footer .text-uppercase {
 footer a.text-white {
     text-decoration: none;
     color: white;
-    transition: color 0.3s ease; /* Ajout de la transition */
+    transition: color 0.3s ease;
 }
 
 footer a.text-white:hover {
-    color: #ffa600 !important; /* Forcer la couleur au survol */
+    color: #ffa600 !important;
+}
+
+/* Fixer le footer en bas */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Au moins 100% de la hauteur de la fenêtre */
+}
+
+main {
+    flex: 1; /* Permet à <main> de prendre tout l'espace libre */
 }
