@@ -1,9 +1,7 @@
 footer {
     background-color: #050505a2;
+    
     color: white;
-    position: sticky; /* Reste visible lors du défilement */
-    bottom: 0; /* Fixé en bas de l'écran */
-    z-index: 1030; /* Assure que le footer passe au-dessus */
 }
 
 footer .text-uppercase {
