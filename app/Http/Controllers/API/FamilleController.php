@@ -21,23 +21,41 @@ class FamilleController extends Controller
     // Ajouter une nouvelle famille
     public function store(Request $request)
     {
-        // Validation des données
-        $validator = Validator::make($request->all(), [
-            'nom_famille' => 'required|string|max:255',
-            //'id_parent' => 'integer', // Validation pour id_parent
+        // // Validation des données
+        // $validator = Validator::make($request->all(), [
+        //     'nom_famille' => 'required|string|max:255',
+        //     //'id_parent' => 'integer', // Validation pour id_parent
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json($validator->errors(), 400);
+        // }
+
+        // // Création de l'article
+        // try {
+        //     $famille = Famille::create($request->all());
+        // } catch (\Exception $e) {
+        //     return response()->json(['error' => 'Erreur lors de la création de la famille. ' . $e->getMessage()], 500);
+        // }
+
+        // return response()->json($famille, 201);
+
+
+        $request->validate([
+            'nom_famille' => 'required|string|max:255', 
+            //'id_parent' => 'integer',
         ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
 
-        // Création de l'article
-        try {
-            $famille = Famille::create($request->all());
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Erreur lors de la création de la famille. ' . $e->getMessage()], 500);
-        }
+        // Création et insertion de la marque dans la base de données
+        $familles = Famille::create([
+            'nom_famille' => $request->nom_famille, 
+        ]);
 
-        return response()->json($famille, 201);
+        // Vérification si l'insertion a réussi
+        if ($familles) {
+            return response()->json($familles, 201); // Retourne la marque créée avec un code 201 (créé)
+        } else {
+            return response()->json(['message' => 'Erreur lors de l\'insertion'], 500);
+        }
     }
 
     // Méthode pour mettre à jour un article (si nécessaire)

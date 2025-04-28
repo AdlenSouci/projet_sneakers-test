@@ -3,37 +3,32 @@
         <div class="contact-image">
             <img src="{{ asset('img_design/logo.png') }}" alt="..." />
         </div>
+
         <form id="mailForm" method="POST" class="d-flex flex-column align-items-center">
             @csrf
             <h3 class="text-center">Contactez-nous</h3>
-            <div class="form-group w-75">
-                <input type="text" name="name" class="form-control" placeholder="Votre nom *" required />
-            </div>
-            <div class="form-group w-75">
-                <input type="text" name="prenom" class="form-control" placeholder="Votre prénom *" required />
-            </div>
-            <div class="form-group w-75">
-                <input type="email" name="email" class="form-control" placeholder="Votre adresse e-mail *" required />
-            </div>
+
             <div class="form-group w-75">
                 <textarea name="message" class="form-control" placeholder="Votre message *" style="width: 100%; height: 150px;" required></textarea>
             </div>
+
             <div class="form-group w-75 d-flex justify-content-center">
                 {!! NoCaptcha::display() !!}
                 @error('g-recaptcha-response')
-                <span class="text-danger">{{ $message }}</span>
+                    <span class="text-danger">{{ $message }}</span>
                 @enderror 
             </div>
+
             <div class="form-group w-75 d-flex justify-content-center">
                 <button type="submit" id="btnEnvoyer" class="btnContact">Envoyer</button>
             </div>
         </form>
-    </div>
 
-    <!-- Pop-up de confirmation -->
-    <div id="popupConfirmation" class="popup" style="display:none;">
-        <p>Votre message a bien été envoyé.</p>
-        <button id="closePopup" class="btnContactSubmit">OK</button>
+        <!-- Pop-up de confirmation -->
+        <div id="popupConfirmation" class="popup" style="display:none;">
+            <p>Votre message a bien été envoyé.</p>
+            <button id="closePopup" class="btnContactSubmit">OK</button>
+        </div>
     </div>
 
     @vite(['resources/css/accueil.css'])
