@@ -10,11 +10,7 @@ class ContactController extends Controller
 {
     public function showForm()
     {
-        // L'utilisateur doit être connecté pour voir le formulaire
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Vous devez être connecté pour envoyer un message.');
-        }
-
+        // Plus de redirection ici !
         return view('contact-form');
     }
 
@@ -41,12 +37,12 @@ class ContactController extends Controller
         try {
             Mail::send('emails.contact', $details, function ($message) use ($details) {
                 $message->to('adlenssouci03@gmail.com')
-                    ->subject('Contact Form Message');
+                        ->subject('Contact Form Message');
             });
 
-            return response()->json(['success' => true, 'message' => 'Email sent successfully!']);
+            return response()->json(['success' => true, 'message' => 'Email envoyé avec succès!']);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Email sending failed: ' . $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Échec de l\'envoi de l\'email : ' . $e->getMessage()], 500);
         }
     }
 }

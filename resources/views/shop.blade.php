@@ -62,10 +62,12 @@
 
                         <div class="card mb-4 product-wap rounded-lg">
                             <div class="card rounded-sm">
-                                <img class="card-img rounded-0 img-fluid" src="{{ asset('img/' . $article['img']) }}"
-                                    alt="Product Image" />
-                                <div
-                                    class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <div class="image-container">
+                                    <img class="img-fluid" src="{{ asset('img/' . $article['img']) }}"
+                                        alt="Product Image" />
+
+                                </div>
+                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
                                         <li><a class="btn btn-success text-white mt-2"
                                                 href="{{ route('article', $article['id']) }}"><i class="far fa-eye"></i></a>
@@ -182,8 +184,8 @@
     </section>
 
     <!-- mettre un espace-->
-     <br> 
-     <br>
+    <br>
+    <br>
 
 
 

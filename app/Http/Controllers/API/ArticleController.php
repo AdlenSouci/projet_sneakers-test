@@ -57,9 +57,9 @@ class ArticleController extends Controller
             'prix_public' => 'required|numeric',
             'prix_achat' => 'required|numeric',
             'img' => 'nullable|string|max:255',
-            'id_famille' => 'required|integer', // Validation pour id_famille
-            'id_couleur' => 'nullable|integer', // Validation pour id_couleur,
-            'id_marque' => 'required|integer', // Validation pour id_marque
+            'id_famille' => 'required|integer', 
+            'id_couleur' => 'nullable|integer', 
+            'id_marque' => 'required|integer', 
         ]);
 
         if ($validator->fails()) {

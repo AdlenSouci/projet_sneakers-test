@@ -1,11 +1,14 @@
 <x-app-layout>
+
     <div class="container contact-form">
         <div class="contact-image">
             <img src="{{ asset('img_design/logo.png') }}" alt="..." />
         </div>
 
+        @if (Auth::check())
         <form id="mailForm" method="POST" class="d-flex flex-column align-items-center">
             @csrf
+
             <h3 class="text-center">Contactez-nous</h3>
 
             <div class="form-group w-75">
@@ -15,8 +18,8 @@
             <div class="form-group w-75 d-flex justify-content-center">
                 {!! NoCaptcha::display() !!}
                 @error('g-recaptcha-response')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror 
+                <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="form-group w-75 d-flex justify-content-center">
@@ -29,6 +32,10 @@
             <p>Votre message a bien été envoyé.</p>
             <button id="closePopup" class="btnContactSubmit">OK</button>
         </div>
+        @else
+        <h3 class="text-center">Vous devez vous connecter pour envoyer un message.</h3>
+        @endif
+
     </div>
 
     @vite(['resources/css/accueil.css'])

@@ -334,9 +334,30 @@ Table of contents
   /* Assure que la carte prend toute la hauteur de son conteneur */
 }
 
-.card-img {
-  height: 200px;
-  /* Fixe la hauteur de l'image pour toutes les cartes */
-  object-fit: cover;
-  /* Assure que l'image couvre le conteneur sans déformer */
+.image-container {
+  height: 200px;      /* <<< Hauteur fixe désirée pour l'image */
+  width: 100%;
+  overflow: hidden;
+  display: block;
+  /* position: relative; Pas forcément nécessaire ici */
 }
+
+/* 2. Dire à l'image de remplir cette boîte */
+.image-container img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* 3. FORCER la div parente '.card.rounded-sm' à avoir la MÊME HAUTEUR */
+.card.rounded-sm {
+    height: 200px;      /* <<< MÊME HAUTEUR que .image-container */
+    padding: 0;         /* Enlever tout espace intérieur */
+    border: none;       /* Optionnel: Enlever la bordure si elle ajoute de la hauteur */
+    overflow: hidden;   /* S'assurer que rien ne dépasse (l'image ou l'overlay) */
+    position: relative; /* Garder pour que l'overlay se positionne correctement */
+}
+
+/* 4. S'assurer que l'overlay ne gêne pas (normalement pas le cas) */
