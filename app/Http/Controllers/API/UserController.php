@@ -22,11 +22,11 @@ class UserController extends Controller
         // Validation des données
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email', // Vérifie que l'email est unique
             'password' => 'required|string|min:6',
             'adresse_livraison' => 'nullable|string|max:255',
         ]);
-
+    
         // Créer l'utilisateur avec les données validées
         $user = User::create([
             'name' => $request->name,
@@ -35,7 +35,7 @@ class UserController extends Controller
             'adresse_livraison' => $request->adresse_livraison,
             'is_admin' => $request->is_admin ?? false,  // Si is_admin n'est pas défini, on met false par défaut
         ]);
-
+    
         // Retourner une réponse JSON avec l'utilisateur créé
         return response()->json($user, 201);
     }
