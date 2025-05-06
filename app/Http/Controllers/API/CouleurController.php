@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Couleur;
 use Carbon\Carbon;
+
 class CouleurController extends Controller
 {
     // Récupérer toutes les couleurs
@@ -16,10 +17,15 @@ class CouleurController extends Controller
     }
     public function store(Request $request)
     {
-
         $request->validate([
             'nom_couleur' => 'required|string|max:255',
         ]);
+
+        // Vérifier si la couleur existe déjà
+        $existingCouleur = Couleur::where('nom_couleur', $request->nom_couleur)->first();
+        if ($existingCouleur) {
+            return response()->json(['error' => 'Cette couleur existe déjà.'], 409);
+        }
 
         // Création de la couleur
         $couleur = Couleur::create([

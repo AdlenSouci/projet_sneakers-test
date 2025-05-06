@@ -20,12 +20,17 @@ class MarqueController extends Controller
     {
         // Validation des données envoyées par l'utilisateur
         $request->validate([
-            'nom_marque' => 'required|string|max:255', 
+            'nom_marque' => 'required|string|max:255',
         ]);
+
+        $existingMarque = Marque::where('nom_marque', $request->nom_marque)->first();
+        if ($existingMarque) {
+            return response()->json(['error' => 'Cette marque existe déjà.'], 409);
+        }
 
         // Création et insertion de la marque dans la base de données
         $marque = Marque::create([
-            'nom_marque' => $request->nom_marque, 
+            'nom_marque' => $request->nom_marque,
         ]);
 
         // Vérification si l'insertion a réussi
@@ -41,7 +46,7 @@ class MarqueController extends Controller
     {
         // Validation des données
         $request->validate([
-            'nom_marque' => 'required|string|max:255', 
+            'nom_marque' => 'required|string|max:255',
         ]);
 
         // Trouver la marque par son ID
@@ -49,7 +54,7 @@ class MarqueController extends Controller
 
         // Mise à jour des informations de la marque
         $marque->update([
-            'nom_marque' => $request->nom_marque, 
+            'nom_marque' => $request->nom_marque,
         ]);
 
         // Retourner la marque mise à jour
