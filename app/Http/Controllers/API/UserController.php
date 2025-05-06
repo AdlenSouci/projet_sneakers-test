@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -20,13 +21,21 @@ class UserController extends Controller
     public function store(Request $request)
     {
         // Validation des données
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email', // Vérifie que l'email est unique
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
             'adresse_livraison' => 'nullable|string|max:255',
         ]);
+        if ($validator->fails()) {
+            // Vérifier si l'erreur est due à l'email déjà utilisé
+            if ($validator->errors()->has('email')) {
+                return response()->json(['error' => 'Un utilisateur avec cet email existe déjà.'], 409);
+            }
     
+            return response()->json($validator->errors(), 400);
+        }
+
         // Créer l'utilisateur avec les données validées
         $user = User::create([
             'name' => $request->name,
@@ -35,7 +44,7 @@ class UserController extends Controller
             'adresse_livraison' => $request->adresse_livraison,
             'is_admin' => $request->is_admin ?? false,  // Si is_admin n'est pas défini, on met false par défaut
         ]);
-    
+
         // Retourner une réponse JSON avec l'utilisateur créé
         return response()->json($user, 201);
     }

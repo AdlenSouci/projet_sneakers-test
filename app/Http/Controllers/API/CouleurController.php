@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Couleur;
 use Carbon\Carbon;
+use illuminate\Support\Facades\Validator;
 
 class CouleurController extends Controller
 {
@@ -16,24 +17,29 @@ class CouleurController extends Controller
         return response()->json($couleurs);
     }
     public function store(Request $request)
-    {
-        $request->validate([
-            'nom_couleur' => 'required|string|max:255',
-        ]);
+{
+    // Validation des données
+    $validator = Validator::make($request->all(), [
+        'nom_couleur' => 'required|string|max:255|unique:couleurs,nom_couleur',
+    ]);
 
-        // Vérifier si la couleur existe déjà
-        $existingCouleur = Couleur::where('nom_couleur', $request->nom_couleur)->first();
-        if ($existingCouleur) {
+    if ($validator->fails()) {
+        // Vérifier si l'erreur est due à l'unicité du nom de la couleur
+        if ($validator->errors()->has('nom_couleur')) {
             return response()->json(['error' => 'Cette couleur existe déjà.'], 409);
         }
 
-        // Création de la couleur
-        $couleur = Couleur::create([
-            'nom_couleur' => $request->nom_couleur,
-        ]);
-
-        return response()->json($couleur, 201);
+        return response()->json($validator->errors(), 400);
     }
+
+    // Création de la couleur
+    $couleur = Couleur::create([
+        'nom_couleur' => $request->nom_couleur,
+    ]);
+
+    // Retourner une réponse JSON avec la couleur créée
+    return response()->json($couleur, 201);
+}
 
 
     public function update(Request $request, $id)

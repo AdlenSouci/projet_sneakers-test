@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Avis;
+use illuminate\Support\Facades\Validator;
 
 class AvisController extends Controller
 {
@@ -17,30 +18,35 @@ class AvisController extends Controller
 
     // Ajouter un nouvel avis
     public function store(Request $request)
-    {
-        // Validation des données
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'contenu' => 'required|string',
-            'note' => 'required|integer|between:1,5',
-            'article_id' => 'required|exists:articles,id',
-        ]);
+{
+    // Validation des données
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'contenu' => 'required|string',
+        'note' => 'required|integer|between:1,5',
+        'article_id' => 'required|exists:articles,id',
+    ]);
 
-        // Création de l'avis
-        $avis = Avis::create([
-            'user_id' => $request->user_id,
-            'article_id' => $request->article_id,
-            'contenu' => $request->contenu,
-            'note' => $request->note,
-        ]);
+    // Vérifier si l'avis existe déjà pour cet utilisateur et cet article
+    $existingAvis = Avis::where('user_id', $request->user_id)
+        ->where('article_id', $request->article_id)
+        ->first();
 
-        // Vérifiez si l'avis a été inséré
-        if ($avis) {
-            return response()->json($avis, 201);
-        } else {
-            return response()->json(['message' => 'Erreur lors de l\'insertion'], 500);
-        }
+    if ($existingAvis) {
+        return response()->json(['error' => 'Vous avez déjà laissé un avis pour cet article.'], 409);
     }
+
+    // Création de l'avis
+    $avis = Avis::create([
+        'user_id' => $request->user_id,
+        'article_id' => $request->article_id,
+        'contenu' => $request->contenu,
+        'note' => $request->note,
+    ]);
+
+    // Retourner une réponse JSON avec l'avis créé
+    return response()->json($avis, 201);
+}
 
     // Mettre à jour un avis
     public function update(Request $request, $id)

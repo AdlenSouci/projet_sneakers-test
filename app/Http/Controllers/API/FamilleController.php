@@ -10,6 +10,7 @@ use App\Models\Famille;
 use Illuminate\Database\QueryException;
 
 
+
 class FamilleController extends Controller
 {
     public function index()
@@ -21,30 +22,27 @@ class FamilleController extends Controller
     // Ajouter une nouvelle famille
     public function store(Request $request)
     {
-
-
-
-        $request->validate([
-            'nom_famille' => 'required|string|max:255',
-            //'id_parent' => 'integer',
+        // Validation des données
+        $validator = Validator::make($request->all(), [
+            'nom_famille' => 'required|string|max:255|unique:familles,nom_famille',
         ]);
 
-        $existingFamille = Famille::where('nom_famille', $request->nom_famille)->first();
-        if ($existingFamille) {
-            return response()->json(['error' => 'Cette famille existe déjà.'], 409);
+        if ($validator->fails()) {
+            // Vérifier si l'erreur est due à l'unicité du nom de la famille
+            if ($validator->errors()->has('nom_famille')) {
+                return response()->json(['error' => 'Cette famille existe déjà.'], 409);
+            }
+
+            return response()->json($validator->errors(), 400);
         }
 
-        // Création et insertion de la marque dans la base de données
-        $familles = Famille::create([
+        // Création et insertion de la famille dans la base de données
+        $famille = Famille::create([
             'nom_famille' => $request->nom_famille,
         ]);
 
-        // Vérification si l'insertion a réussi
-        if ($familles) {
-            return response()->json($familles, 201); // Retourne la marque créée avec un code 201 (créé)
-        } else {
-            return response()->json(['message' => 'Erreur lors de l\'insertion'], 500);
-        }
+        // Retourner une réponse JSON avec la famille créée
+        return response()->json($famille, 201);
     }
 
     // Méthode pour mettre à jour un article (si nécessaire)
