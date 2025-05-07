@@ -48,6 +48,8 @@ Route::get('/article', [ArticleController::class, 'index']);
 Route::post('/article', [ArticleController::class, 'store']);
 Route::put('/article/{id}', [ArticleController::class, 'update']);
 Route::delete('/article/{id}', [ArticleController::class, 'destroy']);
+Route::post('/article/{id}/tailles', [ArticleController::class, 'ajouterTailles']);
+
 
 // Familles
 Route::get('/famille', [FamilleController::class, 'index']);
