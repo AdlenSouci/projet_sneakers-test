@@ -1,21 +1,12 @@
+/* VOTRE CODE CSS DE BASE (inchangé) */
 html,
 body {
     height: 100%;
-
-
     margin: 0;
-
     background-image: url('../img_design/Designer.png');
-
     background-size: cover;
-    /* Couvre toute la zone */
     background-position: center;
-    /* Centre l'image */
 }
-
-
-
-/*contaxt-form*/
 
 .contact-form {
     background: #e07d1ac2;
@@ -87,50 +78,29 @@ body {
     text-align: center;
 }
 
-/*fin du contact form*/
-
 #page {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-
 main {
     flex-grow: 1;
-
 }
-
 
 .header-custom {
-
-
     width: 80%;
-
     max-width: 1200px;
-    /* fixe la largeur maximale du header à 1200px */
     margin: 0 auto;
-    /* centre le header horizontalement */
-
-    /* background-repeat: no-repeat; */
     background-position: center;
-    /*changer la taille */
-
 }
-
-
 
 #rotating-text {
     min-height: 2.5em;
-    /* Ajustez cette hauteur en fonction du texte le plus long */
     transition: opacity 0.5s ease;
-
     color: #252423;
-    /* Couleur du texte */
     font-size: 1.5em;
-    /* Taille de police */
     font-weight: bold;
-    /* Gras */
 }
 
 .custom-label {
@@ -141,75 +111,54 @@ main {
     padding-bottom: 0;
 }
 
-
 .product-wap {
     max-width: 280px;
-    /* Ajustez la largeur selon vos besoins */
     height: auto;
     margin: auto;
 }
 
 .card-body {
     padding: 10px;
-
 }
 
 .custom-text-center {
     font-size: 0.9rem;
-    /* Réduit la taille du texte */
 }
 
-
 .custom-button-populaire {
-   /*ajouster la largeur */
     width: 150;
 }
 
 .card img {
     height: 180px;
-    /* Ajuste la hauteur de l'image */
     object-fit: cover;
-    /* Ajuste l'image pour bien remplir l'espace */
     width: 320px;
-
     height: 180px;
 }
 
 @media (max-width: 576px) {
     .product-wap {
         margin: 0 auto;
-        /* Centre les cartes sur petit écran */
     }
 }
-
 
 .row.gx-4.gx-lg-5.justify-content-center.g-3 {
     display: flex;
     justify-content: center;
-    /* Centrage horizontal */
     flex-wrap: wrap;
     gap: 1rem;
-    /* Ajuste l'espacement entre les cartes */
 }
 
-
-
-/* Ajout de style pour la vue mobile */
 @media (max-width: 768px) {
     .card {
         margin: 0 auto;
-        /* Centre chaque carte sur petit écran */
         width: 90%;
-        /* S'assure que la carte n'est pas trop large */
     }
 }
 
-
 .carousel {
     margin: auto;
-    /* Centrer horizontalement */
     max-width: 800px;
-    /* Largeur maximale du carousel */
 }
 
 .popular {
@@ -217,45 +166,23 @@ main {
 }
 
 .custom-container-basket-shadow {
-
     box-shadow: 0px 0px 15px 7px #de7105;
-
 }
 
 .carousel-item img {
     max-height: 400px;
-
     object-fit: cover;
-
     width: 100%;
-
 }
-
 
 #contact {
-
     width: 500px;
-
 }
-
-
-
 
 .tenor-gif-embed img {
     width: 50%;
     height: auto;
 }
-
-/* .custom-card {
-
-    width: 240px;
-    margin: 0 10px;
-
-
-} */
-
-
-
 
 /* bouton input page article */
 .stock-badge {
@@ -270,44 +197,30 @@ main {
 }
 
 .custom-input-small {
-
-
     width: 30px;
     height: 30px;
 }
 
 .custom-input-small-2 {
-
     width: 50px;
     height: 30px;
-
 }
 
 .custom-section-avis:hover {
-    /* mettre un fond transparant */
     background-color: rgba(0, 0, 0, 0.5);
-
     color: #632603;
-
 }
 
 /* footer */
 footer {
     background-color: #000000;
-
-
-
     margin: 0;
-    /* Supprime toutes les marges */
     padding: 0;
-    /* Supprime tous les paddings */
 }
 
 .container-footer {
     margin-top: 20px;
-
 }
-
 
 video {
     border: 20px solid #fff;
@@ -327,39 +240,24 @@ video {
     position: absolute;
     top: 0;
     right: 0;
-    
 }
 
 .custom-nav-link:hover {
     color: #fff;
-
-
 }
 
 .custom-Copyright {
-
-
     font-size: 16px;
 }
 
 .custom-nav-link {
-
     font-size: 14px;
     color: #de6e0d;
 }
 
-
-
-
-
-
-
-
 button .fas {
     margin-right: 5px;
 }
-
-
 
 .h3 {
     text-align: center;
@@ -367,16 +265,16 @@ button .fas {
 
 .carousel-inner {
     width: 100%;
-    max-height: 600px; /* Ajuste la hauteur selon tes besoins */
+    max-height: 600px;
 }
 
 .carousel-item img {
     width: 100%;
     height: auto;
-    max-height: 500px; /* Ajuste si nécessaire */
+    max-height: 500px;
     object-fit: cover;
 }
-    
+
 @media (max-width: 768px) {
     .container {
         width: 95%;
@@ -409,9 +307,522 @@ button .fas {
     }
 }
 
-
 @media (max-width: 576px) {
     .custom-select {
         width: 100%;
     }
+}
+
+/* === AJOUTS CSS POUR LA RÉACTIVITÉ GLOBALE (basé sur votre HTML et CSS existants) === */
+
+/* Ajustements pour les écrans très petits (< 576px) */
+@media (max-width: 575.98px) {
+    /* Force l'empilement et centre le contenu des colonnes qui n'ont pas de classes col-xs-* */
+     /* Cela cible TOUTES les divs enfants directs des .row (vos colonnes) */
+    .row > div[class*="col-"] {
+        width: 100% !important; /* Force à prendre toute la largeur pour empiler */
+        margin-bottom: 15px !important; /* Ajoute un espace vertical entre les éléments empilés */
+        text-align: center !important; /* Centre le contenu */
+    }
+
+    /* Enlever la marge du bas pour le dernier élément empilé dans une rangée */
+    .row > div[class*="col-"]:last-child {
+        margin-bottom: 0 !important;
+    }
+
+  
+    .row.gx-4.gx-lg-5.align-items-center > .col-md-6:first-child img {
+         max-width: 80% !important; /* Limite la taille de l'image */
+         height: auto !important;
+         margin: 0 auto !important; /* Centre l'image */
+    }
+
+    /* Gérer le conteneur des options dans la section principale de l'article */
+     .row.gx-4.gx-lg-5.align-items-center > .col-md-6:last-child > .d-flex.align-items-center {
+         flex-direction: column !important; /* Empile les options */
+         align-items: stretch !important; /* Étire les options pour prendre la largeur */
+         /* justify-content: center !important; /* Peut causer des problèmes si les éléments ne s'étirent pas complètement */
+         padding: 0 10px !important; /* Ajouter un petit padding horizontal pour éviter que le contenu colle aux bords */
+     }
+
+    /* Gérer chaque groupe d'option (badge, pointure, quantité, bouton) dans la section principale */
+     .row.gx-4.gx-lg-5.align-items-center > .col-md-6:last-child > .d-flex.align-items-center > * {
+         width: 100% !important; /* Force chaque option à prendre toute la largeur */
+         margin-bottom: 10px !important; /* Ajoute un espace vertical */
+         margin-right: 0 !important; /* Supprime les marges horizontales Bootstrap comme me-3 */
+         text-align: center !important; /* Centre le contenu de l'option */
+     }
+    /* Enlever la marge du bas pour le dernier groupe d'option */
+     .row.gx-4.gx-lg-5.align-items-center > .col-md-6:last-child > .d-flex.align-items-center > *:last-child {
+         margin-bottom: 0 !important;
+     }
+
+    /* Ajuster les inputs/selects custom dans la section principale de l'article pour ne pas qu'ils soient coupés */
+     .custom-select-2,
+     .form-control-2 {
+         width: auto !important; /* Laisse le conteneur flex gérer */
+         flex-grow: 1 !important; /* S'étire pour prendre l'espace */
+         min-width: 50px !important; /* Minimum pour qu'ils soient utilisables */
+         margin: 0 auto !important; /* Centrer si nécessaire */
+         text-align: center !important; /* Centrer le texte dans l'input/select */
+     }
+
+      .row.gx-4.gx-lg-5.align-items-center .d-flex.align-items-center > div.d-flex {
+          justify-content: center !important; 
+          width: 100% !important; 
+      }
+    
+      .row.gx-4.gx-lg-5.align-items-center label[for="pointure"] {
+          white-space: nowrap !important; /* Empêche le texte de se couper */
+          flex-shrink: 0 !important; /* Empêche le label de rétrécir */
+          margin-right: 5px !important; /* Assure un petit espace */
+      }
+       /* S'assurer que le texte du label Qté n'est pas coupé */
+       .row.gx-4.gx-lg-5.align-items-center label[for="quantite"] {
+           white-space: nowrap !important; /* Empêche le texte de se couper */
+           flex-shrink: 0 !important; /* Empêche le label de rétrécir */
+           margin-right: 5px !important; /* Assure un petit espace */
+       }
+        /* Ajuster l'espace entre l'icône chaussure et le select pointure */
+        .row.gx-4.gx-lg-5.align-items-center .d-flex.align-items-center > div.d-flex.me-3:first-of-type > i.fas.fa-shoe-prints {
+            margin-right: 5px !important;
+            flex-shrink: 0 !important;
+        }
+         /* Ajuster l'espace entre l'icône quantité et l'input quantité */
+         .row.gx-4.gx-lg-5.align-items-center .d-flex.align-items-center > div.d-flex.me-3:nth-of-type(2) > i.fas.fa-sort-amount-up {
+             margin-right: 5px !important;
+             flex-shrink: 0 !important;
+         }
+
+
+    /* Gérer le bouton "Ajouter au panier" dans la section principale */
+     #ajouter_au_panier {
+         width: 100% !important;
+         margin-left: 0 !important; 
+         margin-top: 10px !important; 
+     
+          white-space: nowrap !important; 
+          overflow: hidden !important; 
+          text-overflow: ellipsis !important; 
+          padding: 0.375rem 0.75rem !important; 
+          font-size: 0.875rem !important;     
+          line-height: 1.5 !important;      
+          border-radius: 0.2rem !important;   
+          min-width: 80px !important; 
+          text-align: center !important; 
+     }
+
+
+    /* Gérer la section 'Ajouter un avis' et 'Avis des clients' */
+    .container > h2.fw-bolder {
+        text-align: center !important; /* Centrer les titres de section */
+    }
+    .container > p {
+        text-align: center !important; /* Centrer les messages (ex: "Vous avez déjà donné un avis...") */
+    }
+    /* Formulaire d'avis */
+    .container form {
+        padding: 15px !important; /* Ajouter du padding interne au formulaire */
+        border: 1px solid #ddd !important; /* Ajouter une bordure pour le visuel */
+        border-radius: 8px !important;
+        background-color: #f8f8f8 !important; /* Fond léger */
+        max-width: 100% !important; /* S'assurer qu'il ne dépasse pas */
+         margin: 0 auto 20px auto !important; /* Centrer le formulaire */
+    }
+     .container form .form-label {
+         width: 100% !important; /* Label sur sa propre ligne */
+         text-align: left !important; /* Aligner le label à gauche */
+         margin-bottom: 5px !important; /* Espace sous le label */
+     }
+      .container form .form-control, .container form .form-select {
+         width: 100% !important; /* Input/Select prend toute la largeur */
+      }
+      .container form button[type="submit"].btn {
+           width: 100% !important; /* Bouton Soumettre prend toute la largeur */
+           margin-top: 15px !important; /* Espace au-dessus du bouton */
+      }
+     /* Avis clients */
+     .list-unstyled > li {
+         width: 100% !important; /* Chaque avis prend toute la largeur */
+         margin-bottom: 10px !important; /* Espace entre les avis */
+     }
+      .list-unstyled > li > div.p-3 {
+          word-break: break-word !important; /* Permettre aux longs mots de se couper */
+          text-align: left !important; /* Aligner le texte de l'avis à gauche */
+      }
+      .list-unstyled strong {
+          display: block !important; /* Nom de l'utilisateur sur sa propre ligne */
+          margin-bottom: 5px !important; /* Espace sous le nom */
+      }
+       .list-unstyled .text-warning {
+           display: block !important; /* Les étoiles sur leur propre ligne */
+           margin-top: 5px !important; /* Espace au-dessus des étoiles */
+       }
+
+
+    /* Gérer la section 'produit populaire' */
+    .popular .row.row-cols-2 > .col {
+        width: 100% !important; /* Force les cartes populaires à s'empiler sur une colonne */
+        max-width: 300px; /* Limite la largeur de chaque carte si l'écran est plus large */
+        margin: 0 auto 15px auto !important; /* Centre les cartes empilées et ajoute de l'espace */
+    }
+    /* Enlever la marge du bas pour la dernière carte populaire */
+     .popular .row.row-cols-2 > .col:last-child {
+         margin-bottom: 0 !important;
+     }
+
+    /* Gérer le footer des cartes populaires (options et bouton) */
+     .popular .card-footer .d-flex.align-items-center.justify-content-center {
+         flex-direction: column !important; /* Empile les options et le bouton */
+         align-items: stretch !important; /* Étire les éléments */
+          padding: 0 5px !important; /* Petit padding interne */
+     }
+
+    /* Gérer chaque groupe d'option (pointure, quantité) dans les cartes populaires */
+     .popular .card-footer .d-flex.align-items-center.justify-content-center > div {
+         width: 100% !important; /* Prend toute la largeur */
+         margin-bottom: 10px !important; /* Espace vertical */
+         margin-right: 0 !important; /* Supprime les marges horizontales */
+         text-align: center !important; /* Centre le contenu */
+     }
+     /* Enlever la marge du bas pour le dernier groupe d'option dans le footer populaire */
+     .popular .card-footer .d-flex.align-items-center.justify-content-center > div:last-child {
+         margin-bottom: 0 !important;
+     }
+
+     /* Ajuster les inputs/selects custom dans les cartes populaires empilées */
+     .popular .card-footer .custom-input-small,
+     .popular .card-footer .custom-input-small-2,
+     .popular .card-footer .form-select.custom-input-small {
+         width: auto !important; /* Laisse le flexbox gérer */
+         flex-grow: 1 !important; /* S'étire */
+         min-width: 50px !important; /* Minimum pour utilisabilité */
+         margin: 0 auto !important; /* Centrer si nécessaire */
+         text-align: center !important; /* Centrer le texte dans l'input/select */
+     }
+      /* Ajuster l'alignement à l'intérieur des d-flex pour les options (icône/label + input/select) */
+       .popular .card-footer .d-flex.align-items-center {
+           justify-content: center !important; /* Centrer les éléments (icône/label + input/select) côte à côte dans leur ligne */
+           width: 100% !important; /* Assure que le d-flex interne prend toute la largeur */
+       }
+       .popular .card-footer .d-flex.align-items-center > i,
+        .popular .card-footer .d-flex.align-items-center > label {
+           margin-right: 5px !important; /* Petit espace */
+           flex-shrink: 0 !important; /* Empêche de rétrécir */
+       }
+        /* Ajuster la largeur des inputs spécifiques pour respecter votre base CSS mais être responsive */
+         .popular .card-footer .custom-input-small { width: 30px !important; min-width: 30px !important; }
+         .popular .card-footer .custom-input-small-2 { width: 50px !important; min-width: 50px !important; }
+         .popular .card-footer .form-select.custom-input-small { width: auto !important; min-width: 50px !important; } /* Select a besoin de place */
+
+
+    /* Gérer le bouton "Ajouter au panier" dans les cartes populaires */
+     .popular .card-footer .ajouter_au_panier {
+         width: 100% !important; /* Prend toute la largeur */
+         margin-left: 0 !important; /* Supprime la marge gauche inline */
+         margin-top: 10px !important; /* Espace au-dessus du dernier groupe d'option */
+
+         /* Styles pour le texte tronqué, basé sur les précédentes tentatives */
+         padding: 0.375rem 0.75rem !important;
+         font-size: 0.875rem !important;
+         line-height: 1.5 !important;
+         border-radius: 0.2rem !important;
+         white-space: nowrap;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         min-width: 80px !important; /* S'assurer qu'il y a de la place pour le texte tronqué */
+         text-align: center !important; /* Centrer le texte TRONQUÉ */
+     }
+
+     /* Gérer les <br> dans votre HTML - les masquer sur mobile */
+      br {
+          display: none !important;
+      }
+}
+
+/* Réinitialiser les styles pour les écrans >= 576px (sm) */
+@media (min-width: 576px) {
+    /* Réinitialiser l'empilement et le centrage des colonnes génériques */
+     .row > div[class*="col-"] {
+         width: auto !important; /* Laisse Bootstrap gérer via col-sm-* */
+         margin-bottom: 0 !important; /* Supprime l'espace vertical mobile */
+         text-align: left !important; /* Réinitialise l'alignement */
+     }
+
+    /* Réinitialiser l'alignement à droite là où il était défini dans l'HTML */
+     .text-end {
+        text-align: right !important;
+     }
+
+     /* Réinitialiser l'image principale */
+     .row.gx-4.gx-lg-5.align-items-center > .col-md-6:first-child {
+        width: auto !important; /* Laisse col-md-6 gérer */
+        margin-bottom: 0 !important;
+        text-align: left !important;
+     }
+     .row.gx-4.gx-lg-5.align-items-center > .col-md-6:first-child img {
+          max-width: 100% !important;
+          margin: 0 !important;
+     }
+
+    /* Réinitialiser le conteneur des options dans la section principale */
+    .row.gx-4.gx-lg-5.align-items-center > .col-md-6:last-child > .d-flex.align-items-center {
+         flex-direction: row !important; /* Remet côte à côte */
+         align-items: center !important; /* Réinitialise l'alignement vertical */
+         justify-content: flex-start !important; /* Réinitialise le centrage */
+         flex-wrap: wrap !important; /* Permet l'enroulement par défaut */
+          padding: 0 !important; /* Supprimer le padding mobile */
+     }
+
+    /* Réinitialiser les groupes d'options individuels */
+     .row.gx-4.gx-lg-5.align-items-center > .col-md-6:last-child > .d-flex.align-items-center > * {
+         width: auto !important; /* Laisse le contenu/Bootstrap gérer */
+         margin-bottom: 0 !important;
+         margin-right: 0 !important; /* Supprime les marges forcées pour mobile */
+         text-align: left !important; /* Réinitialise l'alignement */
+          justify-content: flex-start !important;
+     }
+
+     /* Réinitialiser les inputs/selects custom dans la section principale */
+      .custom-select-2,
+      .form-control-2 {
+         width: 50px !important; /* Largeur de votre base CSS */
+         flex-grow: 0 !important;
+         min-width: 0 !important;
+         margin: 0 !important;
+         text-align: left !important; /* Réinitialiser l'alignement du texte */
+      }
+      .row.gx-4.gx-lg-5.align-items-center .d-flex.align-items-center > div.d-flex {
+           justify-content: flex-start !important; /* Réinitialise le centrage interne */
+           width: auto !important; /* Laisse le contenu gérer */
+       }
+      .row.gx-4.gx-lg-5.align-items-center .d-flex.align-items-center > i,
+       .row.gx-4.gx-lg-5.align-items-center .d-flex.align-items-center > label {
+           margin-right: 5px !important; /* Garde le petit espace */
+           flex-shrink: 0 !important;
+       }
+
+
+    /* Réinitialiser le bouton "Ajouter au panier" dans la section principale */
+    #ajouter_au_panier {
+         width: auto !important;
+         margin-left: 0 !important; /* La marge est gérée par le div précédent (me-3) */
+         margin-top: 0 !important;
+         padding: var(--bs-btn-padding-y, .375rem) var(--bs-btn-padding-x, .75rem) !important; /* Revenir au padding standard du btn-outline-dark */
+         font-size: var(--bs-btn-font-size, 1rem) !important; /* Revenir à la taille de police standard */
+         line-height: var(--bs-btn-line-height, 1.5) !important; /* Revenir à la hauteur de ligne standard */
+         border-radius: var(--bs-btn-border-radius, .25rem) !important; /* Revenir au border-radius standard */
+
+         /* Réinitialiser les styles de troncature */
+         white-space: normal !important; /* Permet l'enroulement si nécessaire */
+         overflow: visible !important;
+         text-overflow: initial !important;
+         min-width: 0 !important;
+         text-align: center !important; /* Le centrage est souvent le comportement par défaut des boutons */
+    }
+     /* Appliquer la marge droite de Bootstrap au div précédent #ajouter_au_panier */
+      .row.gx-4.gx-lg-5.align-items-center > .col-md-6:last-child > .d-flex.align-items-center > div.me-3:last-of-type {
+          margin-right: 1rem !important; /* Appliquer la marge de Bootstrap */
+      }
+
+
+    /* Gérer la section 'Ajouter un avis' et 'Avis des clients' */
+     .container > h2.fw-bolder { text-align: left !important; } /* Réinitialiser l'alignement des titres */
+     .container > p { text-align: left !important; } /* Réinitialiser l'alignement des messages */
+     /* Formulaire d'avis */
+     .container form {
+         padding: 0 !important; /* Supprimer le padding mobile */
+         border: none !important; /* Supprimer la bordure */
+         border-radius: 0 !important;
+         background-color: transparent !important; /* Supprimer le fond */
+         max-width: none !important;
+          margin: 0 0 20px 0 !important; /* Réinitialiser la marge */
+     }
+      .container form .form-label { width: auto !important; display: block !important; text-align: left !important; margin-bottom: .5rem !important; }
+      .container form .form-control, .container form .form-select { width: 100% !important; } /* Garder 100% pour les inputs */
+      .container form button[type="submit"].btn { width: auto !important; margin-top: .5rem !important; }
+     /* Avis clients */
+     .list-unstyled > li {
+         width: auto !important;
+         margin-bottom: .5rem !important;
+     }
+      .list-unstyled > li > div.p-3 { word-break: normal !important; text-align: left !important; }
+      .list-unstyled strong { display: inline !important; margin-bottom: 0 !important; }
+       .list-unstyled .text-warning { display: inline !important; margin-top: 0 !important; margin-left: .5rem !important; }
+
+
+    /* Gérer la section 'produit populaire' */
+    .popular .row.row-cols-2 > .col {
+        width: auto !important; /* Laisse row-cols-2/md-3/xl-4 gérer la largeur */
+        max-width: none !important; /* Supprime la limite de largeur mobile */
+         /* margin: 0 0 15px 0 !important; */ /* Laissez Bootstrap gérer les mb-5 */
+    }
+     /* Réinitialiser le centrage des cartes si row-cols-* ne les centre pas parfaitement */
+     .popular .row.row-cols-2 {
+         justify-content: center !important;
+     }
+
+
+    /* Gérer le footer des cartes populaires (options et bouton) */
+     .popular .card-footer .d-flex.align-items-center.justify-content-center {
+         flex-direction: row !important; /* Remet côte à côte */
+         align-items: center !important; /* Réinitialise l'alignement vertical */
+         justify-content: center !important; /* Garde le centrage horizontal du groupe */
+         flex-wrap: wrap !important; /* Permet l'enroulement normal */
+         overflow-x: visible !important;
+         padding: 0 !important; /* Supprimer le padding mobile */
+     }
+
+    /* Gérer chaque groupe d'option dans les cartes populaires */
+     .popular .card-footer .d-flex.align-items-center.justify-content-center > div {
+         width: auto !important;
+         margin-bottom: 0 !important;
+          /* me-3 dans l'HTML gère la marge droite */
+          text-align: left !important;
+          justify-content: flex-start !important;
+     }
+
+     /* Réinitialiser les inputs/selects custom dans les cartes populaires */
+     .popular .card-footer .custom-input-small { width: 30px !important; flex-grow: 0 !important; min-width: 0 !important; text-align: left !important;}
+     .popular .card-footer .custom-input-small-2 { width: 50px !important; flex-grow: 0 !important; min-width: 0 !important; text-align: left !important;}
+     .popular .card-footer .form-select.custom-input-small {
+          width: auto !important; flex-grow: 0 !important; min-width: 0 !important; text-align: left !important;
+     }
+       /* Réinitialiser le centrage du contenu dans les groupes d'options */
+       .popular .card-footer .d-flex.align-items-center {
+           justify-content: flex-start !important; /* Aligner à gauche */
+       }
+
+
+    /* Gérer le bouton "Ajouter au panier" dans les cartes populaires */
+    .popular .card-footer .ajouter_au_panier {
+         width: auto !important;
+         margin-left: 10px !important; /* Revient à la marge gauche inline */
+         margin-top: 0 !important;
+
+         /* Réinitialiser les styles de troncature */
+         white-space: nowrap !important; /* Garder sur une ligne */
+         overflow: hidden !important; /* Cacher le débordement */
+         text-overflow: ellipsis !important; /* Tronquer avec ... */
+         min-width: 0 !important; /* Enlever la largeur minimum mobile */
+
+         /* Réinitialiser la taille du bouton si nécessaire */
+         padding: var(--bs-btn-padding-y, .375rem) var(--bs-btn-padding-x, .75rem) !important;
+         font-size: var(--bs-btn-font-size, 1rem) !important;
+         line-height: var(--bs-btn-line-height, 1.5) !important;
+         border-radius: var(--bs-btn-border-radius, .25rem) !important;
+         text-align: center !important; /* Centrer le texte TRONQUÉ */
+     }
+
+      /* Gérer les <br> dans votre HTML sur les grands écrans - les masquer */
+      br {
+          display: none !important;
+      }
+}
+
+/* Media query pour les écrans entre 576px et 767.98px (sm) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+
+     .popular .row.row-cols-2 > .col {
+         padding-right: calc(var(--bs-gutter-x) * .5);
+         padding-left: calc(var(--bs-gutter-x) * .5);
+         margin-top: var(--bs-gutter-y);
+     }
+    
+      .popular .card-footer .d-flex.align-items-center.justify-content-center {
+          flex-wrap: wrap !important; /* Permettre l'enroulement normal sur sm */
+          justify-content: center !important; /* Centrer les éléments sur la ligne si possible */
+          overflow-x: visible !important; /* Pas de scrollbar forcée */
+          padding-bottom: 0 !important;
+      }
+    
+       .popular .card-footer .d-flex.align-items-center.justify-content-center > div,
+       .popular .card-footer .ajouter_au_panier
+       {
+            width: auto !important; /* Laisser Bootstrap gérer via flex */
+            min-width: 0 !important; /* Supprimer la largeur minimum forcée */
+            flex-shrink: 1 !important; /* Permettre le rétrécissement */
+            margin-bottom: 0 !important; /* Supprimer les marges verticales d'empilement */
+       }
+
+       .popular .card-footer .d-flex.align-items-center > div.me-3 {
+            margin-right: 0.5rem !important; /* Revenir à la marge de me-3 */
+       }
+        .popular .card-footer .ajouter_au_panier {
+            margin-left: 10px !important; /* Marge gauche inline */
+            margin-right: 0 !important;
+        }
+        /* S'assurer que le texte du bouton est tronqué sur sm aussi si l'espace est limité */
+         .popular .card-footer .ajouter_au_panier {
+             white-space: nowrap;
+             overflow: hidden;
+             text-overflow: ellipsis;
+         }
+
+
+}
+
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    
+      .popular .card-footer .d-flex.align-items-center.justify-content-center {
+          flex-wrap: wrap !important; /* Permettre l'enroulement normal sur md */
+          justify-content: center !important; /* Centrer les éléments */
+      }
+      /* Réinitialiser les largeurs et marges si elles ont été forcées avant md */
+       .popular .card-footer .d-flex.align-items-center.justify-content-center > div,
+       .popular .card-footer .ajouter_au_panier
+       {
+            width: auto !important;
+            min-width: 0 !important;
+            flex-shrink: 1 !important;
+            margin-bottom: 0 !important;
+       }
+       /* Ajuster les marges horizontales */
+       .popular .card-footer .d-flex.align-items-center > div.me-3 {
+            margin-right: 0.5rem !important; /* Revenir à la marge de me-3 */
+       }
+        .popular .card-footer .ajouter_au_panier {
+            margin-left: 10px !important; /* Marge gauche inline */
+            margin-right: 0 !important;
+        }
+        /* S'assurer que le texte du bouton est tronqué sur md aussi si l'espace est limité */
+         .popular .card-footer .ajouter_au_panier {
+             white-space: nowrap;
+             overflow: hidden;
+             text-overflow: ellipsis;
+         }
+}
+
+
+@media (min-width: 1200px) {
+   
+     .popular .card-footer .d-flex.align-items-center.justify-content-center {
+         flex-wrap: nowrap !important; /* Empêche l'enroulement sur xl */
+         justify-content: center !important; /* Centre les éléments sur la ligne */
+         overflow-x: visible !important; /* Pas de scrollbar */
+     }
+   
+      .popular .card-footer .d-flex.align-items-center.justify-content-center > div,
+      .popular .card-footer .ajouter_au_panier
+      {
+           width: auto !important; 
+           min-width: 0 !important;
+           flex-shrink: 1 !important;
+           margin-bottom: 0 !important;
+      }
+       /* Ajuster les marges horizontales */
+       .popular .card-footer .d-flex.align-items-center > div.me-3 {
+            margin-right: 0.5rem !important; /* Revenir à la marge de me-3 */
+       }
+        .popular .card-footer .ajouter_au_panier {
+            margin-left: 10px !important; /* Marge gauche inline */
+            margin-right: 0 !important;
+        }
+        
+         .popular .card-footer .ajouter_au_panier {
+             white-space: nowrap;
+             overflow: hidden;
+             text-overflow: ellipsis;
+         }
 }

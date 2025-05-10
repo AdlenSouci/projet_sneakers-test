@@ -1,5 +1,5 @@
 <x-app-layout>
-    <!-- ajouter la possibilité de mettre un avis -->
+   
 
 
 
@@ -57,7 +57,7 @@
             <h2 class="fw-bolder mb-4">Ajouter un avis</h2>
 
             @auth
-            {{-- Vérifie si l'utilisateur a déjà donné un avis pour cet article --}}
+
             @if(auth()->user()->avis()->where('article_id', $article->id)->exists())
             <p>Vous avez déjà donné un avis pour cet article.</p>
             @elseif(auth()->user()->aDejaCommande($article->id))
@@ -144,6 +144,7 @@
                                     <i class="fas fa-sort-amount-up me-1"></i>
                                     <input type="number" name="quantite" class="form-control custom-input-small-2 rounded" value="1" min="1" max="10">
                                 </div>
+                                <br> <br>
                                 @if($stock_article > 0)
                                 <button class="btn btn-outline-dark ajouter_au_panier rounded" data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au panier</button>
                                     @endif
@@ -197,6 +198,7 @@
                                     <i class="fas fa-sort-amount-up me-1"></i>
                                     <input type="number" name="quantite" class="form-control custom-input-small-2 rounded" value="1" min="1" max="10">
                                 </div>
+                                <br> <br>
                                 @if($stock_article > 0)
                                 <button class="btn btn-outline-dark ajouter_au_panier rounded" data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au panier</button>
                                     @endif
