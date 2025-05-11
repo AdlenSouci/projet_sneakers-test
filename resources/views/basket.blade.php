@@ -21,6 +21,7 @@
                                             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                                                 <h1 class="fw-bold mb-0 text-white">Panier</h1>
                                                 <h6 class="mb-0 text-white">{{ count($cartItems) }} articles</h6>
+                                                
                                             </div>
                                             <hr class="my-3">
 
@@ -52,29 +53,71 @@
                                                 </div>
                                             </div>
 
-
+                                            <br> 
 
                                             @endforeach
 
                                             <div class="pt-4 d-flex justify-content-between align-items-center flex-wrap">
                                                 <button class="btn btn-danger  " onclick="viderPanier()">Vider le panier</button>
+                                                <br> 
                                                 <div>
                                                     <h3 class="fw-bold text-white">Total : <span id="totalPrice">€ {{ number_format($totalPrice, 2) }}</span></h3>
                                                 </div>
                                             </div>
 
+                                            <br> 
+
                                             @if(auth()->check())
-                                            <form action="{{ route('passer-commande') }}" method="post" onsubmit="event.preventDefault(); passerCommande();" class="mt-4">
-                                                @csrf
-                                                <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="adresse_livraison" id="adresse_livraison" placeholder="Adresse de livraison" required value="{{ auth()->user()->adresse_livraison }}">
-                                                <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="code_postal" id="code_postal" placeholder="Code postal" required value="{{ auth()->user()->code_postal }}">
-                                                <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="ville" id="ville" placeholder="Ville" required value="{{ auth()->user()->ville }}">
-                                                <button type="submit" id="passCommandButton" class="btn btn-dark btn-block w-100 rounded-pill">Passer la commande</button>
-                                            </form>
+                                            <div id="checkout-process-simulation" class="mt-4" @if(!empty($cartItems)) data-initialize-view="true" @endif>
+                                                <!-- Étape 1: Adresse -->
+                                                <div id="step-address" class="checkout-step">
+                                                    <h4 class="text-white mb-3">Adresse de Livraison</h4>
+                                                    <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="adresse_livraison" id="adresse_livraison" placeholder="Adresse de livraison" required value="{{ auth()->user()->adresse_livraison }}">
+                                                    <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="code_postal" id="code_postal" placeholder="Code postal" required value="{{ auth()->user()->code_postal }}">
+                                                    <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="ville" id="ville" placeholder="Ville" required value="{{ auth()->user()->ville }}">
+                                                    <button type="button" class="btn btn-dark btn-block w-100 rounded-pill" onclick="validateAddressAndProceed()">Procéder au Paiement</button>
+                                                </div>
+
+                                                <!-- Étape 2: Choix du Paiement -->
+                                                <div id="step-payment-options" class="checkout-step" style="display:none;">
+                                                    <h4 class="text-white mb-3">Choisissez votre mode de paiement :</h4>
+                                                    <button type="button" class="btn btn-primary w-100 mb-2 rounded-pill" onclick="showSimulationStep('step-card-form')">
+                                                        <i class="far fa-credit-card me-2"></i>Payer par Carte (Simulation)
+                                                    </button>
+                                                    <!-- <button type="button" class="btn btn-info w-100 mb-2 rounded-pill" onclick="simulatePaypal()">
+                                                        <i class="fab fa-paypal me-2"></i>Payer avec PayPal (Simulation)
+                                                    </button> -->
+                                                    <button type="button" class="btn btn-outline-light w-100 mt-2 rounded-pill" onclick="showSimulationStep('step-address')">Retour à l'adresse</button>
+                                                </div>
+
+                                                <!-- Étape 3a: Formulaire de Carte Factice -->
+                                                <div id="step-card-form" class="checkout-step" style="display:none;">
+                                                    <h5 class="text-white mb-3">Paiement par Carte</h5>
+                                                    <input type="text" class="form-control form-control-lg mb-2 rounded-lg" id="fake_card_number" placeholder="Numéro de carte (ex: 4242...)">
+                                                    <div class="row">
+                                                        <div class="col-md-6 mb-2">
+                                                            <input type="text" class="form-control form-control-lg rounded-lg" id="fake_card_expiry" placeholder="MM/AA (ex: 12/25)">
+                                                        </div>
+                                                        <div class="col-md-6 mb-2">
+                                                            <input type="text" class="form-control form-control-lg rounded-lg" id="fake_card_cvv" placeholder="CVV (ex: 123)">
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-success w-100 mt-2 rounded-pill" onclick="submitFakeCard()">Valider le paiement (Simulation)</button>
+                                                    <button type="button" class="btn btn-outline-light w-100 mt-3 rounded-pill" onclick="showSimulationStep('step-payment-options')">Retour</button>
+                                                </div>
+
+                                                <!-- Étape 3b: Message PayPal Factice (this step is now replaced by the modal)
+                                                {{-- <div id="step-paypal-message" class="checkout-step text-center py-4" style="display:none;">
+                                                    <p class="text-white">Vous allez être redirigé vers PayPal...</p>
+                                                    <div class="spinner-border text-light" role="status">
+                                                        <span class="visually-hidden">En cours ...</span>
+                                                    </div>
+                                                </div> --}} -->
+                                            </div>
                                             @else
-                                            <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="adresse_livraison" id="adresse_livraison" placeholder="Adresse de livraison" required>
-                                            <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="code_postal" id="code_postal" placeholder="Code postal" required>
-                                            <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="ville" id="ville" placeholder="Ville" required>
+                                            <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="adresse_livraison" id="adresse_livraison_guest" placeholder="Adresse de livraison" required>
+                                            <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="code_postal" id="code_postal_guest" placeholder="Code postal" required>
+                                            <input type="text" class="form-control form-control-lg mb-3 rounded-lg" name="ville" id="ville_guest" placeholder="Ville" required>
                                             <p class="text-center text-white mt-3 rounded-pill">Connectez-vous pour passer une commande.</p>
                                             @endif
                                         </div>
@@ -94,7 +137,112 @@
 
     </div>
 
+    <!-- <div class="modal fade" id="paypalSimulationModal" tabindex="-1" aria-labelledby="paypalSimulationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paypalSimulationModalLabel">paiement PayPal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p id="paypalSimulationMessage">Redirection vers PayPal en cours...</p>
+                    <div class="spinner-border text-primary mt-3" role="status">
+                        <span class="visually-hidden">En cours...</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div> -->
+
     <script>
+        let currentStepIdForSimulation = 'step-address';
+
+        function showSimulationStep(stepId) {
+            document.querySelectorAll('#checkout-process-simulation .checkout-step').forEach(step => {
+                step.style.display = 'none';
+            });
+            const stepElement = document.getElementById(stepId);
+            if (stepElement) {
+                stepElement.style.display = 'block';
+                currentStepIdForSimulation = stepId;
+            }
+        }
+
+        function validateAddressAndProceed() {
+            const adresse = document.getElementById('adresse_livraison').value.trim();
+            const cp = document.getElementById('code_postal').value.trim();
+            const ville = document.getElementById('ville').value.trim();
+
+            if (!adresse || !cp || !ville) {
+                alert('Veuillez remplir tous les champs de l\'adresse de livraison.');
+                return;
+            }
+            showSimulationStep('step-payment-options');
+        }
+
+        // // MISE À JOUR: Fonction simulatePaypal pour utiliser la modale
+        // function simulatePaypal() {
+        //     // Masquer le processus de checkout principal
+        //     const checkoutProcessDiv = document.getElementById('checkout-process-simulation');
+        //     if (checkoutProcessDiv) {
+        //         checkoutProcessDiv.style.display = 'none';
+        //     }
+
+        //     // Récupérer les éléments de la modale
+        //     const modalElement = document.getElementById('paypalSimulationModal');
+        //     const modalMessage = document.getElementById('paypalSimulationMessage');
+        //     const modalSpinner = modalElement.querySelector('.spinner-border');
+        //     // Créer une instance de la modale Bootstrap (nécessite que Bootstrap JS soit chargé)
+        //     const bsModal = new bootstrap.Modal(modalElement);
+
+        //     // Afficher la modale
+        //     bsModal.show();
+
+        //     // Étape 1: Afficher le message de redirection et le spinner dans la modale
+        //     modalMessage.textContent = 'Redirection vers PayPal en cours...';
+        //     modalSpinner.style.display = 'inline-block'; // Afficher le spinner
+
+        //     // Simuler un délai pour l'interaction PayPal (ex: login, confirmation)
+        //     setTimeout(() => {
+        //         // Étape 2: Afficher un message de succès simulé dans la modale
+        //         modalMessage.textContent = 'Paiement PayPal simulé réussi !';
+        //         modalSpinner.style.display = 'none'; // Masquer le spinner
+        //         // Optionnel: ajouter une icône de succès
+        //         // modalMessage.innerHTML = '<i class="fas fa-check-circle text-success me-2"></i> Paiement PayPal simulé réussi !';
+
+
+        //         // Simuler le retour sur le site et finaliser la commande
+        //         setTimeout(() => {
+        //             // Étape 3: Fermer la modale
+        //             bsModal.hide();
+        //             // Procéder à la finalisation de la commande
+        //             passerCommande();
+        //         }, 1500); // Petit délai après l'affichage du succès
+
+        //     }, 3000); // Délai simulant l'interaction avec PayPal
+
+
+        // }
+
+
+        function submitFakeCard() {
+            const cardNumber = document.getElementById('fake_card_number').value.trim();
+            const cardExpiry = document.getElementById('fake_card_expiry').value.trim();
+            const cardCvv = document.getElementById('fake_card_cvv').value.trim();
+
+            if (!cardNumber || !cardExpiry || !cardCvv) {
+                alert('Veuillez remplir tous les champs de la carte pour la simulation.');
+                return;
+            }
+
+            const checkoutProcessDiv = document.getElementById('checkout-process-simulation');
+            if (checkoutProcessDiv) {
+                checkoutProcessDiv.style.display = 'none';
+            }
+            passerCommande(); // Proceed with order finalization
+        }
+
         function changerQuantiter(input) {
             var newQuantity = parseInt(input.value);
             var pricePerItem = parseFloat(input.getAttribute("data-item-price"));
@@ -134,7 +282,7 @@
                         console.error('Erreur lors de la mise à jour de la quantité :', error);
                     });
             } else {
-                input.value = 1; // Réinitialise à 1 si la quantité saisie n'est pas valide
+                input.value = 1; 
             }
         }
 
@@ -235,6 +383,12 @@
                     successMessage.textContent = 'Une erreur est survenue lors du passage de la commande.';
                 });
         }
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkoutProcessContainer = document.getElementById('checkout-process-simulation');
+            if (checkoutProcessContainer && checkoutProcessContainer.getAttribute('data-initialize-view') === 'true') {
+                showSimulationStep('step-address');
+            }
+        });
     </script>
 
     @vite(['resources/css/panier.css'])
