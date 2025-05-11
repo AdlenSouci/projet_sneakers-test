@@ -20,6 +20,7 @@ class CommandeEntete extends Model
         'total_tva',
         'total_remise',
         'telephone',
+        'name',
         'ville',
         'code_postal',
         'adresse_livraison'

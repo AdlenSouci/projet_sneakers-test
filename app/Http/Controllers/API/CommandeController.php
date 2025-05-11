@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\CommandeDetail;
 use App\Models\CommandeEntete;
 use App\Models\Article;
-
+use App\Models\User;
 class CommandeController extends Controller
 {
     public function index()
@@ -24,6 +24,7 @@ class CommandeController extends Controller
         // Validation des données
         $validated = $request->validate([
             'id_user' => 'required|integer',
+            'name' => 'required|string',
             'id_num_commande' => 'required|integer',
             'total_ht' => 'required|numeric',
             'total_ttc' => 'required|numeric',

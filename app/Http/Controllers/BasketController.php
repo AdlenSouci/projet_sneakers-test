@@ -231,6 +231,7 @@ class BasketController extends Controller
             'adresse_livraison' => 'required|string|max:255',
             'code_postal' => 'required|string|max:10',
             'ville' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
         ]);
         $userId = Auth::id();
         $user = Auth::user();
@@ -249,21 +250,19 @@ class BasketController extends Controller
         // Récupérer l'adresse de livraison enregistrée
         $adresseLivraisonEnregistree = $user->adresse_livraison;
 
-        // Vérifier si l'adresse saisie correspond à l'adresse enregistrée
-        // NOTE : Cette logique empêche l'utilisation d'une adresse différente de celle enregistrée.
-        // Si tu veux permettre une adresse de livraison différente, tu devrais commenter ou supprimer ce bloc.
+    
         if ($adresseLivraison !== $adresseLivraisonEnregistree) {
             return response()->json(['error' => true, 'message' => 'L\'adresse de livraison saisie ne correspond pas à l\'adresse enregistrée.']);
         }
 
-        $numCommande = mt_rand(100000, 999999); // Attention: potentiel de collision si beaucoup de commandes
+        $numCommande = mt_rand(100000, 999999);
 
-        // Variables pour le total
+      
         $total_ht = 0;
         $total_ttc = 0;
         $total_tva = 0;
 
-        // Récupérer le panier avant le try/catch pour vérifier s'il est vide
+   
         $cartItems = Session::get('cart', []);
         if (empty($cartItems)) {
             return response()->json(['error' => true, 'message' => 'Votre panier est vide.'], 400);
@@ -275,15 +274,16 @@ class BasketController extends Controller
             $commandeEntete->id_num_commande = $numCommande;
             $commandeEntete->date = now();
             $commandeEntete->id_user = $userId; // ID de l'utilisateur
+            $commandeEntete->name = $userName;
 
-            // --- AJOUT DES INFORMATIONS CLIENT ICI ---
-            $commandeEntete->telephone = $user->telephone;       // Récupéré depuis l'objet User authentifié
-            $commandeEntete->ville = $user->ville;               // Récupéré depuis l'objet User authentifié
-            $commandeEntete->code_postal = $user->code_postal;     // Récupéré depuis l'objet User authentifié
-            $commandeEntete->adresse_livraison = $adresseLivraison; // Utilise l'adresse validée provenant du formulaire ($request)
-            // --- FIN DE L'AJOUT ---
+  
+            $commandeEntete->telephone = $user->telephone;      
+            $commandeEntete->ville = $user->ville;               
+            $commandeEntete->code_postal = $user->code_postal;     
+            $commandeEntete->adresse_livraison = $adresseLivraison; 
+         
 
-            // Initialisation des totaux (sera mis à jour plus tard)
+       
             $commandeEntete->total_ht = 0;
             $commandeEntete->total_ttc = 0;
             $commandeEntete->total_tva = 0;
@@ -292,7 +292,7 @@ class BasketController extends Controller
             // Sauvegarde initiale de l'entête (avec les infos client ajoutées)
             $commandeEntete->save();
 
-            $lastItemNameForEmail = ''; // Variable pour stocker le nom du dernier article pour l'email (attention: bug potentiel dans l'email original)
+            $lastItemNameForEmail = ''; 
 
             foreach ($cartItems as $item) {
                 // Assurer que les données minimales existent dans l'item du panier
@@ -301,10 +301,10 @@ class BasketController extends Controller
                     continue; // Saute cet article invalide
                 }
 
-                // Utilisation de tes calculs HT/TVA originaux
+               
                 $prixLigneTTC = $item['price'] * $item['quantity'];
-                $prixLigneHT = $prixLigneTTC * 0.8; // Ton calcul original
-                $montantLigneTVA = $prixLigneTTC * 0.2; // Ton calcul original
+                $prixLigneHT = $prixLigneTTC * 0.8; 
+                $montantLigneTVA = $prixLigneTTC * 0.2; 
 
                 $commandeEntete->Details()->create([
                     'id_commande' => $commandeEntete->id,
