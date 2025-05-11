@@ -91,6 +91,7 @@ Route::get('avis', [AvisController::class, 'index']);
 Route::post('avis', [AvisController::class, 'store']);
 Route::put('avis/{id}', [AvisController::class, 'update']);
 Route::delete('avis/{id}', [AvisController::class, 'destroy']); 
+Route::put('/avis/{id}/repondre', [AvisController::class, 'repondre']);
 
 //route commandes 
 
