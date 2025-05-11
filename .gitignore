@@ -21,4 +21,6 @@ yarn-error.log
 video\ --unused/
 AdminSeeder2.php
 
+basket.blade copy.blade.php
+
 
