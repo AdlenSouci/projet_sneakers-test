@@ -137,8 +137,10 @@
                                             <input type="number" name="quantite" class="custom-label rounded"
                                                 style="width: 80px" value="1" min="1" max="20">
                                         </div>
+                                        <br>
                                     </div>
                                     <br>
+                                    
                                     <button class="btn btn-outline-dark mt-auto ajouter_au_panier custom-button"
                                         data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au panier</button>
                                     @endif

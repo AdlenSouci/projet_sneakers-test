@@ -1,4 +1,3 @@
-/* Votre code CSS de base */
 .item-even {
     background-color: #ffffff;
     padding: 15px;
@@ -9,19 +8,28 @@
 .item-even,
 .item-odd {
     padding: 10px;
-    max-height: 150px; /* Gardé car dans votre code de base */
-    margin-bottom: 1rem; /* Ajouté pour espacer les articles */
+    max-height: 150px;
+
 }
 
 /* Conteneur de la colonne pour l'image */
-.col-4 img { /* Cible spécifique à votre HTML col-4 */
+.col-4 img {
     display: block;
+    /* Empêche tout comportement inline indésirable */
     max-width: 100%;
+    /* S'assure que l'image ne dépasse pas la largeur de son conteneur */
     height: auto;
+    /* Maintient les proportions de l'image */
     object-fit: contain;
+    /* Adapte l'image à son conteneur sans la rogner */
     border-radius: 5px;
+    /* Conserve les coins arrondis */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Ajoute une ombre légère */
 }
+
+
+
 
 .item-name {
     white-space: nowrap;
@@ -32,12 +40,18 @@
 
 .item-name:hover {
     white-space: normal;
+    /* Permet aux retours à la ligne */
     overflow: visible;
+    /* Affiche le texte complet */
     font-size: 0.8em;
+    /* Rend le texte plus petit */
     background-color: rgba(0, 0, 0, 0.1);
+    /* Optionnel, ajoute un fond pour la lisibilité */
     position: relative;
     z-index: 1;
+    /* S'assure que le texte soit au-dessus des autres éléments */
 }
+
 
 .item-odd {
     background-color: #de7105;
@@ -53,22 +67,16 @@
 
 .input-quantity {
     transition: transform 0.2s ease;
-    width: 100%; /* Gardé car dans votre code de base */
-     /* L'inline style="width: 80px;" dans le HTML va probablement outrepasser ceci */
 }
 
 .input-quantity:hover {
     transform: scale(1.1);
 }
 
-.delete-item-btn {
-    transition: color 0.2s ease, transform 0.2s ease;
-    font-size: 1.2em;
-}
-
 .delete-item-btn:hover {
-    color: #de7105 !important;
-    transform: scale(1.2);
+    color: #de7105;
+    transform: scale(1.1);
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .btn-danger,
@@ -84,6 +92,7 @@
 .btn-dark:hover {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
     background-color: #de7105;
+
 }
 
 .row.mb-4:hover {
@@ -92,56 +101,36 @@
     transition: transform 0.2s ease;
 }
 
-.item-price {
-    white-space: nowrap;
+
+.input-quantity {
+    width: 100%;
+    /* Prend toute la largeur de sa colonne */
 }
 
-/* Votre règle pour les écrans <= 576px */
+.item-price {
+    white-space: nowrap;
+    /* Empêche le prix de se casser */
+}
+
 @media (max-width: 576px) {
     .row>div {
         margin-bottom: 10px;
     }
-    /* Ajout STRICT: Force l'empilement pour TOUTES les colonnes sur très petit écran */
-     .row.mb-4 > div {
-         width: 100% !important;
-         text-align: center !important;
-         margin-bottom: 10px !important; /* Assure un espacement */
-     }
-     /* Enlève la marge du bas pour le dernier élément empilé */
-     .row.mb-4 > div:last-child {
-        margin-bottom: 0 !important;
-     }
-
-    /* Ajout STRICT: Ajustements pour l'image empilée */
-    .col-4 img {
-        max-width: 80px !important;
-        margin: auto !important; /* Centre l'image */
-    }
-
-    /* Ajout STRICT: Permettre au nom de s'enrouler et centrer */
-    .item-name {
-         white-space: normal !important;
-         overflow: visible !important;
-         text-overflow: initial !important;
-         text-align: center !important;
-    }
-
-    /* Ajout STRICT: Centrer l'input quantité (avec la largeur inline de 80px) */
-    .input-quantity {
-         margin: auto !important; /* Centre l'input */
-         display: block !important; /* Nécessaire pour le centrage avec margin auto */
-         width: 80px !important; /* Utilise la largeur définie dans l'HTML */
-    }
-
-     /* Ajout STRICT: Centrer la croix de suppression */
-     .delete-item-btn {
-         display: inline-block !important; /* S'assure qu'elle est inline */
-     }
-     /* Assurer que le conteneur de la croix est aussi centré */
-     .row.mb-4 > .col-3.col-sm-1.text-end {
-         text-align: center !important;
-     }
 }
+
+
+.text-white,
+.btn-danger,
+.col-6,
+.btn-outline-secondary,
+.text-black,
+.btn-dark,
+.text-center,
+.adresse_livraison {
+
+    padding: 10px;
+}
+
 
 .loading-spinner {
     display: none;
@@ -162,57 +151,4 @@
     100% {
         transform: rotate(360deg);
     }
-}
-
-/* Ajout STRICT: Réinitialisation des styles d'empilement pour les écrans >= 576px */
-@media (min-width: 576px) {
-     .row.mb-4 > div {
-        width: auto !important; /* Laisse Bootstrap gérer la largeur via col-sm-* */
-        text-align: left !important; /* Réinitialise l'alignement par défaut */
-        margin-bottom: 0 !important; /* Enlève la marge du bas ajoutée pour mobile */
-     }
-
-    /* Ajout STRICT: Réappliquer l'alignement droite là où il était défini dans l'HTML pour sm+ */
-     .row.mb-4 .text-end {
-        text-align: right !important;
-     }
-
-     /* Ajout STRICT: Réinitialiser les ajustements spécifiques de l'image */
-     .col-4 img {
-          max-width: 100% !important;
-          margin: 0 !important; /* Supprime les marges auto */
-     }
-
-      /* Ajout STRICT: Réinitialiser les ajustements spécifiques de l'input quantité */
-      .input-quantity {
-          margin: 0 !important;
-          display: inline-block !important;
-           /* width: 100% ou 80px selon votre choix, l'inline style="width: 80px;" est toujours là */
-           /* Si vous voulez vraiment 80px sur sm+, assurez-vous que col-sm-2 est assez large */
-           width: 80px !important; /* Utilise la largeur définie inline dans l'HTML */
-      }
-
-      /* Ajout STRICT: Réinitialiser les ajustements spécifiques de la croix */
-       .delete-item-btn {
-           display: inline-block !important;
-       }
-       .row.mb-4 > .col-3.col-sm-1.text-end {
-           text-align: right !important; /* Assure l'alignement à droite sur sm+ */
-           width: auto !important; /* Laisse col-sm-1 gérer la largeur */
-       }
-}
-
-/* Ajout STRICT: Ajustement spécifique pour l'alignement vertical sur les grands écrans (md+) */
-@media (min-width: 768px) {
-    .row.mb-4 {
-         align-items: center; /* Aligne verticalement tous les éléments dans la ligne */
-    }
-    /* Réinitialise l'alignement vertical si besoin pour des éléments spécifiques */
-     .row.mb-4 > div {
-         display: flex; /* Utiliser flexbox sur les colonnes */
-         align-items: center; /* Centrer le contenu de chaque colonne */
-     }
-     .row.mb-4 .text-end {
-         justify-content: flex-end; /* Aligne le contenu flexbox à droite si nécessaire */
-     }
 }

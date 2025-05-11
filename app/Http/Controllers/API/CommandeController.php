@@ -25,6 +25,7 @@ class CommandeController extends Controller
         $validated = $request->validate([
             'id_user' => 'required|integer',
             'name' => 'required|string',
+         
             'id_num_commande' => 'required|integer',
             'total_ht' => 'required|numeric',
             'total_ttc' => 'required|numeric',
@@ -43,6 +44,7 @@ class CommandeController extends Controller
         // Créer une nouvelle entête de commande
         $commande = CommandeEntete::create([
             'id_user' => $validated['id_user'],
+            'name' => $validated['name'],
             'id_num_commande' => $validated['id_num_commande'],
             'total_ht' => $validated['total_ht'],
             'total_ttc' => $validated['total_ttc'],

@@ -21,6 +21,7 @@
                                             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                                                 <h1 class="fw-bold mb-0 text-white">Panier</h1>
                                                 <h6 class="mb-0 text-white">{{ count($cartItems) }} articles</h6>
+                                                
                                             </div>
                                             <hr class="my-3">
 

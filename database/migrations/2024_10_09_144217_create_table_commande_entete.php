@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->dateTime('date')->nullable(false);
             $table->unsignedBigInteger('id_user')->nullable(false);
+            $table->string('name')->nullable(false);
             $table->string('telephone')->nullable();
             $table->string('ville')->nullable();
             $table->string('code_postal')->nullable();
