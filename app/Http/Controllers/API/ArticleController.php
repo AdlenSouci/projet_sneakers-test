@@ -101,7 +101,7 @@ class ArticleController extends Controller
         $existingArticle = Article::where('modele', $request->modele)
             ->where('id_famille', $request->id_famille)
             ->where('id_marque', $request->id_marque)
-            ->where('id', '<>', $id)
+            ->whereKeyNot($id)
             ->first();
 
         if ($existingArticle) {
