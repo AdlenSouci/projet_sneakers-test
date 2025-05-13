@@ -53,7 +53,7 @@ class BasketController extends Controller
 
         // Vérifier si la taille existe et a du stock
         if (!$tailleArticle || $tailleArticle->stock < 0) { // Ajout verification stock < 0 par sécurité
-            return response()->json(['message' => "Taille non trouvée ou stock invalide pour cet article et cette pointure."], 400);
+             return response()->json(['message' => "Taille non trouvée ou stock invalide pour cet article et cette pointure."], 400);
         }
         $stock = $tailleArticle->stock;
 
@@ -63,7 +63,7 @@ class BasketController extends Controller
         // Chercher si l'article AVEC LA MÊME TAILLE est déjà dans le panier
         $existingItemKey = null;
         foreach ($cartItems as $key => $item) {
-            // Utiliser isset pour éviter les erreurs si un champ est manquant de manière inattendue dans un item session
+             // Utiliser isset pour éviter les erreurs si un champ est manquant de manière inattendue dans un item session
             if (isset($item['id']) && $item['id'] === $article->id && isset($item['taille']) && $item['taille'] === $pointure) {
                 $existingItemKey = $key;
                 break;
@@ -104,6 +104,30 @@ class BasketController extends Controller
                 'nbitems' => $totalItems,
             ], 200);
         }
+    }
+
+    public function index()
+    {
+        // Récupération des articles du panier
+        $cartItems = session()->get('cart', []);
+
+        // Calculer le prix total
+        $totalPrice = $this->calculerPrixTotal($cartItems);
+
+        // Calculer le nombre total d'articles
+        $totalItems = $this->calculerTotalArticles($cartItems);
+
+        // Récupérer les articles avec les tailles et le stock
+        $articles = [];
+        foreach ($cartItems as $item) {
+            $article = Article::with('tailles')->where('id', $item['id'])->first();
+            if ($article) {
+                $articles[] = $article;
+            }
+        }
+
+        // Renvoyer la vue avec les articles du panier et le prix total
+        return view('basket', compact('cartItems', 'articles', 'totalPrice', 'totalItems'));
     }
 
 
