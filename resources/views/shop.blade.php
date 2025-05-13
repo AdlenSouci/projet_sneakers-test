@@ -140,7 +140,7 @@
                                         <br>
                                     </div>
                                     <br>
-                                    
+
                                     <button class="btn btn-outline-dark mt-auto ajouter_au_panier custom-button"
                                         data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au panier</button>
                                     @endif
@@ -198,8 +198,13 @@
         document.addEventListener('click', function(event) {
             if (event.target.classList.contains('ajouter_au_panier')) {
                 var articleId = event.target.getAttribute('data-article-id');
-                var pointure = event.target.parentElement.querySelector('#pointure').value;
-                var quantite = event.target.parentElement.querySelector('[name="quantite"]').value;
+                // Trouvez l'élément select de pointure dans le même article card
+                var articleCard = event.target.closest('.card-body'); // Trouvez l'élément parent qui contient les détails de l'article
+                var pointureSelect = articleCard.querySelector('#pointure');
+                var quantiteInput = articleCard.querySelector('[name="quantite"]');
+
+                var pointure = pointureSelect ? pointureSelect.value : null; // Utilisez ? pour éviter l'erreur si #pointure n'existe pas
+                var quantite = quantiteInput ? quantiteInput.value : 1; // Utilisez ? pour éviter l'erreur, default 1
 
                 if (pointure) {
                     $.ajax({
@@ -212,19 +217,47 @@
                             'quantite': quantite
                         },
                         success: function(response) {
-                            alert(response.message);
+                            // Si l'API retourne un succès (statut 200)
+                            alert(response.message); // Affiche le message de succès
                             // Mettre à jour le compteur d'articles
-                            document.querySelector('#countArticle').textContent = response.nbitems; // Met à jour le compteur
+                            // Assurez-vous que l'élément #countArticle existe quelque part dans votre HTML (ex: dans votre x-app-layout)
+                            var countElement = document.querySelector('#countArticle');
+                            if (countElement && response.nbitems !== undefined) {
+                                countElement.textContent = response.nbitems; // Met à jour le compteur
+                            }
                         },
-                        error: function(error) {
-                            console.log(error);
-                            alert('Une erreur est survenue lors de l\'ajout de l\'article au panier.');
+                        error: function(xhr, status, error) {
+                            // Si l'API retourne une erreur (statut 400, 404, 500, etc.)
+                            console.error("Erreur AJAX:", status, error);
+                            console.error("Réponse de l'API:", xhr.responseText); // Log la réponse brute
+
+                            try {
+                                // Tenter de parser la réponse JSON de l'API pour récupérer le message d'erreur structuré
+                                var errorResponse = JSON.parse(xhr.responseText);
+                                if (errorResponse && errorResponse.message) {
+                                    // Si l'API a renvoyé un message spécifique (comme celui du stock insuffisant)
+                                    alert(errorResponse.message);
+                                } else if (errorResponse && errorResponse.errors) {
+                                    // Si l'API a renvoyé des erreurs de validation détaillées
+                                    var validationErrors = errorResponse.errors;
+                                    var errorMsg = "Erreurs de validation:\n";
+                                    for (var field in validationErrors) {
+                                        errorMsg += "- " + validationErrors[field].join(", ") + "\n";
+                                    }
+                                    alert(errorMsg);
+                                } else {
+                                    // Si la réponse n'est pas au format attendu ou si le message est absent
+                                    alert('Une erreur inattendue est survenue lors de l\'ajout de l\'article au panier.');
+                                }
+                            } catch (e) {
+                                // Si la réponse n'est pas un JSON valide
+                                console.error("Erreur de parsing JSON:", e);
+                                alert('Une erreur est survenue lors de l\'ajout de l\'article au panier. (Réponse serveur non JSON)');
+                            }
                         }
                     });
                 } else {
-
-
-                    alert('Veuillez choisir une pointure');
+                    alert('Veuillez choisir une pointure.');
                 }
             }
         });

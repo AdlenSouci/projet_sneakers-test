@@ -46,47 +46,45 @@ class BasketController extends Controller
 
         $article = Article::findOrFail($request->article_id);
         $pointure = $request->pointure;
-        $quantite = $request->quantite;
+        $quantiteAjoutee = $request->quantite;
 
-        // Récupérer le stock pour cette taille spécifique depuis la base
         $tailleArticle = $article->tailles()->where('taille', $pointure)->first();
 
-        // Vérifier si la taille existe et a du stock
-        if (!$tailleArticle || $tailleArticle->stock < 0) { // Ajout verification stock < 0 par sécurité
-             return response()->json(['message' => "Taille non trouvée ou stock invalide pour cet article et cette pointure."], 400);
+        if (!$tailleArticle || $tailleArticle->stock < 0) {
+            return response()->json(['message' => "Pointure non disponible pour cet article."], 400);
         }
-        $stock = $tailleArticle->stock;
+
+        $stockDisponibleTotal = $tailleArticle->stock;
 
 
         $cartItems = Session::get('cart', []);
 
-        // Chercher si l'article AVEC LA MÊME TAILLE est déjà dans le panier
         $existingItemKey = null;
+        $quantiteDejaDansPanier = 0;
+
         foreach ($cartItems as $key => $item) {
-             // Utiliser isset pour éviter les erreurs si un champ est manquant de manière inattendue dans un item session
             if (isset($item['id']) && $item['id'] === $article->id && isset($item['taille']) && $item['taille'] === $pointure) {
                 $existingItemKey = $key;
+                $quantiteDejaDansPanier = $item['quantity'];
                 break;
             }
         }
 
+        $nouvelleQuantiteTotaleDansPanier = $quantiteDejaDansPanier + $quantiteAjoutee;
 
-        if ($quantite > $stock) {
-            return response()->json(['message' => "Désolé, il ne reste que " . $stock . " paires en stock pour la taille " . $pointure . "."], 400);
+        if ($nouvelleQuantiteTotaleDansPanier > $stockDisponibleTotal) {
+            return response()->json(['message' => "Désolé, il ne reste que " . $stockDisponibleTotal . " paires en stock pour la taille " . $pointure . "."], 400);
         } else {
             if ($existingItemKey !== null) {
-                // Si l'article avec la même taille/pointure existe, juste mettre à jour la quantité
-                $cartItems[$existingItemKey]['quantity'] += $quantite;
+                $cartItems[$existingItemKey]['quantity'] = $nouvelleQuantiteTotaleDansPanier;
             } else {
-                // Sinon, ajoutez un nouvel item au panier avec les informations nécessaires
                 $cartItems[] = [
                     'id' => $article->id,
                     'name' => $article->modele,
                     'image' => $article->img,
-                    'price' => $article->prix_public, // Stocker le prix unitaire au moment de l'ajout
-                    'quantity' => $quantite,
+                    'price' => $article->prix_public,
+                    'quantity' => $quantiteAjoutee,
                     'taille' => $pointure,
-                    // LIGNE À SUPPRIMER : 'tailles' => $article->tailles,
                 ];
             }
 
@@ -95,7 +93,6 @@ class BasketController extends Controller
             $totalItems = array_sum(array_column($cartItems, 'quantity'));
             Session::put('totalItems', $totalItems);
 
-            // Assurez-vous que $this->calculerPrixTotal($cartItems) existe et fonctionne
             $totalPrice = $this->calculerPrixTotal($cartItems);
 
             return response()->json([
