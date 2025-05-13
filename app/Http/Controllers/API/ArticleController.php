@@ -28,7 +28,7 @@ class ArticleController extends Controller
             'id_famille' => 'required|integer',
             'id_couleur' => 'nullable|integer',
             'id_marque' => 'required|integer',
-            'tailles' => 'required|array',
+            'tailles' => 'required|array', // <-- Reste required ici, comme dans votre code
             'tailles.*.taille' => 'required|integer',
             'tailles.*.stock' => 'required|integer|min:0',
         ]);
@@ -87,7 +87,6 @@ class ArticleController extends Controller
             'id_famille' => 'required|integer',
             'id_couleur' => 'nullable|integer',
             'id_marque' => 'required|integer',
-            // AJOUT : Valider le tableau des tailles
             'tailles' => 'array',
             'tailles.*.id' => 'sometimes|integer|nullable',
             'tailles.*.taille' => 'required|integer|min:1',
@@ -120,25 +119,21 @@ class ArticleController extends Controller
                 'id_marque'
             ]));
 
-            // AJOUT : Gestion du stock par taille (supprimer tout et recréer)
             $article->tailles()->delete();
 
             if ($request->has('tailles') && is_array($request->tailles)) {
                 foreach ($request->tailles as $sizeData) {
                     $article->tailles()->create([
                         'taille' => $sizeData['taille'],
-                        'stock' => $sizeData['stock'], // <-- Utilise la valeur stock reçue
+                        'stock' => $sizeData['stock'],
                     ]);
                 }
             }
-            // FIN AJOUT
-
 
         } catch (\Exception $e) {
             return response()->json(['error' => 'Erreur lors de la mise à jour de l\'article ou de son stock. ' . $e->getMessage()], 500);
         }
 
-        // AJOUT : Charger les tailles dans la réponse pour que le client WPF ait les IDs mis à jour
         return response()->json($article->load('tailles'), 200);
     }
 
