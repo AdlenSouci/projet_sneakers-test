@@ -38,91 +38,72 @@ class BasketController extends Controller
 
     public function ajouter_au_panier(Request $request)
     {
-        // Validation des données
         $request->validate([
             'article_id' => 'required|exists:articles,id',
             'pointure' => 'required|string',
             'quantite' => 'required|integer|min:1|max:10',
-
         ]);
 
         $article = Article::findOrFail($request->article_id);
         $pointure = $request->pointure;
         $quantite = $request->quantite;
-        $stock = $article->tailles()->where('taille', $pointure)->first()->stock;
+
+        // Récupérer le stock pour cette taille spécifique depuis la base
+        $tailleArticle = $article->tailles()->where('taille', $pointure)->first();
+
+        // Vérifier si la taille existe et a du stock
+        if (!$tailleArticle || $tailleArticle->stock < 0) { // Ajout verification stock < 0 par sécurité
+            return response()->json(['message' => "Taille non trouvée ou stock invalide pour cet article et cette pointure."], 400);
+        }
+        $stock = $tailleArticle->stock;
+
 
         $cartItems = Session::get('cart', []);
-        $existingItemKey = array_search($article->id, array_column($cartItems, 'id'));
+
+        // Chercher si l'article AVEC LA MÊME TAILLE est déjà dans le panier
+        $existingItemKey = null;
+        foreach ($cartItems as $key => $item) {
+            // Utiliser isset pour éviter les erreurs si un champ est manquant de manière inattendue dans un item session
+            if (isset($item['id']) && $item['id'] === $article->id && isset($item['taille']) && $item['taille'] === $pointure) {
+                $existingItemKey = $key;
+                break;
+            }
+        }
+
 
         if ($quantite > $stock) {
-            return response()->json(['message' => "Désolé, il ne reste que " . $stock . " paires en stock"]);
+            return response()->json(['message' => "Désolé, il ne reste que " . $stock . " paires en stock pour la taille " . $pointure . "."], 400);
         } else {
-            if ($existingItemKey !== false) {
-
-                if ($cartItems[$existingItemKey]['taille'] === $pointure) {
-
-                    $cartItems[$existingItemKey]['quantity'] += $quantite;
-                } else {
-                    // Si la taille est différente, ajoutez un nouvel article
-                    $cartItems[] = [
-                        'id' => $article->id,
-                        'name' => $article->modele,
-                        'image' => $article->img,
-                        'price' => $article->prix_public,
-                        'quantity' => $quantite,
-                        'taille' => $pointure,
-                    ];
-                }
+            if ($existingItemKey !== null) {
+                // Si l'article avec la même taille/pointure existe, juste mettre à jour la quantité
+                $cartItems[$existingItemKey]['quantity'] += $quantite;
             } else {
-                // Sinon, ajoutez un nouvel article
+                // Sinon, ajoutez un nouvel item au panier avec les informations nécessaires
                 $cartItems[] = [
                     'id' => $article->id,
                     'name' => $article->modele,
                     'image' => $article->img,
-                    'price' => $article->prix_public,
+                    'price' => $article->prix_public, // Stocker le prix unitaire au moment de l'ajout
                     'quantity' => $quantite,
                     'taille' => $pointure,
-                    'tailles' => $article->tailles,
+                    // LIGNE À SUPPRIMER : 'tailles' => $article->tailles,
                 ];
             }
 
             Session::put('cart', $cartItems);
 
-            // Mettre à jour le nombre total d'articles dans la session
             $totalItems = array_sum(array_column($cartItems, 'quantity'));
             Session::put('totalItems', $totalItems);
 
+            // Assurez-vous que $this->calculerPrixTotal($cartItems) existe et fonctionne
             $totalPrice = $this->calculerPrixTotal($cartItems);
+
             return response()->json([
                 'message' => 'Article ajouté au panier avec succès',
                 'totalPrice' => $totalPrice,
                 'nbitems' => $totalItems,
-            ]);
+            ], 200);
         }
-    }
-
-    public function index()
-    {
-        // Récupération des articles du panier
-        $cartItems = session()->get('cart', []);
-
-        // Calculer le prix total
-        $totalPrice = $this->calculerPrixTotal($cartItems);
-
-        // Calculer le nombre total d'articles
-        $totalItems = $this->calculerTotalArticles($cartItems);
-
-        // Récupérer les articles avec les tailles et le stock
-        $articles = [];
-        foreach ($cartItems as $item) {
-            $article = Article::with('tailles')->where('id', $item['id'])->first();
-            if ($article) {
-                $articles[] = $article;
-            }
-        }
-
-        // Renvoyer la vue avec les articles du panier et le prix total
-        return view('basket', compact('cartItems', 'articles', 'totalPrice', 'totalItems'));
     }
 
 
