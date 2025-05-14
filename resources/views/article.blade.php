@@ -1,5 +1,5 @@
 <x-app-layout>
-   
+
 
 
 
@@ -29,7 +29,7 @@
                     <div class="d-flex align-items-center">
                         <?= $stock_article > 0 ? '<span class="badge bg-success me-3   btn-lg stock-badge ">En stock</span>' : '<span class="badge bg-danger me-3  btn-lg stock-badge">Rupture de stock</span>' ?>
                         <div class="d-flex align-items-center me-3">
-                           
+
                             <label for="pointure" class="me-3  rounded ">Pointure:</label>
                             <select id="pointure" name="pointure" class="custom-select-2 rounded">
                                 <option value=""></option>
@@ -103,10 +103,11 @@
         </div>
     </section>
 
-    <section class="py-5 popular" >
+    <section class="py-5 popular">
         <div class="container px-4 px-lg-5 mt-5">
             <h2 class="fw-bolder mb-4">produit populaire</h2>
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
+
 
 
                 <div class="col mb-5">
@@ -146,8 +147,12 @@
                                 </div>
                                 <br> <br>
                                 @if($stock_article > 0)
-                                <button class="btn btn-outline-dark ajouter_au_panier rounded" data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au panier</button>
-                                    @endif
+                                <button id="ajouter_au_panier" class="btn btn-outline-dark ajouter_au_panier rounded w-100 mt-2" data-article-id="{{ $article->id }}">
+                                    Ajouter au panier
+                                </button>
+
+
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -200,8 +205,12 @@
                                 </div>
                                 <br> <br>
                                 @if($stock_article > 0)
-                                <button class="btn btn-outline-dark ajouter_au_panier rounded" data-article-id="{{ $article['id'] }}" style="margin-left: 10px">Ajouter au panier</button>
-                                    @endif
+                                <button id="ajouter_au_panier" class="btn btn-outline-dark ajouter_au_panier rounded w-100 mt-2" data-article-id="{{ $article->id }}">
+                                    Ajouter au panier
+                                </button>
+
+
+                                @endif
                             </div>
 
 
@@ -226,7 +235,7 @@
                             '_token': '{{ csrf_token() }}',
                             'article_id': articleId,
                             pointure,
-                            
+
                             'quantite': event.target.parentElement.querySelector('[name="quantite"]').value
                         },
                         success: function(response) {
@@ -245,5 +254,5 @@
         });
     </script>
 
-@vite(['resources/css/accueil.css'])
+    @vite(['resources/css/accueil.css'])
 </x-app-layout>

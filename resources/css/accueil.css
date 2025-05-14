@@ -161,7 +161,7 @@ main {
 
 
 .custom-button-populaire {
-   /*ajouster la largeur */
+    /*ajouster la largeur */
     width: 150;
 }
 
@@ -327,7 +327,7 @@ video {
     position: absolute;
     top: 0;
     right: 0;
-    
+
 }
 
 .custom-nav-link:hover {
@@ -367,16 +367,18 @@ button .fas {
 
 .carousel-inner {
     width: 100%;
-    max-height: 600px; /* Ajuste la hauteur selon tes besoins */
+    max-height: 600px;
+    /* Ajuste la hauteur selon tes besoins */
 }
 
 .carousel-item img {
     width: 100%;
     height: auto;
-    max-height: 500px; /* Ajuste si nécessaire */
+    max-height: 500px;
+    /* Ajuste si nécessaire */
     object-fit: cover;
 }
-    
+
 @media (max-width: 768px) {
     .container {
         width: 95%;
@@ -413,5 +415,58 @@ button .fas {
 @media (max-width: 576px) {
     .custom-select {
         width: 100%;
+    }
+}
+
+
+/* === Responsive pour section article === */
+@media (max-width: 768px) {
+    .row.gx-4.align-items-center {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .row.gx-4.align-items-center .col-md-6 {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .stock-badge {
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+
+    .d-flex.align-items-center {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .d-flex.align-items-center>div,
+    .d-flex.align-items-center>button {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .form-control-2,
+    .custom-select-2 {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    h1.display-5.fw-bolder {
+        font-size: 1.5rem;
+    }
+
+    .fs-5.mb-5 h5 {
+        font-size: 1.2rem;
+    }
+
+    .fs-5.mb-5 span {
+        font-size: 1rem;
+    }
+
+    p.lead {
+        font-size: 0.95rem;
     }
 }
