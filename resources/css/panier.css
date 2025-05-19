@@ -5,32 +5,30 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+.item-odd {
+    background-color: #de7105;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
 .item-even,
 .item-odd {
     padding: 10px;
-    max-height: 150px;
-
+    max-height: 100%;
 }
 
-/* Conteneur de la colonne pour l'image */
+/* Image */
 .col-4 img {
     display: block;
-    /* Empêche tout comportement inline indésirable */
     max-width: 100%;
-    /* S'assure que l'image ne dépasse pas la largeur de son conteneur */
     height: auto;
-    /* Maintient les proportions de l'image */
     object-fit: contain;
-    /* Adapte l'image à son conteneur sans la rogner */
     border-radius: 5px;
-    /* Conserve les coins arrondis */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* Ajoute une ombre légère */
 }
 
-
-
-
+/* Nom */
 .item-name {
     white-space: nowrap;
     overflow: hidden;
@@ -40,24 +38,17 @@
 
 .item-name:hover {
     white-space: normal;
-    /* Permet aux retours à la ligne */
     overflow: visible;
-    /* Affiche le texte complet */
     font-size: 0.8em;
-    /* Rend le texte plus petit */
     background-color: rgba(0, 0, 0, 0.1);
-    /* Optionnel, ajoute un fond pour la lisibilité */
     position: relative;
     z-index: 1;
-    /* S'assure que le texte soit au-dessus des autres éléments */
 }
 
-
-.item-odd {
-    background-color: #de7105;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+/* Input */
+.input-quantity {
+    width: 100%;
+    transition: transform 0.2s ease;
 }
 
 .input-quantity:focus {
@@ -65,20 +56,18 @@
     box-shadow: 0px 0px 10px rgba(230, 117, 5, 0.3);
 }
 
-.input-quantity {
-    transition: transform 0.2s ease;
-}
-
 .input-quantity:hover {
     transform: scale(1.1);
 }
 
+/* Bouton suppression */
 .delete-item-btn:hover {
     color: #de7105;
     transform: scale(1.1);
     transition: color 0.2s ease, transform 0.2s ease;
 }
 
+/* Boutons */
 .btn-danger,
 .btn-dark {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -92,7 +81,6 @@
 .btn-dark:hover {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
     background-color: #de7105;
-
 }
 
 .row.mb-4:hover {
@@ -101,23 +89,10 @@
     transition: transform 0.2s ease;
 }
 
-
-.input-quantity {
-    width: 100%;
-    /* Prend toute la largeur de sa colonne */
-}
-
+/* Prix */
 .item-price {
     white-space: nowrap;
-    /* Empêche le prix de se casser */
 }
-
-@media (max-width: 576px) {
-    .row>div {
-        margin-bottom: 10px;
-    }
-}
-
 
 .text-white,
 .btn-danger,
@@ -127,11 +102,10 @@
 .btn-dark,
 .text-center,
 .adresse_livraison {
-
     padding: 10px;
 }
 
-
+/* Spinner */
 .loading-spinner {
     display: none;
     width: 30px;
@@ -152,3 +126,92 @@
         transform: rotate(360deg);
     }
 }
+
+/* ✅ RESPONSIVE SMARTPHONE */
+@media (max-width: 576px) {
+
+    /* Supprime les marges latérales excessives */
+    .container,
+    .card-body {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+
+    /* Agrandit la carte principale */
+    .col-12.col-sm-12.col-md-10.col-lg-8 {
+        width: 100vw !important;
+        padding: 0 !important;
+        margin: 0 auto !important;
+    }
+
+    .card.card-registration {
+        padding: 10px !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    /* Rendre les lignes de panier empilées */
+    .row.mb-4.d-flex.justify-content-between.align-items-center {
+        flex-direction: column !important;
+        align-items: center !important;
+        flex-wrap: wrap !important;
+    }
+
+    .row.mb-4.d-flex.justify-content-between.align-items-center>div {
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        margin-bottom: 10px;
+    }
+
+    .item-name,
+    .item-price,
+    .item-size {
+        font-size: 1rem;
+        white-space: normal;
+        text-align: center;
+    }
+
+    .input-quantity {
+        width: 70% !important;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .delete-item-btn {
+        font-size: 1.5rem;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .col-4 img {
+        max-height: 120px;
+        margin: 0 auto;
+    }
+
+    #totalPrice {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    .pt-4.d-flex.justify-content-between {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .pt-4.d-flex.justify-content-between h3 {
+        margin-top: 15px;
+        text-align: center;
+    }
+}
+
+
+@media (max-width: 576px) {
+    .col-12.col-sm-12.col-md-10.col-lg-8 {
+        flex: 0 0 95% !important;
+        max-width: 95% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+

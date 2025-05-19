@@ -3,7 +3,10 @@
         <section class="h-100 h-custom">
             <div class="container py-5 h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col-lg-7 col-md-10 col-sm-12">
+
+                    <div class="col-12 col-sm-12 col-md-10 col-lg-8">
+
+
                         <div class="card card-registration" style="border-radius: 15px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);">
                             <div class="card-body p-0">
                                 <div class="row g-0">
@@ -20,8 +23,10 @@
                                         <div class="p-4 rounded-3" style="background-color: #000000;">
                                             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                                                 <h1 class="fw-bold mb-0 text-white">Panier</h1>
-                                                <h6 class="mb-0 text-white">{{ count($cartItems) }} articles</h6>
-                                                
+                                                <h6 class="mb-0 text-white">Articles : <span id="total-items-count">{{ $totalItems }}</span></h6>
+
+
+
                                             </div>
                                             <hr class="my-3">
 
@@ -40,10 +45,13 @@
                                                 </div>
                                                 <!--pointure-->
                                                 <div class="col-3 col-sm-2 col-md-2">
+                                                    Pointure
                                                     <h6 class="{{ $index % 2 == 0 ? 'text-black' : 'text-white' }} mb-0 item-size" data-item-size="{{ $item['taille'] }}">
                                                         {{ $item['taille'] }}
                                                     </h6>
                                                 </div>
+
+
 
                                                 <div class="col-3 col-sm-2 col-md-2">
                                                     <input type="number" value="{{ $item['quantity'] }}" class="form-control rounded input-quantity" min="1" onchange="changerQuantiter(this)" data-item-price="{{ $item['price'] }}" data-item-id="{{ $item['id'] }}" style="width: 80px;">
@@ -53,19 +61,19 @@
                                                 </div>
                                             </div>
 
-                                            <br> 
+                                            <br>
 
                                             @endforeach
 
                                             <div class="pt-4 d-flex justify-content-between align-items-center flex-wrap">
                                                 <button class="btn btn-danger  " onclick="viderPanier()">Vider le panier</button>
-                                                <br> 
+                                                <br>
                                                 <div>
                                                     <h3 class="fw-bold text-white">Total : <span id="totalPrice">€ {{ number_format($totalPrice, 2) }}</span></h3>
                                                 </div>
                                             </div>
 
-                                            <br> 
+                                            <br>
 
                                             @if(auth()->check())
                                             <div id="checkout-process-simulation" class="mt-4" @if(!empty($cartItems)) data-initialize-view="true" @endif>
@@ -274,6 +282,7 @@
                         if (data.success) {
                             // Mise à jour du compteur d'articles dans la barre de navigation
                             document.getElementById('countArticle').textContent = data.totalItems;
+                            document.getElementById('total-items-count').textContent = data.totalItems;
                         } else {
                             alert(data.message || 'Une erreur est survenue.');
                         }
@@ -282,7 +291,7 @@
                         console.error('Erreur lors de la mise à jour de la quantité :', error);
                     });
             } else {
-                input.value = 1; 
+                input.value = 1;
             }
         }
 
