@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
-   
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    } 
     public function login(Request $request)
     {
         // Validation des données d'entrée

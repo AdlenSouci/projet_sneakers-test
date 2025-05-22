@@ -10,7 +10,10 @@ use illuminate\Support\Facades\Validator;
 class AvisController extends Controller
 {
 
-   
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    } 
     // Récupérer tous les avis
     public function index()
     {
