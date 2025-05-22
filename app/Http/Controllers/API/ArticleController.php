@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use Symfony\Component\Console\Output\ConsoleOutput;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -29,7 +29,7 @@ class ArticleController extends Controller
             'id_famille' => 'required|integer',
             'id_couleur' => 'nullable|integer',
             'id_marque' => 'required|integer',
-            'tailles' => 'required|array', // <-- Reste required ici, comme dans votre code
+            'tailles' => 'required|array', 
             'tailles.*.taille' => 'required|integer',
             'tailles.*.stock' => 'required|integer|min:0',
         ]);

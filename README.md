@@ -243,4 +243,30 @@ http://127.0.0.1:8000
 
 ## ✅ C’est prêt !
 
-🎉 Félicitations ! Votre application **Sneakers-Test** est maintenant installée et fonctionnelle. Vous pouvez consulter les articles et passer des commandes.
+🎉 Félicitations ! Votre application **Sneakers-Test** est maintenant installée et fonctionnelle. Vous pouvez consulter les articles et passer des commandes  ( factice ).
+
+
+#### 4 piste d'amelioration du projet
+
+## basket.blade.php
+Changement de la pointure dans le panier
+
+## mail
+confirmation de mail pour l'admin devrait plutot etre une vue blade comme pour la vue confirmation adresser au client.
+
+## remise 
+faire des remises pour des utilisateurs ayant deja passer commande.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

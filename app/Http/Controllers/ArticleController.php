@@ -13,10 +13,16 @@ class ArticleController extends Controller
     // Affiche un article spécifique
     public function show($id)
     {
-        $article = Article::findOrFail($id);
-      
-        return view('article', compact('article'));
+        $article = Article::with(['tailles', 'avis.user'])->findOrFail($id);
 
+        // Les 2 articles les mieux notés
+        $articlesPopulaires = Article::with(['tailles', 'avis'])
+            ->withAvg('avis', 'note')
+            ->orderByDesc('avis_avg_note')
+            ->take(2)
+            ->get();
+
+        return view('article', compact('article', 'articlesPopulaires'));
     }
 
     // Affiche la liste des articles
@@ -124,7 +130,4 @@ class ArticleController extends Controller
         $article->delete();
         return redirect()->route('articles.list')->with('success', 'Article supprimé avec succès !');
     }
-
-
-    
 }
