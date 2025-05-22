@@ -43,64 +43,64 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return response()->json($request->user());
 });
 
-// Articles
-Route::get('/article', [ArticleController::class, 'index']);
-Route::post('/article', [ArticleController::class, 'store']);
-Route::put('/article/{id}', [ArticleController::class, 'update']);
-Route::delete('/article/{id}', [ArticleController::class, 'destroy']);
-Route::post('/article/{id}/tailles', [ArticleController::class, 'ajouterTailles']);
+// // Articles
+// Route::get('/article', [ArticleController::class, 'index']);
+// Route::post('/article', [ArticleController::class, 'store']);
+// Route::put('/article/{id}', [ArticleController::class, 'update']);
+// Route::delete('/article/{id}', [ArticleController::class, 'destroy']);
+// Route::post('/article/{id}/tailles', [ArticleController::class, 'ajouterTailles']);
 
 
-// Familles
-Route::get('/famille', [FamilleController::class, 'index']);
-Route::post('/famille', [FamilleController::class, 'store']);
-Route::put('/famille/{id}', [FamilleController::class, 'update']);
-Route::delete('/famille/{id}', [FamilleController::class, 'destroy']);
+// // Familles
+// Route::get('/famille', [FamilleController::class, 'index']);
+// Route::post('/famille', [FamilleController::class, 'store']);
+// Route::put('/famille/{id}', [FamilleController::class, 'update']);
+// Route::delete('/famille/{id}', [FamilleController::class, 'destroy']);
 
 
 
 
-// Marques
-Route::get('marque', [MarqueController::class, 'index']);
-Route::post('marque', [MarqueController::class, 'store']);
-Route::put('marque/{id}', [MarqueController::class, 'update']);
-Route::delete('marque/{id}', [MarqueController::class, 'destroy']);
+// // Marques
+// Route::get('marque', [MarqueController::class, 'index']);
+// Route::post('marque', [MarqueController::class, 'store']);
+// Route::put('marque/{id}', [MarqueController::class, 'update']);
+// Route::delete('marque/{id}', [MarqueController::class, 'destroy']);
 
-// Couleurs
-Route::get('couleur', [CouleurController::class, 'index']);
-Route::post('couleur', [CouleurController::class, 'store']);
-Route::put('couleur/{id}', [CouleurController::class, 'update']);
-Route::delete('couleur/{id}', [CouleurController::class, 'destroy']);
+// // Couleurs
+// Route::get('couleur', [CouleurController::class, 'index']);
+// Route::post('couleur', [CouleurController::class, 'store']);
+// Route::put('couleur/{id}', [CouleurController::class, 'update']);
+// Route::delete('couleur/{id}', [CouleurController::class, 'destroy']);
 
-// Annonces
-Route::get('annonce', [AnnonceController::class, 'index']);
-Route::post('annonce', [AnnonceController::class, 'store']);
-Route::put('annonce/{id}', [AnnonceController::class, 'update']);
-Route::delete('annonce/{id}', [AnnonceController::class, 'destroy']);
+// // Annonces
+// Route::get('annonce', [AnnonceController::class, 'index']);
+// Route::post('annonce', [AnnonceController::class, 'store']);
+// Route::put('annonce/{id}', [AnnonceController::class, 'update']);
+// Route::delete('annonce/{id}', [AnnonceController::class, 'destroy']);
 
-//users
-Route::get('/users', [UserController::class, 'index']);
-Route::delete('/users/{id}', [UserController::class, 'destroy']);
-Route::put('/users/{id}', [UserController::class, 'update']);
-Route::post('/users', [UserController::class, 'store']);
+// //users
+// Route::get('/users', [UserController::class, 'index']);
+// Route::delete('/users/{id}', [UserController::class, 'destroy']);
+// Route::put('/users/{id}', [UserController::class, 'update']);
+// Route::post('/users', [UserController::class, 'store']);
 
-Route::post('/login', [AuthController::class, 'login']);
+// Route::post('/login', [AuthController::class, 'login']);
 
-//route api pour les avis
-Route::get('avis', [AvisController::class, 'index']);
-Route::post('avis', [AvisController::class, 'store']);
-Route::put('avis/{id}', [AvisController::class, 'update']);
-Route::delete('avis/{id}', [AvisController::class, 'destroy']); 
-Route::put('/avis/{id}/repondre', [AvisController::class, 'repondre']);
+// //route api pour les avis
+// Route::get('avis', [AvisController::class, 'index']);
+// Route::post('avis', [AvisController::class, 'store']);
+// Route::put('avis/{id}', [AvisController::class, 'update']);
+// Route::delete('avis/{id}', [AvisController::class, 'destroy']); 
+// Route::put('/avis/{id}/repondre', [AvisController::class, 'repondre']);
 
-//route commandes 
+// //route commandes 
 
 
-Route::get('/commandes', [CommandeController::class, 'index']);
-Route::post('/commandes', [CommandeController::class, 'store']);
-Route::put('/commandes/{id}', [CommandeController::class, 'update']);
+// Route::get('/commandes', [CommandeController::class, 'index']);
+// Route::post('/commandes', [CommandeController::class, 'store']);
+// Route::put('/commandes/{id}', [CommandeController::class, 'update']);
 
-Route::delete('/commandes/{id}', [CommandeController::class, 'destroy']);
+// Route::delete('/commandes/{id}', [CommandeController::class, 'destroy']);
 
 
 //middleware route api pour les commandes
