@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return response()->json($request->user());
 });
 
+
 // Articles
 Route::get('/article', [ArticleController::class, 'index']);
 Route::post('/article', [ArticleController::class, 'store']);
