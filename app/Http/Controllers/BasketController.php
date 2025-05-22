@@ -22,6 +22,9 @@ class BasketController extends Controller
     {
         return array_sum(array_column($cartItems, 'quantity'));
     }
+
+
+
     private function calculerPrixTotal($cartItems)
     {
         $totalPrice = 0;
@@ -33,6 +36,69 @@ class BasketController extends Controller
 
         return $totalPrice;
     }
+
+    public function changerPointurePanier(Request $request)
+    {
+        $request->validate([
+            'article_id' => 'required|integer',
+            'ancienne_pointure' => 'required|string',
+            'nouvelle_pointure' => 'required|string',
+        ]);
+
+        $cart = session()->get('cart', []);
+        $articleId = $request->article_id;
+        $ancienne = $request->ancienne_pointure;
+        $nouvelle = $request->nouvelle_pointure;
+
+        $article = Article::findOrFail($articleId);
+        $stock = $article->tailles()->where('taille', $nouvelle)->value('stock');
+
+        $itemIndex = null;
+        foreach ($cart as $key => $item) {
+            if ($item['id'] == $articleId && $item['taille'] == $ancienne) {
+                $itemIndex = $key;
+                break;
+            }
+        }
+
+        if ($itemIndex === null) {
+            return response()->json(['error' => true, 'message' => "Article non trouvé."], 404);
+        }
+
+        $quantite = $cart[$itemIndex]['quantity'];
+
+        // Vérifier s'il existe déjà une ligne avec la même id + nouvelle pointure
+        $existingSame = null;
+        foreach ($cart as $key => $item) {
+            if ($key !== $itemIndex && $item['id'] == $articleId && $item['taille'] == $nouvelle) {
+                $existingSame = $key;
+                break;
+            }
+        }
+
+        if ($stock < $quantite + ($existingSame !== null ? $cart[$existingSame]['quantity'] : 0)) {
+            return response()->json(['error' => true, 'message' => "Stock insuffisant pour la pointure $nouvelle."], 400);
+        }
+
+        if ($existingSame !== null) {
+            // Fusionner les quantités
+            $cart[$existingSame]['quantity'] += $quantite;
+            unset($cart[$itemIndex]);
+            $cart = array_values($cart); // réindexation propre
+        } else {
+            $cart[$itemIndex]['taille'] = $nouvelle;
+        }
+
+        session()->put('cart', $cart);
+        session()->put('totalItems', array_sum(array_column($cart, 'quantity')));
+
+        return response()->json([
+            'success' => true,
+            'message' => "Pointure mise à jour avec succès.",
+            'cart' => $cart,
+        ]);
+    }
+
 
     // ne pas additionner les paires du meme articles si les pointures sont différentes
 
@@ -224,6 +290,8 @@ class BasketController extends Controller
 
         return response()->json(['error' => 'Article non trouvé dans le panier']);
     }
+
+
 
 
 

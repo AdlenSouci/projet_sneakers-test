@@ -51,6 +51,7 @@ Route::get('/search', [ShopController::class, 'search'])->name('search');
 
 Route::get('/filtre', [ShopController::class, 'filtre'])->name('filtre');
 Route::post('/ajouter_au_panier', [BasketController::class, 'ajouter_au_panier'])->name('ajouter_au_panier');
+Route::post('/changer-pointure-panier', [BasketController::class, 'changerPointurePanier'])->name('changer-pointure-panier');
 
 
 
