@@ -29,8 +29,14 @@
         <x-text-input id="code_postal" name="code_postal" type="text" class="mt-1 block w-full" :value="old('code_postal', $user->code_postal)" required autocomplete="code_postal" />
         <x-input-error class="mt-2" :messages="$errors->get('code_postal')" />
 
+        <!-- adresse de livraison -->
+
+        <x-input-label for="adresse_livraison" :value="__('Adresse de livraison')" />
+        <x-text-input id="adresse_livraison" name="adresse_livraison" type="text" class="mt-1 block w-full" :value="old('adresse_livraison', $user->adresse_livraison)" required autocomplete="adresse_livraison" />
+        <x-input-error class="mt-2" :messages="$errors->get('adresse_livraison')" />
 
         <!-- ville -->
+
 
 
         <x-input-label for="ville" :value="__('Ville')" />
