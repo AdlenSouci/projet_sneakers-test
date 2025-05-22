@@ -44,24 +44,13 @@
                                                     </h6>
                                                 </div>
                                                 <!--pointure-->
-                                                @php
-                                                // Trouve l'article correspondant UNE seule fois pour éviter la duplication des tailles
-                                                $articleAssocie = collect($articles)->firstWhere('id', $item['id']);
-                                                @endphp
+
 
                                                 <div class="col-3 col-sm-2 col-md-2">
-                                                    <select class="form-select changer-pointure"
-                                                        data-article-id="{{ $item['id'] }}"
-                                                        data-ancienne-pointure="{{ $item['taille'] }}">
-                                                        @if($articleAssocie)
-                                                        @foreach($articleAssocie->tailles as $taille)
-                                                        <option value="{{ $taille->taille }}"
-                                                            {{ $taille->taille == $item['taille'] ? 'selected' : '' }}>
-                                                            {{ $taille->taille }}
-                                                        </option>
-                                                        @endforeach
-                                                        @endif
-                                                    </select>
+                                                    <h6 class="{{ $index % 2 == 0 ? 'text-black' : 'text-white' }} mb-0 item-size" data-item-size="{{ $item['taille'] }}">
+                                                        {{ $item['taille'] }}
+                                                    </h6>
+
                                                 </div>
 
 
@@ -360,35 +349,7 @@
                 });
         }
 
-        function changerPointurePanier(selectElement) {
-            const articleId = selectElement.getAttribute('data-article-id');
-            const ancienne = selectElement.getAttribute('data-ancienne-pointure');
-            const nouvelle = selectElement.value;
-
-            fetch('{{ route("changer-pointure-panier") }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    },
-                    body: JSON.stringify({
-                        article_id: articleId,
-                        ancienne_pointure: ancienne,
-                        nouvelle_pointure: nouvelle,
-                    }),
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload(); // Rafraîchit pour afficher les changements
-                    } else {
-                        alert(data.message || "Erreur lors du changement de pointure.");
-                    }
-                })
-                .catch(err => {
-                    console.error('Erreur AJAX lors du changement de pointure:', err);
-                });
-        }
+        
 
         document.addEventListener('change', function(e) {
             if (e.target.classList.contains('changer-pointure')) {
