@@ -12,10 +12,7 @@ use App\Models\User;
 class CommandeController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    } 
+   
     public function index()
     {
         // Récupérer les entêtes de commandes (associées aux détails)

@@ -11,10 +11,7 @@ use App\Models\TaillesArticle;
 
 class ArticleController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    } 
+   
     public function index()
     {
         $articles = Article::with(['tailles'])->get()->makeHidden(['famille', 'marque', 'couleur']);

@@ -10,10 +10,7 @@ use Carbon\Carbon;
 class AnnonceController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    } 
+   
 
     // Récupérer toutes les annonces
     public function index()

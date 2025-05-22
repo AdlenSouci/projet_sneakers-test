@@ -9,10 +9,7 @@ use App\Models\Couleur;
 
 class CouleurController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    } 
+    
     public function index()
     {
         $couleurs = Couleur::all();
