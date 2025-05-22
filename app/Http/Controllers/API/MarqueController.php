@@ -8,10 +8,7 @@ use App\Models\Marque;
 
 class MarqueController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    } 
+    
     // Récupérer toutes les marques depuis la base de données
     public function index()
     {
