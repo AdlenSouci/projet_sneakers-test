@@ -6,8 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Annonce;
 use Carbon\Carbon;
+// use Symfony\Component\Console\Output\ConsoleOutput;
 class AnnonceController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    } 
+
     // Récupérer toutes les annonces
     public function index()
     {
