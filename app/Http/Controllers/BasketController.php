@@ -241,6 +241,7 @@ class BasketController extends Controller
             'adresse_livraison' => 'required|string|max:255',
             'code_postal' => 'required|string|max:10',
             'ville' => 'required|string|max:255',
+            
         ]);
 
         $userId = Auth::id();

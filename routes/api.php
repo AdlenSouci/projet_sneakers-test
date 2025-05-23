@@ -98,7 +98,8 @@ Route::get('avis', [AvisController::class, 'index']);
 Route::middleware('auth:sanctum')->post('avis', [AvisController::class, 'store']);
 Route::middleware('auth:sanctum')->put('avis/{id}', [AvisController::class, 'update']);
 Route::middleware('auth:sanctum')->delete('avis/{id}', [AvisController::class, 'destroy']);
-Route::middleware('auth:sanctum')->post('/avis/{id}/repondre', [AvisController::class, 'repondre']);
+Route::middleware('auth:sanctum')->put('/avis/{id}/repondre', [AvisController::class, 'repondre']);
+
 
 
 //route commandes 
