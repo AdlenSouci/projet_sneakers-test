@@ -43,10 +43,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Articles
 Route::get('/article', [ArticleController::class, 'index']);
-Route::post('/article', [ArticleController::class, 'store']);
-Route::put('/article/{id}', [ArticleController::class, 'update']);
-Route::delete('/article/{id}', [ArticleController::class, 'destroy']);
-Route::post('/article/{id}/tailles', [ArticleController::class, 'ajouterTailles']);
+//route middleware similaire au route
+Route::middleware('auth:sanctum')->post('/article', [ArticleController::class, 'store']);
+Route::middleware('auth:sanctum')->put('/article/{id}', [ArticleController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/article/{id}', [ArticleController::class, 'destroy']);
+Route::middleware('auth:sanctum')->post('/article/{id}/tailles', [ArticleController::class, 'ajouterTailles']);
+
 
 
 // Familles
@@ -59,48 +61,56 @@ Route::middleware('auth:sanctum')->delete('/famille/{id}', [FamilleController::c
 
 
 
-
 // Marques
 Route::get('marque', [MarqueController::class, 'index']);
-Route::post('marque', [MarqueController::class, 'store']);
-Route::put('marque/{id}', [MarqueController::class, 'update']);
-Route::delete('marque/{id}', [MarqueController::class, 'destroy']);
+Route::middleware('auth:sanctum')->post('marque', [MarqueController::class, 'store']);
+Route::middleware('auth:sanctum')->put('marque/{id}', [MarqueController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('marque/{id}', [MarqueController::class, 'destroy']);
+
 
 // Couleurs
 Route::get('couleur', [CouleurController::class, 'index']);
-Route::post('couleur', [CouleurController::class, 'store']);
-Route::put('couleur/{id}', [CouleurController::class, 'update']);
-Route::delete('couleur/{id}', [CouleurController::class, 'destroy']);
+
+Route::middleware('auth:sanctum')->post('couleur', [CouleurController::class, 'store']);
+Route::middleware('auth:sanctum')->put('couleur/{id}', [CouleurController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('couleur/{id}', [CouleurController::class, 'destroy']);
+
 
 // Annonces
 Route::get('annonce', [AnnonceController::class, 'index']);
-Route::post('annonce', [AnnonceController::class, 'store']);
-Route::put('annonce/{id}', [AnnonceController::class, 'update']);
-Route::delete('annonce/{id}', [AnnonceController::class, 'destroy']);
+
+Route::middleware('auth:sanctum')->post('annonce', [AnnonceController::class, 'store']);
+Route::middleware('auth:sanctum')->put('annonce/{id}', [AnnonceController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('annonce/{id}', [AnnonceController::class, 'destroy']);
 
 //users
 Route::get('/users', [UserController::class, 'index']);
-Route::delete('/users/{id}', [UserController::class, 'destroy']);
-Route::put('/users/{id}', [UserController::class, 'update']);
-Route::post('/users', [UserController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/users', [UserController::class, 'store']);
+Route::middleware('auth:sanctum')->put('/users/{id}', [UserController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/users/{id}', [UserController::class, 'destroy']);
 
 Route::post('/login', [AuthController::class, 'login']);
 
+
 //route api pour les avis
 Route::get('avis', [AvisController::class, 'index']);
-Route::post('avis', [AvisController::class, 'store']);
-Route::put('avis/{id}', [AvisController::class, 'update']);
-Route::delete('avis/{id}', [AvisController::class, 'destroy']); 
-Route::put('/avis/{id}/repondre', [AvisController::class, 'repondre']);
+//route post
+Route::middleware('auth:sanctum')->post('avis', [AvisController::class, 'store']);
+Route::middleware('auth:sanctum')->put('avis/{id}', [AvisController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('avis/{id}', [AvisController::class, 'destroy']);
+Route::middleware('auth:sanctum')->post('/avis/{id}/repondre', [AvisController::class, 'repondre']);
+
 
 //route commandes 
 
 
 Route::get('/commandes', [CommandeController::class, 'index']);
-Route::post('/commandes', [CommandeController::class, 'store']);
-Route::put('/commandes/{id}', [CommandeController::class, 'update']);
 
-Route::delete('/commandes/{id}', [CommandeController::class, 'destroy']);
+Route::middleware('auth:sanctum')->post('/commandes', [CommandeController::class, 'store']);
+
+Route::middleware('auth:sanctum')->put('/commandes/{id}', [CommandeController::class, 'update']);
+
+Route::middleware('auth:sanctum')->delete('/commandes/{id}', [CommandeController::class, 'destroy']);
 
 
 
