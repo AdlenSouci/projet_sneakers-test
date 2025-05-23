@@ -246,7 +246,7 @@ http://127.0.0.1:8000
 🎉 Félicitations ! Votre application **Sneakers-Test** est maintenant installée et fonctionnelle. Vous pouvez consulter les articles et passer des commandes  ( factice ).
 
 
-#### 4 piste d'amelioration du projet
+# piste d'amelioration du projet
 
 ## basket.blade.php
 Changement de la pointure dans le panier
