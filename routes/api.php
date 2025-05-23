@@ -52,6 +52,7 @@ Route::post('/article/{id}/tailles', [ArticleController::class, 'ajouterTailles'
 // Familles
 Route::get('/famille', [FamilleController::class, 'index']);
 Route::post('/famille', [FamilleController::class, 'store']);
+Route::middleware( 'auth:sanctum')->get('/famille', [FamilleController::class, 'index']); 
 Route::put('/famille/{id}', [FamilleController::class, 'update']);
 Route::delete('/famille/{id}', [FamilleController::class, 'destroy']);
 
