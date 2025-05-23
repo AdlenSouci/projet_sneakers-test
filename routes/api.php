@@ -50,11 +50,12 @@ Route::post('/article/{id}/tailles', [ArticleController::class, 'ajouterTailles'
 
 
 // Familles
-Route::get('/famille', [FamilleController::class, 'index']);
-Route::post('/famille', [FamilleController::class, 'store']);
-Route::middleware( 'auth:sanctum')->get('/famille', [FamilleController::class, 'index']); 
-Route::put('/famille/{id}', [FamilleController::class, 'update']);
-Route::delete('/famille/{id}', [FamilleController::class, 'destroy']);
+
+Route::middleware('auth:sanctum')->get('/famille', [FamilleController::class, 'index']); 
+Route::middleware('auth:sanctum')->post('/famille', [FamilleController::class, 'store']); 
+Route::middleware('auth:sanctum')->put('/famille/{id}', [FamilleController::class, 'update']); 
+Route::middleware('auth:sanctum')->delete('/famille/{id}', [FamilleController::class, 'destroy']);
+
 
 
 
