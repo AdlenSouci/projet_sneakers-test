@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('couleurs', function (Blueprint $table) {
             $table->id();
             $table->string('nom_couleur');
-            $table->timestamps();
+
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->index('nom_couleur')->unique();
         });

@@ -17,9 +17,8 @@ return new class extends Migration {
             $table->integer('taille')->nullable(false);
             $table->integer('stock')->nullable(false)->default(0);
 
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
 

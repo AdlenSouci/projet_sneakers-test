@@ -22,9 +22,8 @@ return new class extends Migration {
             $table->decimal('montant_tva', 9, 2)->nullable(false);
             $table->decimal('remise', 9, 2)->nullable(true);
 
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->index('id_commande');
             $table->index('id_article');

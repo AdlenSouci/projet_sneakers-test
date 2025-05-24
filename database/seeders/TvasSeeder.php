@@ -18,15 +18,15 @@ class TvasSeeder extends Seeder
             
         ]);
         DB::table('tvas')->insert([
-            'taux_tva'  => '19'
+            'taux_tva'  => '19.5'
             
         ]);
         DB::table('tvas')->insert([
-            'taux_tva'  => '22'
+            'taux_tva'  => '5'
             
         ]);
         DB::table('tvas')->insert([
-            'taux_tva'  => '21'
+            'taux_tva'  => '10'
             
         ]);
     }

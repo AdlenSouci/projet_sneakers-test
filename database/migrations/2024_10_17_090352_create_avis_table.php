@@ -17,7 +17,9 @@ return new class extends Migration
             $table->foreignId('article_id')->constrained('articles')->onDelete('cascade'); 
             $table->text('contenu'); 
             $table->integer('note'); 
-            $table->timestamps();
+            
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

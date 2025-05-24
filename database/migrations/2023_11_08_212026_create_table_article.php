@@ -21,7 +21,8 @@ return new class extends Migration {
             $table->decimal('prix_achat', 9, 2)->nullable(false);
             $table->string('img')->nullable(false);
 
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
 
             $table->index('modele');
