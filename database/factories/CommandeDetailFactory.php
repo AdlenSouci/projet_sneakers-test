@@ -4,27 +4,27 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\commande_detail>
- */
 class CommandeDetailFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
-        return [
-            'id_num_commande' => $this->faker->unique()->randomNumber(5),
-            'id_article' => $this->faker->sentence(5),
-            'id_quantite_commmande' => $this->faker->randomNumber(3),
-            'prix_unitaire_brut' => $this->faker->randomFloat(2, 10, 100),
-            'prix_unitaire_net' => $this->faker->randomFloat(2, 5, 90),
-            'montant_ht' => $this->faker->randomFloat(2, 50, 500),
-            'remise' => $this->faker->randomFloat(2, 0, 10),
+        $faker = \Faker\Factory::create('fr_FR');
 
+        $quantite = $faker->numberBetween(1, 5);
+        $prix_ht = $faker->randomFloat(2, 10, 100);
+        $remise = $faker->optional(0.3)->randomFloat(2, 1, 10); // 30% chance d'avoir une remise
+        $prix_apres_remise = $prix_ht - ($remise ?? 0);
+        $montant_tva = round($prix_apres_remise * 0.20, 2); // 20% TVA
+        $prix_ttc = round($prix_apres_remise + $montant_tva, 2);
+
+        return [
+            'id_article' => \App\Models\Article::inRandomOrder()->value('id'), // lien vers un article existant
+            'taille' => $faker->numberBetween(36, 45), // exemple pour chaussures/vêtements
+            'quantite' => $quantite,
+            'prix_ht' => round($prix_ht, 2),
+            'prix_ttc' => $prix_ttc,
+            'montant_tva' => $montant_tva,
+            'remise' => $remise,
         ];
     }
 }

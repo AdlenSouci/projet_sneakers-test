@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\CommandeDetail;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use App\Models\User;
 
 class CommandeEntete extends Model
 {
     //model commande entete 
+    use HasFactory;
     protected $table = 'commandes_entetes';
 
     protected $fillable = [

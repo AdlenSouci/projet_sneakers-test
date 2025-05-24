@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         //\App\Models\Client::factory(100)->create();
-      
+
         $this->call([
             UsersSeeder::class,
             FamilleSeeder::class,
@@ -27,9 +27,10 @@ class DatabaseSeeder extends Seeder
             TaillesArticlesSeeder::class,
             AnnoncesSeeder::class,
             AvisSeeder::class,
+            CommandeSeeder::class,
         ]);
-    
 
-      
+
+
     }
 }
