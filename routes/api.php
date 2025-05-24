@@ -86,6 +86,7 @@ Route::middleware('auth:sanctum')->delete('avis/{id}', [AvisController::class, '
 Route::middleware('auth:sanctum')->put('/avis/{id}/repondre', [AvisController::class, 'repondre']);
 
 
+
 //route commandes 
 
 

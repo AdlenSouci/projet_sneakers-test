@@ -59,13 +59,13 @@
 
 ### Bouml
 ![Breeze authentification](bouml_e5/Image3.png)  
-![Panier de produit](bouml_e5/panier/Image2.png)  
-![Consultation des pages](bouml_e5/panier/Image1.png)  
+![Panier de produit](bouml_e5/Image2.png)  
+![Consultation des pages](bouml_e5/Image1.png)  
 
 
 
 ### Documentation
-[Guide d'utilisation et installation du projet](https://github.com/AdlenSouci/projet_sneakers-main/blob/main/README.md)
+[Guide d'utilisation et installation du projet](https://github.com/AdlenSouci/projet_sneakers-test/blob/main/README.md)
 
 ### Auteur
 **Adlen Souci**
