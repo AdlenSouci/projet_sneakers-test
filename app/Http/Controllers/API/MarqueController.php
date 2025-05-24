@@ -4,14 +4,17 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use App\Models\Marque;
 
 class MarqueController extends Controller
 {
-    
+
     // Récupérer toutes les marques depuis la base de données
     public function index()
     {
+        $output = new ConsoleOutput();
+        $output->writeln('Récupération de toutes les marques...');
         $marques = Marque::all(); // Récupère toutes les marques
         return response()->json($marques); // Renvoie les données sous forme de JSON
     }
@@ -19,6 +22,9 @@ class MarqueController extends Controller
     // Ajouter une nouvelle marque
     public function store(Request $request)
     {
+        $output = new ConsoleOutput();
+        $output->writeln('Ajout d\'une nouvelle marque...');
+
         // Validation des données envoyées par l'utilisateur
         $request->validate([
             'nom_marque' => 'required|string|max:255',

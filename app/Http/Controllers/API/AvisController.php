@@ -4,16 +4,16 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use App\Models\Avis;
-use illuminate\Support\Facades\Validator;
 
 class AvisController extends Controller
 {
-
-    
     // Récupérer tous les avis
     public function index()
     {
+        $output = new ConsoleOutput();
+        $output->writeln('Récupération de tous les avis...');
         $avis = Avis::all();
         return response()->json($avis);
     }
