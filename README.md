@@ -254,8 +254,7 @@ Changement de la pointure dans le panier
 ## mail
 confirmation de mail pour l'admin devrait plutot etre une vue blade comme pour la vue confirmation adresser au client.
 
-## remise 
-faire des remises pour des utilisateurs ayant deja passer commande.
+
 
 
 
