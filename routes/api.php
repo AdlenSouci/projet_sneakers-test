@@ -69,10 +69,10 @@ Route::middleware('auth:sanctum')->put('annonce/{id}', [AnnonceController::class
 Route::middleware('auth:sanctum')->delete('annonce/{id}', [AnnonceController::class, 'destroy']);
 
 //users
-Route::get('/users', [UserController::class, 'index']);
-Route::middleware('auth:sanctum')->post('/users', [UserController::class, 'store']);
-Route::middleware('auth:sanctum')->put('/users/{id}', [UserController::class, 'update']);
-Route::middleware('auth:sanctum')->delete('/users/{id}', [UserController::class, 'destroy']);
+Route::get('/user', [UserController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/user', [UserController::class, 'store']);
+Route::middleware('auth:sanctum')->put('/user/{id}', [UserController::class, 'update']);
+Route::middleware('auth:sanctum')->delete('/user/{id}', [UserController::class, 'destroy']);
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -91,11 +91,8 @@ Route::middleware('auth:sanctum')->put('/avis/{id}/repondre', [AvisController::c
 
 
 Route::get('/commandes', [CommandeController::class, 'index']);
-
 Route::middleware('auth:sanctum')->post('/commandes', [CommandeController::class, 'store']);
-
 Route::middleware('auth:sanctum')->put('/commandes/{id}', [CommandeController::class, 'update']);
-
 Route::middleware('auth:sanctum')->delete('/commandes/{id}', [CommandeController::class, 'destroy']);
 
 

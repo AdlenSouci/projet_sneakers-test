@@ -14,7 +14,7 @@ class AvisController extends Controller
     {
         $output = new ConsoleOutput();
         $output->writeln('Récupération de tous les avis...');
-        $avis = Avis::all();
+        $avis = Avis::with(['user', 'article'])->get();
         return response()->json($avis);
     }
 
@@ -46,7 +46,10 @@ class AvisController extends Controller
             'contenu' => $request->contenu,
             'note' => $request->note,
         ]);
-
+        $avis->load('article'); // charge l'article lié 
+        $avis->load('user'); // charge l'utilisateur lié
+        $output = new ConsoleOutput();
+        $output->writeln('Nouvel avis créé avec succès.');
         // Retourner une réponse JSON avec l'avis créé
         return response()->json($avis, 201);
     }

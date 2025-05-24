@@ -14,6 +14,6 @@ class AvisSeeder extends Seeder
      */
     public function run()
     {
-        Avis::factory(50)->create();
+        Avis::factory(43)->create();
     }
 }

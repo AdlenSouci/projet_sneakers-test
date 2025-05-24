@@ -7,13 +7,15 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use Symfony\Component\Console\Output\ConsoleOutput;
 class UserController extends Controller
 {
-    
+
     // Récupérer tous les utilisateurs
     public function index()
     {
+        $output = new ConsoleOutput();
+        $output->writeln('Récupération de tous les utilisateurs...');
         // Retourner la liste de tous les utilisateurs
         return response()->json(User::all());
     }
@@ -33,7 +35,7 @@ class UserController extends Controller
             if ($validator->errors()->has('email')) {
                 return response()->json(['error' => 'Un utilisateur avec cet email existe déjà.'], 409);
             }
-    
+
             return response()->json($validator->errors(), 400);
         }
 
