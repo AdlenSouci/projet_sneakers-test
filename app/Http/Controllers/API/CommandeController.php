@@ -51,7 +51,7 @@ class CommandeController extends Controller
             'total_ht' => $validated['total_ht'],
             'total_ttc' => $validated['total_ttc'],
             'total_tva' => $validated['total_tva'],
-            'total_remise' => $validated['total_remise'],
+            // 'total_remise' => $validated['total_remise'],
             'date' => now(),  // Ajouter la date actuelle
             'created_at' => now(),
             'updated_at' => now(),
@@ -76,7 +76,7 @@ class CommandeController extends Controller
                 'prix_ht' => $article->prix_achat,   // Utilisation du prix d'achat
                 'prix_ttc' => $article->prix_public,  // Utilisation du prix public
                 'montant_tva' => $detail['montant_tva'], // Montant de la TVA
-                'remise' => $detail['remise'],        // Remise de l'article
+                // 'remise' => $detail['remise'],        // Remise de l'article
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -98,17 +98,14 @@ class CommandeController extends Controller
             return response()->json(['message' => 'Commande non trouvée'], 404);
         }
 
-        // 3. Tentative de suppression (détails d'abord)
+      
         try {
-            // *** LA CORRECTION EST ICI ***
-            // Utilise la relation définie dans le modèle CommandeEntete.
-            // Notez la majuscule 'D' si votre méthode s'appelle bien 'Details'
+           
             Log::info("Tentative de suppression des détails pour commande ID: {$id}");
-            $commande->Details()->delete(); // Supprime tous les enregistrements liés dans commandes_details
-
-            // Maintenant que les détails sont supprimés, on peut supprimer l'en-tête
+            $commande->Details()->delete(); 
+         
             Log::info("Tentative de suppression de l'en-tête pour commande ID: {$id}");
-            $commande->delete(); // Supprime l'enregistrement dans commandes_entetes
+            $commande->delete(); 
 
             Log::info("Commande ID {$id} et ses détails supprimés avec succès.");
             return response()->json(['message' => 'Commande et détails supprimés avec succès']);
@@ -117,7 +114,7 @@ class CommandeController extends Controller
             Log::error("Erreur BDD lors suppression commande ID {$id}: " . $e->getMessage(), ['exception' => $e]);
             return response()->json([
                 'message' => 'Erreur de base de données lors de la suppression.',
-                'error_details' => $e->getMessage() // Fournir des détails peut aider
+                'error_details' => $e->getMessage() 
             ], 500);
         } catch (\Exception $e) {
             // Gérer toute autre erreur inattendue

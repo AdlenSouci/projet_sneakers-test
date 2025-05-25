@@ -16,11 +16,14 @@ class ArticleController extends Controller
         $article = Article::with(['tailles', 'avis.user'])->findOrFail($id);
 
         // Les 2 articles les mieux notés
-        $articlesPopulaires = Article::with(['tailles', 'avis'])
-            ->withAvg('avis', 'note')
-            ->orderByDesc('avis_avg_note')
-            ->take(2)
-            ->get();
+        $articlesPopulaires = Article::with('tailles', 'avis')
+            ->get()
+            ->sortByDesc(function ($article) {
+                return $article->moyenne_note;
+            })
+            ->take(2);
+
+
 
         return view('article', compact('article', 'articlesPopulaires'));
     }

@@ -104,60 +104,82 @@
     </section>
 
     <section class="py-5 popular">
-        <div class="container px-4 px-lg-5 mt-5">
-            <h2 class="fw-bolder mb-4">Produits populaires</h2>
-            <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
-                @foreach($articlesPopulaires as $populaire)
-                @php
-                $stock = $populaire->tailles->sum('stock');
-                @endphp
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <img class="card-img-top" src="{{ asset('img/' . $populaire->img) }}" alt="{{ $populaire->modele }}" />
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <h5 class="fw-bolder">{{ $populaire->modele }}</h5>
-                                <span class="text-muted text-decoration-line-through">{{ $populaire->prix_public }}€</span>
-                                {{ $populaire->prix }}€
-
-                                <div class="text-warning mt-2">
-                                    {{ str_repeat('★', round($populaire->moyenne_note)) }}
-                                    {{ str_repeat('☆', 5 - round($populaire->moyenne_note)) }}
-                                    ({{ $populaire->moyenne_note }}/5)
-                                </div>
+    <div class="container px-4 px-lg-5 mt-5">
+        <h2 class="fw-bolder mb-4">Produits populaires</h2>
+        <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
+            @foreach($articlesPopulaires as $populaire)
+            <?php $stock_article = array_sum(array_column($populaire->tailles->toArray(), 'stock')); ?>
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{{ asset('img/' . $populaire->img) }}" alt="{{ $populaire->modele }}" />
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">{{ $populaire->modele }}</h5>
+                            <div class="fs-5 mb-3">
+                                <h6 class="text-muted mb-0">{{ $populaire->prix_public }}€</h6>
+                                <span class="fw-bold">{{ $populaire->prix }}€</span>
                             </div>
+                            <ul class="list-unstyled d-flex justify-content-center mt-2 mb-1">
+                                <li>
+                                    @php
+                                    $moyenne = (float) $populaire->moyenne_note;
+                                    $fullStars = floor($moyenne);
+                                    $halfStar = ($moyenne - $fullStars) >= 0.5;
+                                    @endphp
+
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= $fullStars)
+                                        <span class="text-warning"><i class="fas fa-star"></i></span>
+                                        @elseif ($i == $fullStars + 1 && $halfStar)
+                                        <span class="text-warning"><i class="fas fa-star-half-alt"></i></span>
+                                        @else
+                                        <span class="text-warning"><i class="far fa-star"></i></span>
+                                        @endif
+                                    @endfor
+                                </li>
+                            </ul>
                         </div>
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <span class="badge {{ $stock > 0 ? 'bg-success' : 'bg-danger' }}">
-                                {{ $stock > 0 ? 'En stock' : 'Rupture de stock' }}
-                            </span>
-                            @if($stock > 0)
-                            <div class="d-flex align-items-center justify-content-center mt-3">
-                                <div class="me-3 d-flex align-items-center">
-                                    <select name="pointure" class="form-select custom-input-small rounded">
+                    </div>
+                    <div class="card-footer px-3 pt-0 border-top-0 bg-transparent">
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="mb-2">
+                                {!! $stock_article > 0
+                                    ? '<span class="badge bg-success btn-lg stock-badge">En stock</span>'
+                                    : '<span class="badge bg-danger btn-lg stock-badge">Rupture de stock</span>' !!}
+                            </div>
+                            @if($stock_article > 0)
+                            <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <label for="pointure" class="me-2">Pointure:</label>
+                                    <select id="pointure" name="pointure" class="form-select form-select-sm rounded" style="width: 80px">
                                         <option value=""></option>
                                         @foreach($populaire->tailles as $taille)
-                                        @if($taille->stock > 0)
-                                        <option value="{{ $taille->taille }}">{{ $taille->taille }}</option>
-                                        @endif
+                                            @if($taille->stock > 0)
+                                                <option value="{{ $taille->taille }}">{{ $taille->taille }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="d-flex align-items-center me-3">
-                                    <input type="number" name="quantite" class="form-control custom-input-small-2 rounded" value="1" min="1" max="10">
+                                <div class="d-flex align-items-center">
+                                    <label for="quantite" class="me-2">Qté:</label>
+                                    <input type="number" name="quantite" class="form-control form-control-sm rounded" value="1" min="1" max="20" style="width: 80px">
                                 </div>
-                                <button class="btn btn-outline-dark ajouter_au_panier rounded" data-article-id="{{ $populaire->id }}">
-                                    Ajouter au panier
-                                </button>
                             </div>
+                            <button class="btn btn-outline-dark btn-sm ajouter_au_panier rounded" data-article-id="{{ $populaire->id }}">
+                                Ajouter au panier
+                            </button>
                             @endif
                         </div>
                     </div>
                 </div>
-                @endforeach
             </div>
+            @endforeach
         </div>
-    </section>
+    </div>
+</section>
+
+
+
 
 
     <script>

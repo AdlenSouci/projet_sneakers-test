@@ -37,7 +37,7 @@ class BasketController extends Controller
         return $totalPrice;
     }
 
-    
+
 
 
     // ne pas additionner les paires du meme articles si les pointures sont différentes
@@ -241,7 +241,7 @@ class BasketController extends Controller
             'adresse_livraison' => 'required|string|max:255',
             'code_postal' => 'required|string|max:10',
             'ville' => 'required|string|max:255',
-            
+
         ]);
 
         $userId = Auth::id();
