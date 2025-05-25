@@ -287,7 +287,7 @@ class BasketController extends Controller
             $commandeEntete->total_ht = 0;
             $commandeEntete->total_ttc = 0;
             $commandeEntete->total_tva = 0;
-            $commandeEntete->total_remise = 0;
+            // $commandeEntete->total_remise = 0;
 
             $commandeEntete->save();
 

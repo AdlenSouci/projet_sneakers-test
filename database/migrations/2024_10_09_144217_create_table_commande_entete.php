@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->decimal('total_ht')->default(0);
             $table->decimal('total_ttc')->default(0);
             $table->decimal('total_tva')->default(0);
-            $table->decimal('total_remise')->default(0);
+            // $table->decimal('total_remise')->default(0);
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

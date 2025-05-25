@@ -20,7 +20,7 @@ class CommandeEntete extends Model
         'total_ht',
         'total_ttc',
         'total_tva',
-        'total_remise',
+        // 'total_remise',
         'telephone',
         'name',
         'ville',
