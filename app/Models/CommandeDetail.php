@@ -18,7 +18,7 @@ class CommandeDetail extends Model
         'prix_ht',
         'prix_ttc',
         'montant_tva',
-        'remise',
+        // 'remise',
     
     ];
 

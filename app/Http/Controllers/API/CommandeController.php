@@ -32,7 +32,7 @@ class CommandeController extends Controller
             'total_ht' => 'required|numeric',
             'total_ttc' => 'required|numeric',
             'total_tva' => 'required|numeric',
-            'total_remise' => 'required|numeric',
+            // 'total_remise' => 'required|numeric',
             'details' => 'required|array',
             'details.*.id_article' => 'required|integer',
             'details.*.taille' => 'required|string',
@@ -40,7 +40,7 @@ class CommandeController extends Controller
             'details.*.prix_ht' => 'required|numeric',
             'details.*.prix_ttc' => 'required|numeric',
             'details.*.montant_tva' => 'required|numeric',
-            'details.*.remise' => 'required|numeric',
+            // 'details.*.remise' => 'required|numeric',
         ]);
 
         // Créer une nouvelle entête de commande

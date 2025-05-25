@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->decimal('prix_ht', 9, 2)->nullable(false);
             $table->decimal('prix_ttc', 9, 2)->nullable(false);
             $table->decimal('montant_tva', 9, 2)->nullable(false);
-            $table->decimal('remise', 9, 2)->nullable(true);
+            // $table->decimal('remise', 9, 2)->nullable(true);
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

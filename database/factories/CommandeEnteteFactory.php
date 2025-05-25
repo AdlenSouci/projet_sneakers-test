@@ -15,7 +15,7 @@ class CommandeEnteteFactory extends Factory
 
         return [
             'date' => $faker->dateTimeBetween('-1 year', 'now'),
-            'id_user' => User::inRandomOrder()->value('id'),// Associe un utilisateur généré
+            'id_user' => User::inRandomOrder()->value('id'),
             'name' => $faker->name(),
             'telephone' => $faker->phoneNumber(),
             'ville' => $faker->city(),
@@ -27,7 +27,6 @@ class CommandeEnteteFactory extends Factory
             'total_ht' => 0,
             'total_ttc' => 0,
             'total_tva' => 0,
-            'total_remise' => 0,
         ];
     }
 
@@ -41,38 +40,34 @@ class CommandeEnteteFactory extends Factory
             $totalHT = 0;
             $totalTVA = 0;
             $totalTTC = 0;
-            $totalRemise = 0;
 
             for ($i = 0; $i < $nbLignes; $i++) {
                 $quantite = $faker->numberBetween(1, 5);
                 $prix_ht = $faker->randomFloat(2, 10, 100);
-                $remise = $faker->optional(0.3)->randomFloat(2, 1, 10); // 30% chance
-                $prix_apres_remise = $prix_ht - ($remise ?? 0);
-                $montant_tva = round($prix_apres_remise * 0.20, 2);
-                $prix_ttc = round($prix_apres_remise + $montant_tva, 2);
+                $montant_tva = round($prix_ht * 0.20, 2);
+                $prix_ttc = round($prix_ht + $montant_tva, 2);
 
-                $detail = CommandeDetail::create([
+                CommandeDetail::create([
                     'id_commande' => $commande->id,
-                    'id_article' => Article::inRandomOrder()->value('id'), // Associe un article généré
+                    'id_article' => Article::inRandomOrder()->value('id'),
                     'taille' => $faker->numberBetween(36, 45),
                     'quantite' => $quantite,
                     'prix_ht' => $prix_ht,
                     'prix_ttc' => $prix_ttc,
                     'montant_tva' => $montant_tva,
-                    'remise' => $remise,
+                    // 'remise' supprimé
                 ]);
 
                 $totalHT += $prix_ht * $quantite;
                 $totalTVA += $montant_tva * $quantite;
                 $totalTTC += $prix_ttc * $quantite;
-                $totalRemise += ($remise ?? 0) * $quantite;
             }
 
             $commande->update([
                 'total_ht' => round($totalHT, 2),
                 'total_tva' => round($totalTVA, 2),
                 'total_ttc' => round($totalTTC, 2),
-                'total_remise' => round($totalRemise, 2),
+                // 'total_remise' supprimé
             ]);
         });
     }
