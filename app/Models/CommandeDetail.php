@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CommandeDetail extends Model
 {
+    use HasFactory;
     protected $table = 'commandes_details';
 
     protected $fillable = [
-    
+
         'id_commande',
         'id_article',
         'taille',
@@ -19,7 +20,7 @@ class CommandeDetail extends Model
         'prix_ttc',
         'montant_tva',
         // 'remise',
-    
+
     ];
 
     // Relation avec la table des entêtes de commande

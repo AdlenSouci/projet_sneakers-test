@@ -42,32 +42,20 @@ class CommandeEnteteFactory extends Factory
             $totalTTC = 0;
 
             for ($i = 0; $i < $nbLignes; $i++) {
-                $quantite = $faker->numberBetween(1, 5);
-                $prix_ht = $faker->randomFloat(2, 10, 100);
-                $montant_tva = round($prix_ht * 0.20, 2);
-                $prix_ttc = round($prix_ht + $montant_tva, 2);
-
-                CommandeDetail::create([
+                // Crée une ligne via le factory (utilise les vrais prix des articles)
+                $ligne = \App\Models\CommandeDetail::factory()->create([
                     'id_commande' => $commande->id,
-                    'id_article' => Article::inRandomOrder()->value('id'),
-                    'taille' => $faker->numberBetween(36, 45),
-                    'quantite' => $quantite,
-                    'prix_ht' => $prix_ht,
-                    'prix_ttc' => $prix_ttc,
-                    'montant_tva' => $montant_tva,
-                    // 'remise' supprimé
                 ]);
 
-                $totalHT += $prix_ht * $quantite;
-                $totalTVA += $montant_tva * $quantite;
-                $totalTTC += $prix_ttc * $quantite;
+                $totalHT += $ligne->prix_ht * $ligne->quantite;
+                $totalTVA += $ligne->montant_tva * $ligne->quantite;
+                $totalTTC += $ligne->prix_ttc * $ligne->quantite;
             }
 
             $commande->update([
                 'total_ht' => round($totalHT, 2),
                 'total_tva' => round($totalTVA, 2),
                 'total_ttc' => round($totalTTC, 2),
-                // 'total_remise' supprimé
             ]);
         });
     }
