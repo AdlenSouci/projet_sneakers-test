@@ -23,6 +23,10 @@ class UserController extends Controller
     // Créer un nouvel utilisateur
     public function store(Request $request)
     {
+        $output = new ConsoleOutput();
+        $output->writeln('Création d\'un nouvel utilisateur...');
+
+
         // Validation des données
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -39,6 +43,7 @@ class UserController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
+        $output->writeln('Validation des données réussie.');
         // Créer l'utilisateur avec les données validées
         $user = User::create([
             'name' => $request->name,
@@ -46,8 +51,12 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'adresse_livraison' => $request->adresse_livraison,
             'is_admin' => $request->is_admin ?? false,  // Si is_admin n'est pas défini, on met false par défaut
+            'telephone' => $request->telephone ?? null, // Si téléphone n'est pas défini, on le met à null
+            'ville' => $request->ville ?? null, // Si ville n'est pas défini, on le met à null
+            'code_postal' => $request->code_postal ?? null, // Si code postal n'est pas défini, on le met à null    
         ]);
 
+        $output->writeln($user);
         // Retourner une réponse JSON avec l'utilisateur créé
         return response()->json($user, 201);
     }
@@ -55,6 +64,9 @@ class UserController extends Controller
     // Mettre à jour un utilisateur existant
     public function update(Request $request, $id)
     {
+        $output = new ConsoleOutput();
+        $output->writeln('Mise à jour de l\'utilisateur avec ID: ' . $id);
+
         // Validation des données
         $request->validate([
             'name' => 'required|string|max:255',
@@ -70,10 +82,15 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->adresse_livraison = $request->adresse_livraison;
+        $user->is_admin = $request->is_admin ?? $user->is_admin; // Conserver l'état actuel si non fourni
+        $user->telephone = $request->telephone ?? $user->telephone; // Conserver l'état actuel si non fourni
+        $user->ville = $request->ville ?? $user->ville; // Conserver l'état actuel si non fourni
+        $user->code_postal = $request->code_postal ?? $user->code_postal; // Conserver l'état actuel si non fourni
 
         // Si un mot de passe est fourni, on le met à jour
         if ($request->password) {
             $user->password = Hash::make($request->password);
+            $output->writeln('Mot de passe mis à jour.');
         }
 
         // Sauvegarder les modifications

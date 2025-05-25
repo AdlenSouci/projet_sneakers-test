@@ -63,7 +63,7 @@ Route::middleware('auth:sanctum')->put('couleur/{id}', [CouleurController::class
 Route::middleware('auth:sanctum')->delete('couleur/{id}', [CouleurController::class, 'destroy']);
 
 // Annonces
-Route:
+Route::get('annonce', [AnnonceController::class, 'index']);Route:
 Route::middleware('auth:sanctum')->post('annonce', [AnnonceController::class, 'store']);
 Route::middleware('auth:sanctum')->put('annonce/{id}', [AnnonceController::class, 'update']);
 Route::middleware('auth:sanctum')->delete('annonce/{id}', [AnnonceController::class, 'destroy']);

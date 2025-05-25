@@ -6,28 +6,36 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Annonce;
 use Carbon\Carbon;
-// use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 class AnnonceController extends Controller
 {
 
-   
+
 
     // Récupérer toutes les annonces
     public function index()
     {
+        $output = new ConsoleOutput();
+        $output->writeln('Récupération de toutes les annonces...');
+
         $annonces = Annonce::all();
         return response()->json($annonces);
     }
     public function store(Request $request)
     {
 
-        $request->validate([
-            'h1' => 'required|string|max:255',
-            'h3' => 'required|string|max:255',
-            'texte' => 'required|string|max:255',
-            'imageURL' => 'required|string|max:255',
-            'statut' => 'required|string|max:255',
-        ]);
+        $output = new ConsoleOutput();
+        $output->writeln('Création d\'une nouvelle annonce...');
+
+        // $request->validate([
+        //     'h1' => 'required|string|max:255',
+        //     'h3' => 'required|string|max:255',
+        //     'texte' => 'required|string|max:255',
+        //     'imageURL' => 'required|string|max:255',
+        //     'statut' => 'required|string|max:255',
+        // ]);
+        // $output->writeln('Validation des données réussie.');
+        $output->writeln($request);
 
         // Création de l'annonce
         $annonce = Annonce::create([
@@ -37,7 +45,8 @@ class AnnonceController extends Controller
             'imageURL' => $request->imageURL,
             'statut' => $request->statut,
         ]);
-
+        $output->writeln('Nouvelle annonce créée avec succès.');
+        // Retourner une réponse JSON avec l'annonce créée
         return response()->json($annonce, 201);
     }
 
