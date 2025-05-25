@@ -12,15 +12,18 @@ class CommandeEnteteFactory extends Factory
     public function definition(): array
     {
         $faker = \Faker\Factory::create('fr_FR');
-
+        $user = User::inRandomOrder()->first();
+        if (!$user) {
+            throw new \Exception('Aucun utilisateur trouvé. Veuillez d\'abord créer des utilisateurs.');
+        }
         return [
             'date' => $faker->dateTimeBetween('-1 year', 'now'),
-            'id_user' => User::inRandomOrder()->value('id'),
-            'name' => $faker->name(),
-            'telephone' => $faker->phoneNumber(),
-            'ville' => $faker->city(),
-            'code_postal' => $faker->postcode(),
-            'adresse_livraison' => $faker->address(),
+            'id_user' => $user->id,
+            'name' => $user->name,
+            'telephone' => $user->telephone,
+            'ville' => $user->ville,
+            'code_postal' => $user->code_postal,
+            'adresse_livraison' => $user->adresse_livraison,
             'id_num_commande' => $faker->unique()->numberBetween(100000, 999999),
 
             // Valeurs temporaires — mises à jour après les lignes
