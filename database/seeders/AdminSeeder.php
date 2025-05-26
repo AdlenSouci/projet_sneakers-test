@@ -23,6 +23,8 @@ class AdminSeeder extends Seeder
         //     'is_admin' => true, //et is admin true pour avoir un user administrateur 
         // ]);
 
+        
+
 
      
 
