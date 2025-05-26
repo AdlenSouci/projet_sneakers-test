@@ -16,7 +16,9 @@ class AvisFactory extends Factory
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'article_id' => Article::inRandomOrder()->first()->id,
-            'contenu' => $faker->text(),
+            // 'contenu' => $faker->text(),
+            'contenu' => $faker->sentences(1, true),
+            
             'note' => rand(1, 5),      
         ];
     }
