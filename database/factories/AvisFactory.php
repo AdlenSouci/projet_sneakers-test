@@ -18,7 +18,7 @@ class AvisFactory extends Factory
             ["phrase" => "Je recommande cet article", "notes" => [4, 5]],
             ["phrase" => "C'est un excellent article", "notes" => [5]],
             ["phrase" => "Je suis déçu", "notes" => [1, 2]],
-            ["phrase" => "C'est un bon début", "notes" => [3, 4]],
+            ["phrase" => "C'est un bon début", "notes" => [3]],
         ];
 
         $avisAleatoire = $faker->randomElement($avis);
