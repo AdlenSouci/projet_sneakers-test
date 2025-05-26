@@ -9,23 +9,26 @@ use App\Models\User;
 class AvisFactory extends Factory
 {
 
-    public function definition(): array
+   public function definition(): array
     {
         $faker = \Faker\Factory::create('fr_FR');
 
-        $phrases = [
-            "Très bon article !",
-            "Je recommande cet article",
-            "C'est un excellent article",
-            "Je suis déçu",
-            "C'est un bon début",
+        $avis = [
+            ["phrase" => "Très bon article !", "notes" => [5]],
+            ["phrase" => "Je recommande cet article", "notes" => [4, 5]],
+            ["phrase" => "C'est un excellent article", "notes" => [5]],
+            ["phrase" => "Je suis déçu", "notes" => [1, 2]],
+            ["phrase" => "C'est un bon début", "notes" => [3, 4]],
         ];
+
+        $avisAleatoire = $faker->randomElement($avis);
+        $noteAleatoire = $faker->randomElement($avisAleatoire["notes"]);
 
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'article_id' => Article::inRandomOrder()->first()->id,
-            'contenu' => $faker->randomElement($phrases),
-            'note' => rand(1, 5),
+            'contenu' => $avisAleatoire["phrase"],
+            'note' => $noteAleatoire,
         ];
     }
 }
