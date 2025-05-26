@@ -93,7 +93,7 @@
                                                 <div id="step-payment-options" class="checkout-step" style="display:none;">
                                                     <h4 class="text-white mb-3">Choisissez votre mode de paiement :</h4>
                                                     <button type="button" class="btn btn-primary w-100 mb-2 rounded-pill" onclick="showSimulationStep('step-card-form')">
-                                                        <i class="far fa-credit-card me-2"></i>Payer par Carte (Simulation)
+                                                        <i class="far fa-credit-card me-2"></i>Payer par Carte
                                                     </button>
                                                     <!-- <button type="button" class="btn btn-info w-100 mb-2 rounded-pill" onclick="simulatePaypal()">
                                                         <i class="fab fa-paypal me-2"></i>Payer avec PayPal (Simulation)
