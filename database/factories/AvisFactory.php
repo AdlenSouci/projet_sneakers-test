@@ -13,14 +13,19 @@ class AvisFactory extends Factory
     {
         $faker = \Faker\Factory::create('fr_FR');
 
+        $phrases = [
+            "Très bon article !",
+            "Je recommande cet article",
+            "C'est un excellent article",
+            "Je suis déçu",
+            "C'est un bon début",
+        ];
+
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'article_id' => Article::inRandomOrder()->first()->id,
-            
-            'contenu' => $faker->text(50, ['locale' => 'fr_FR']),
-            
-            
-            'note' => rand(1, 5),      
+            'contenu' => $faker->randomElement($phrases),
+            'note' => rand(1, 5),
         ];
     }
 }
